@@ -1,0 +1,251 @@
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+
+function Enquiry() {
+  useEffect(() => {
+    getEnquiryData();
+  }, []);
+  const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState(false);
+  const [newEnquiryData, setNewEnquiryData] = useState({
+    dateOfEnquriy: Date(),
+  });
+  const [enquiryList, setEnquiryList] = useState([]);
+
+  const getEnquiryData = () => {
+    axios
+      .get("http://localhost:5001/api/enquiry")
+      .then((res) => setEnquiryList(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  const deleteEnquiry = (id) => {
+    axios
+      .delete(`http://localhost:5001/api/enquiry/${id}`)
+      .then((res) => getEnquiryData())
+      .catch((err) => console.log(err));
+  };
+  const updateEnquiry = () => {
+    axios
+      .put(`http://localhost:5001/api/enquiry/${newEnquiryData._id}`, newEnquiryData)
+      .then((res) => getEnquiryData())
+      .catch((err) => console.log(err));
+  };
+  const addEnquiry = () => {
+    setShowModal(false),
+      axios
+        .post("http://localhost:5001/api/enquiry", newEnquiryData)
+        .then((res) => {
+          getEnquiryData();
+        })
+        .catch((err) => console.log(err));
+  };
+
+
+
+  return (
+    <div className="p-6 h-[89vh] bg-gray-100 overflow-y-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Recent Enquiry</h1>
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
+        >
+          Add New Enquiry
+        </button>
+      </div>
+
+      {/* Enquiry Table */}
+      <div className="overflow-x-auto bg-white rounded-lg shadow">
+        <table className="min-w-full">
+          <thead className="w-[100%] bg-gray-50 ">
+            <tr className="w-[100%]">
+              {[
+                "S.No",
+                "Customer Name",
+                "Phone Number",
+                "Date",
+                "Category",
+                "Product",
+                "Status",
+                "Action",
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {enquiryList.map((i, index) => (
+              <tr className="hover:bg-gray-50">
+                <td className="px-6 py-4">{index + 1}</td>
+                <td className="px-6 py-4">{i.name}</td>
+                <td className="px-6 py-4">{i.phoneNumber}</td>
+                <td className="px-6 py-4">{i.dateOfEnquriy}</td>
+                <td className="px-6 py-4">{i.category}</td>
+                <td className="px-6 py-4">{i.productName}</td>
+                <td className="px-6 py-4">
+                  <button
+                    onClick={() => setStatus(!status)}
+                    className={`${
+                      status
+                        ? "text-green-600 hover:text-green-800 "
+                        : "text-red-600 hover:text-red-800"
+                    } hover:cursor-pointer`}
+                  >
+                    {status ? "Completed" : "Pending"}
+                  </button>
+                </td>
+                <td className="px-6 py-4">
+                  <button onClick={()=> {setNewEnquiryData(i); setShowModal(true)}} className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteEnquiry(i._id)}
+                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[10%]"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {showModal ? (
+        <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
+          <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
+          <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10">
+            <h2 className="text-xl font-bold mb-4">Customer Information:</h2>
+
+            <div className="w-[100%] h-[20vh] grid grid-cols-2">
+              <div className="flex flex-col">
+                <label htmlFor="">Customer Name</label>
+                <input
+                value={newEnquiryData.name}
+                  onChange={(e) =>
+                    setNewEnquiryData({
+                      ...newEnquiryData,
+                      name: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  type="text"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">Phone Number</label>
+                <input
+                 value={newEnquiryData.phoneNumber}
+                  onChange={(e) =>
+                    setNewEnquiryData({
+                      ...newEnquiryData,
+                      phoneNumber: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  type="text"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">Email-Id</label>
+                <input
+                value={newEnquiryData.email}
+                  onChange={(e) =>
+                    setNewEnquiryData({
+                      ...newEnquiryData,
+                      email: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <h2 className="text-xl font-bold my-4">Product Information:</h2>
+            <div className="w-[100%] h-[20vh] grid grid-cols-2">
+              <div className="flex flex-col">
+                <label htmlFor="">Category</label>
+                <select
+                value={newEnquiryData.category}
+                  onChange={(e) =>
+                    setNewEnquiryData({
+                      ...newEnquiryData,
+                      category: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  name=""
+                  id=""
+                >
+                  <option selected value="Mobile">Mobile</option>
+                  <option value="TV">TV</option>
+                  <option value="Almirah">Almirah</option>
+                  <option value="Fridge">Fridge</option>
+                  <option value="Washing Machine">Washing Machine</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">Product Name</label>
+                <input
+                value={newEnquiryData.productName}
+                  onChange={(e) =>
+                    setNewEnquiryData({
+                      ...newEnquiryData,
+                      productName: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div className="w-[90%] h-[8vh] flex justify-end">
+              <button
+                onClick={() => {
+                  setShowModal(false),
+                    setNewEnquiryData({
+                      dateOfEnquriy: Date(),
+                    });
+                }}
+                className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  addEnquiry(),
+                    setNewEnquiryData({
+                      dateOfEnquriy: Date(),
+                    });
+                }}
+                className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+              >
+                {"Save"}
+              </button>
+              <button
+                onClick={() => {
+                  updateEnquiry(),
+                  setNewEnquiryData({
+                    dateOfEnquriy: Date(),
+                  });
+                }}
+                className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+              >
+                {"Update"}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export default Enquiry;
