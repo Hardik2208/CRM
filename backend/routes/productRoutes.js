@@ -14,9 +14,10 @@ router.get('/product', async(req, res)=>{
     res.send(allProduct)
 })
 
-router.delete('/product',async (req, res)=>{
-    await Product.findByIdAndDelete(req.params.id)
-    res.send('Enquiry Deleted Successfully')
+router.put('/product/:id', async(req, res)=>{
+    await Product.findByIdAndUpdate(req.params.id, req.body)
+    res.send('Product Updated Sccessfully')
+    
 })
 
 

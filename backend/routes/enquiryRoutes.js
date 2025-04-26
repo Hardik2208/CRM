@@ -20,7 +20,7 @@ router.delete('/enquiry/:id', async(req, res)=>{
 
 router.put('/enquiry/:id', async(req, res)=>{
     await Enquiry.findByIdAndUpdate(req.params.id, req.body)
-    res.send('Enquiry Updated SUccessfully')
+    res.send('Enquiry Updated Successfully')
 })
 
 module.exports = router

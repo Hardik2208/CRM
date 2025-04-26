@@ -7,7 +7,9 @@ const OrderSchema = new mongoose.Schema(
     quantity : Number,
     orderObject : Object,
     customerObject : Object,
-    paymentObject : Object}
+    paymentObject : Object,
+    tpf : Object,
+}
 )
 
 module.exports = mongoose.model("Order", OrderSchema)

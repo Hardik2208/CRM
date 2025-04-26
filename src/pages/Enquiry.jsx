@@ -8,7 +8,7 @@ function Enquiry() {
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState(false);
   const [newEnquiryData, setNewEnquiryData] = useState({
-    dateOfEnquriy: Date(),
+    dateOfEnquriy: Date(), _id:""
   });
   const [enquiryList, setEnquiryList] = useState([]);
 
@@ -26,6 +26,7 @@ function Enquiry() {
       .catch((err) => console.log(err));
   };
   const updateEnquiry = () => {
+    setShowModal(false),
     axios
       .put(`http://localhost:5001/api/enquiry/${newEnquiryData._id}`, newEnquiryData)
       .then((res) => getEnquiryData())
@@ -72,7 +73,7 @@ function Enquiry() {
               ].map((header) => (
                 <th
                   key={header}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {header}
                 </th>
@@ -183,7 +184,8 @@ function Enquiry() {
                   name=""
                   id=""
                 >
-                  <option selected value="Mobile">Mobile</option>
+                  <option value="">Choose Option</option>
+                  <option value="Mobile">Mobile</option>
                   <option value="TV">TV</option>
                   <option value="Almirah">Almirah</option>
                   <option value="Fridge">Fridge</option>
@@ -211,35 +213,36 @@ function Enquiry() {
                 onClick={() => {
                   setShowModal(false),
                     setNewEnquiryData({
-                      dateOfEnquriy: Date(),
+                      dateOfEnquriy: Date(),_id:""
                     });
                 }}
                 className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
-              <button
+             {newEnquiryData._id == ""? 
+             ( <button
                 onClick={() => {
                   addEnquiry(),
                     setNewEnquiryData({
-                      dateOfEnquriy: Date(),
+                      dateOfEnquriy: Date(),_id:""
                     });
                 }}
                 className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
               >
                 {"Save"}
-              </button>
-              <button
+              </button>):
+              (<button
                 onClick={() => {
                   updateEnquiry(),
                   setNewEnquiryData({
-                    dateOfEnquriy: Date(),
+                    dateOfEnquriy: Date(),_id:""
                   });
                 }}
                 className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
               >
                 {"Update"}
-              </button>
+              </button>)}
             </div>
           </div>
         </div>
