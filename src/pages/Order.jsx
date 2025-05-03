@@ -6,7 +6,7 @@ const Order = () => {
     getOrderData();
   }, []);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState("");
   const [tpf, setTpf] = useState({});
   const [newOrder, setNewOrder] = useState({
     orderObject: {},
@@ -14,7 +14,6 @@ const Order = () => {
     paymentObject: { paymentType: "Cash" },
     category: "Mobile",
     tpf: {},
-    _id:"",
   });
   const [orderList, setOrderList] = useState([]);
 
@@ -29,15 +28,16 @@ const Order = () => {
     axios
       .post("http://localhost:5001/api/order", newOrder)
       .then((res) => getOrderData())
-      .catch((err) => alert(err));
+      .catch((err) => alert(err.response.data));
   };
+
   // UI Components
   return (
-    <div className="p-6 bg-gray-100 overflow-y-auto">
+    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Orders</h1>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowModal("Add")}
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
         >
           Generate New Order
@@ -72,21 +72,22 @@ const Order = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {orderList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{i.orderNumber}</td>
-                <td className="px-6 py-4">{i.category}</td>
-                <td className="px-6 py-4">{i.modelName}</td>
-                <td className="px-6 py-4">{i.quantity}</td>
-                <td className="px-6 py-4">{i.customerObject.name}</td>
-                <td className="px-6 py-4">{i.customerObject.phoneNumber}</td>
-                <td className="px-6 py-4">{i.paymentObject.paymentType}</td>
-                <td className="px-6 py-4">
-                  <button 
-                  onClick={()=>{
-                    setNewOrder(i);
-                    setShowModal(true)
-                  }}
-                  className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
+                <td className="px-6 py-3">{index + 1}</td>
+                <td className="px-6 py-3">{i.orderNumber}</td>
+                <td className="px-6 py-3">{i.category}</td>
+                <td className="px-6 py-3">{i.modelName}</td>
+                <td className="px-6 py-3">{i.quantity}</td>
+                <td className="px-6 py-3">{i.customerObject.name}</td>
+                <td className="px-6 py-3">{i.customerObject.phoneNumber}</td>
+                <td className="px-6 py-3">{i.paymentObject.paymentType}</td>
+                <td className="px-6 py-3">
+                  <button
+                    onClick={() => {
+                      setNewOrder(i);
+                      setShowModal("View");
+                    }}
+                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                  >
                     View
                   </button>
                 </td>
@@ -95,21 +96,20 @@ const Order = () => {
           </tbody>
         </table>
       </div>
-      {showModal ? (
+      {showModal != "" ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 w-[60%] h-[80vh] overflow-y-scroll max-w-4xl z-10 overflow-x-hidden">
-            <h2 className="text-xl font-bold mb-4">Product Details:
-            </h2>
+            <h2 className="text-xl font-bold mb-4">Product Details:</h2>
             <div className="w-[100%] h-[10vh] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Category:</label>
                 <select
-                value={newOrder.category}
+                  value={newOrder.category}
                   onChange={(e) => {
-                    setNewOrder({ ...newOrder, category: e.target.value })
+                    setNewOrder({ ...newOrder, category: e.target.value });
                   }}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   name=""
                   id=""
                 >
@@ -128,7 +128,7 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newOrder.orderObject.company}
+                      value={newOrder.orderObject.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -138,25 +138,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newOrder.modelName}
+                      value={newOrder.modelName}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, modelName: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Ram,Rom fomat(ram/rom):</label>
                     <input
-                    value={newOrder.orderObject.specs}
+                      value={newOrder.orderObject.specs}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -166,14 +166,14 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Colour:</label>
                     <input
-                    value={newOrder.orderObject.color}
+                      value={newOrder.orderObject.color}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -183,25 +183,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newOrder.quantity}
+                      value={newOrder.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newOrder.orderObject.description}
+                      value={newOrder.orderObject.description}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -211,7 +211,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -224,7 +224,7 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newOrder.orderObject.company}
+                      value={newOrder.orderObject.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -234,25 +234,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newOrder.modelName}
+                      value={newOrder.modelName}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, modelName: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Size:</label>
                     <input
-                    value={newOrder.orderObject.size}
+                      value={newOrder.orderObject.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -262,25 +262,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newOrder.quantity}
+                      value={newOrder.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newOrder.orderObject.description}
+                      value={newOrder.orderObject.description}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -290,7 +290,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -305,7 +305,7 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newOrder.orderObject.company}
+                      value={newOrder.orderObject.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -315,25 +315,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newOrder.modelName}
+                      value={newOrder.modelName}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, modelName: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Size (in liters):</label>
                     <input
-                    value={newOrder.orderObject.size}
+                      value={newOrder.orderObject.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -343,14 +343,14 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Type:</label>
                     <select
-                    value={newOrder.orderObject.type}
+                      value={newOrder.orderObject.type}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -360,7 +360,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       name=""
                       id=""
                     >
@@ -371,18 +371,18 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newOrder.quantity}
+                      value={newOrder.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newOrder.orderObject.description}
+                      value={newOrder.orderObject.description}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -392,7 +392,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -405,7 +405,7 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newOrder.orderObject.company}
+                      value={newOrder.orderObject.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -415,25 +415,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newOrder.modelName}
+                      value={newOrder.modelName}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, modelName: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Size (in liters):</label>
                     <input
-                    value={newOrder.orderObject.size}
+                      value={newOrder.orderObject.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -443,14 +443,14 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Doors:</label>
                     <input
-                    value={newOrder.orderObject.doors}
+                      value={newOrder.orderObject.doors}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -460,25 +460,25 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newOrder.quantity}
+                      value={newOrder.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newOrder.orderObject.description}
+                      value={newOrder.orderObject.description}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -488,7 +488,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -501,7 +501,7 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newOrder.orderObject.company}
+                      value={newOrder.orderObject.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -511,36 +511,36 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newOrder.modelName}
+                      value={newOrder.modelName}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, modelName: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newOrder.quantity}
+                      value={newOrder.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newOrder.orderObject.description}
+                      value={newOrder.orderObject.description}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -550,7 +550,7 @@ const Order = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -562,7 +562,7 @@ const Order = () => {
               <div className="flex flex-col">
                 <label htmlFor="">Name:</label>
                 <input
-                value={newOrder?.customerObject?.name}
+                  value={newOrder?.customerObject?.name}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -572,14 +572,14 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Phone number:</label>
                 <input
-                value={newOrder?.customerObject?.phoneNumber}
+                  value={newOrder?.customerObject?.phoneNumber}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -589,14 +589,14 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">E-mail:</label>
                 <input
-                value={newOrder?.customerObject?.email}
+                  value={newOrder?.customerObject?.email}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -606,14 +606,14 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Address:</label>
                 <input
-                value={newOrder?.customerObject?.address}
+                  value={newOrder?.customerObject?.address}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -623,7 +623,7 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
@@ -633,7 +633,7 @@ const Order = () => {
               <div className="flex flex-col">
                 <label htmlFor="">Price:</label>
                 <input
-                value={newOrder?.paymentObject?.price}
+                  value={newOrder?.paymentObject?.price}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -643,14 +643,14 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                  type="number"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Discounts:</label>
                 <input
-                value={newOrder?.paymentObject?.discount}
+                  value={newOrder?.paymentObject?.discount}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
@@ -660,14 +660,14 @@ const Order = () => {
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                  type="number"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Payment Type:</label>
                 <select
-                value={newOrder?.paymentObject?.paymentType}
+                  value={newOrder?.paymentObject?.paymentType}
                   onChange={(e) => {
                     setNewOrder({
                       ...newOrder,
@@ -675,9 +675,9 @@ const Order = () => {
                         ...newOrder.paymentObject,
                         paymentType: e.target.value,
                       },
-                    })
+                    });
                   }}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   name=""
                   id=""
                 >
@@ -692,17 +692,17 @@ const Order = () => {
               <div className="flex flex-col">
                 <label htmlFor="">Remarks:</label>
                 <input
-                value={newOrder?.paymentObject?.remarks}
+                  value={newOrder?.paymentObject?.remarks}
                   onChange={(e) =>
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
                         ...newOrder.paymentObject,
-                        paymentType: e.target.value,
+                        remarks: e.target.value,
                       },
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
@@ -715,118 +715,118 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Downpayment:</label>
                     <input
-                    value={newOrder.tpf.downPayment}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          downPayment: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      value={newOrder.tpf.downPayment}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            downPayment: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Number of EMI:</label>
                     <input
-                    value={newOrder.tpf.numberOfEMI}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          numberOfEMI: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      value={newOrder.tpf.numberOfEMI}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            numberOfEMI: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">File Charge:</label>
                     <input
-                    value={newOrder.tpf.fileCharge}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          fileCharge: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.fileCharge}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            fileCharge: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Intrest rate monthly(%):</label>
                     <input
-                    value={newOrder.tpf.intrest}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          intrest: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.intrest}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            intrest: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Amount of EMI:</label>
                     <input
-                    value={newOrder.tpf.amountOfEMI}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          amountOfEMI: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                      type="text"
+                      value={newOrder.tpf.amountOfEMI}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            amountOfEMI: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="number"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Remarks:</label>
                     <input
-                    value={newOrder.tpf.remarks}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          remarks: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.remarks}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            remarks: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Photo:</label>
                     <input
-                    value={newOrder.tpf.photo}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          photo: e.target.value,
-                        },
-                      })
-                    }
+                      value={newOrder.tpf.photo}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            photo: e.target.value,
+                          },
+                        })
+                      }
                       className="h-[5vh] mt-[1vh] w-[50%] pl-[1%] rounded-[5px]"
                       type="file"
                     />
@@ -839,69 +839,68 @@ const Order = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Guaranteer Name:</label>
                     <input
-                    value={newOrder.tpf.guaranteerName}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          guaranteerName: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.guaranteerName}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            guaranteerName: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Phone Number:</label>
                     <input
-                    value={newOrder.tpf.guaranteerPhoneNumber}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          guaranteerPhoneNumber: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.guaranteerPhoneNumber}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            guaranteerPhoneNumber: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                   <div className="flex flex-col">
                     <label htmlFor="">Address:</label>
                     <input
-                    value={newOrder.tpf.guaranteerAddress}
-                    onChange={(e) =>
-                      setNewOrder({
-                        ...newOrder,
-                        tpf: {
-                          ...newOrder.tpf,
-                          guaranteerAddress: e.target.value,
-                        },
-                      })
-                    }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      value={newOrder.tpf.guaranteerAddress}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          tpf: {
+                            ...newOrder.tpf,
+                            guaranteerAddress: e.target.value,
+                          },
+                        })
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
                 </div>
               </div>
             ) : null}
-            
-              <div className="flex justify-end space-x-2 mt-4 w-[90%]">
-              
+
+            <div className="flex justify-end space-x-2 mt-4 w-[90%]">
               <button
                 onClick={() => {
                   setShowModal(false),
                     setNewOrder({
                       orderObject: {},
                       customerObject: {},
-                      paymentObject: {paymentType:"Cash"},
+                      paymentObject: { paymentType: "Cash" },
                       tpf: {},
-                      _id:"",
+                      category: "Mobile",
                     }),
                     setTpf({});
                 }}
@@ -909,25 +908,26 @@ const Order = () => {
               >
                 Cancel
               </button>
-              {newOrder._id == "" ?(
-              <button
-                onClick={() => {
-                  addOrder();
-                  setNewOrder(
-                    {
-                      orderObject: {},
-                      customerObject: {},
-                      paymentObject: {paymentType:"Cash"},
-                      tpf: {},
-                      _id:"",
-                    },
-                    setTpf({})
-                  );
-                }}
-                className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-              >
-                {"Save"}
-              </button>):null}
+              {showModal == "Add" ? (
+                <button
+                  onClick={() => {
+                    addOrder();
+                    setNewOrder(
+                      {
+                        orderObject: {},
+                        customerObject: {},
+                        paymentObject: { paymentType: "Cash" },
+                        tpf: {},
+                        category: "Mobile",
+                      },
+                      setTpf({})
+                    );
+                  }}
+                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                >
+                  {"Save"}
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

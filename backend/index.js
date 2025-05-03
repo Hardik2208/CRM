@@ -8,6 +8,8 @@ server.use(cors())
 server.use('/api', require('./routes/enquiryRoutes'))
 server.use('/api', require('./routes/productRoutes'))
 server.use('/api', require('./routes/orderRoutes'))
+server.use('/api', require('./routes/staffRoutes'))
+server.use('/api', require('./routes/customerRoutes'))
 
 connectDB()
 

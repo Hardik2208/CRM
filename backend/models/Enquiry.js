@@ -6,7 +6,11 @@ const EnquirySchema = new mongoose.Schema({
     category: String,
     productName : String,
     dateOfEnquriy: Date,
-    email: String
+    email: String,
+    status: {
+        type:String,
+        default: "Pending"
+    },
 
 })
 

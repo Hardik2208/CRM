@@ -4,7 +4,7 @@ const ThirdPartyF = () => {
   const [showModal, setShowModal] = useState(false);
   // UI Components
   return (
-    <div className="p-6 bg-gray-100 overflow-y-auto">
+    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Finance</h1>
         <div className="w-[18%] flex justify-between">
@@ -31,17 +31,18 @@ const ThirdPartyF = () => {
               {[
                 "S.No",
                 "Finance No.",
-                "Name",
+                "Customer Name",
                 "Phone No.",
                 "Up. EMI date",
+                "No. of EMI Left",
                 "EMI Amount",
                 "Guaranteer Name",
-                "Guaranteer Phone.NO",
+                "Guaranteer NO.",
                 "Details",
               ].map((header) => (
                 <th
                   key={header}
-                  className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {header}
                 </th>
@@ -50,15 +51,16 @@ const ThirdPartyF = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4">
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4"></td>
+              <td className="px-3 py-4">
                 <button className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[20%]">
                   Browse
                 </button>

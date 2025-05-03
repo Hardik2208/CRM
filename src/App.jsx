@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
 import Product from "./pages/Product";
 import Settings from "./pages/Settings";
 import Enquiry from "./pages/Enquiry";
@@ -16,8 +15,7 @@ import ThirdPartyF from "./pages/ThirdPartyF";
 function App() {
   return (
     <Router>
-      <div className="flex flex-col h-screen">
-        <Header />
+      <div className="flex flex-col h-screen overflow-hidden">
        <div className="flex">
        <Sidebar />
        <main className="flex-grow bg-gray-100">

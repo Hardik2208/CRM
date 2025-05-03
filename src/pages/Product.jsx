@@ -5,12 +5,13 @@ const Product = () => {
   useEffect(() => {
     getProductData();
   }, []);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState("");
   const [productList, setProductList] = useState([]);
-  const [newProductOBJ, setNewProductOBJ] = useState( {_id:"", productObject: {} ,});
+  const [newProductOBJ, setNewProductOBJ] = useState( {productObject: {}});
 
   const updateProduct = () => {
-    setShowModal(false)
+    setNewProductOBJ({ productObject: {}});
+    setShowModal("");
     axios
       .put(`http://localhost:5001/api/product/${newProductOBJ._id}`, newProductOBJ)
       .then((res) => getProductData())
@@ -25,7 +26,8 @@ const Product = () => {
   };
 
   const addProduct = () => {
-    setShowModal(false),
+    setShowModal("");
+    setNewProductOBJ({ productObject: {}});
       axios
         .post("http://localhost:5001/api/product", newProductOBJ)
         .then((res) => {
@@ -36,11 +38,11 @@ const Product = () => {
 
   // UI Components
   return (
-    <div className="p-6 bg-gray-100 overflow-y-auto">
+    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Product Management</h1>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowModal("Add")}
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
         >
           Add New Product
@@ -67,15 +69,15 @@ const Product = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {productList.map((product, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{product.category}</td>
-                <td className="px-6 py-4">{product.modelName}</td>
-                <td className="px-6 py-4">{product.quantity}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-3">{index + 1}</td>
+                <td className="px-6 py-3">{product.category}</td>
+                <td className="px-6 py-3">{product.modelName}</td>
+                <td className="px-6 py-3">{product.quantity}</td>
+                <td className="px-6 py-3">
                   <button
                   onClick={()=>{
                     setNewProductOBJ(product);
-                    setShowModal(true);
+                    setShowModal("Edit");
                   }}
                   className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
                     Edit
@@ -103,7 +105,7 @@ const Product = () => {
                     });
                     
                   }}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   name=""
                   id=""
                 >
@@ -137,7 +139,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -151,7 +153,7 @@ const Product = () => {
                           modelName: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -168,7 +170,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -185,7 +187,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -199,7 +201,7 @@ const Product = () => {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -213,7 +215,7 @@ const Product = () => {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -236,7 +238,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -250,7 +252,7 @@ const Product = () => {
                           modelName: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -267,7 +269,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -281,7 +283,7 @@ const Product = () => {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -295,7 +297,7 @@ const Product = () => {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -320,7 +322,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -334,7 +336,7 @@ const Product = () => {
                           modelName: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -351,7 +353,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -368,7 +370,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       name=""
                       id=""
                     >
@@ -386,7 +388,7 @@ const Product = () => {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -400,7 +402,7 @@ const Product = () => {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -423,7 +425,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -437,7 +439,7 @@ const Product = () => {
                           modelName: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -454,7 +456,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -471,7 +473,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -485,7 +487,7 @@ const Product = () => {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -499,7 +501,7 @@ const Product = () => {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -522,7 +524,7 @@ const Product = () => {
                           },
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -536,7 +538,7 @@ const Product = () => {
                           modelName: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -550,7 +552,7 @@ const Product = () => {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="number"
                     />
                   </div>
@@ -564,7 +566,7 @@ const Product = () => {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                       type="text"
                     />
                   </div>
@@ -575,29 +577,29 @@ const Product = () => {
             <div className="flex justify-end space-x-2 mt-4 w-[90%]">
               <button
                 onClick={() => {
-                  setShowModal(false), setNewProductOBJ({ productObject: {}, _id:""});
+                  setShowModal(""), setNewProductOBJ({ productObject: {}});
                 }}
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
-              {newProductOBJ._id==""?
+              {showModal=="Add"?
                 (<button
                 onClick={() => {
-                  addProduct(), setNewProductOBJ({ productObject: {} , _id:""});
+                  addProduct();
                 }}
                 className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
               >
                 {"Save"}
-              </button>):
+              </button>):showModal=="Edit"?
               (<button
                 onClick={() => {
-                  updateProduct(), setNewProductOBJ({ productObject: {} , _id:""});
+                  updateProduct();
                 }}
                 className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
               >
                 {"Update"}
-              </button>)}
+              </button>):null}
             </div>
           </div>
         </div>

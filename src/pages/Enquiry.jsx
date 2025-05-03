@@ -5,10 +5,10 @@ function Enquiry() {
   useEffect(() => {
     getEnquiryData();
   }, []);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState("");
   const [status, setStatus] = useState(false);
   const [newEnquiryData, setNewEnquiryData] = useState({
-    dateOfEnquriy: Date(), _id:""
+    dateOfEnquriy: Date(),
   });
   const [enquiryList, setEnquiryList] = useState([]);
 
@@ -27,10 +27,13 @@ function Enquiry() {
   };
   const updateEnquiry = () => {
     setShowModal(false),
-    axios
-      .put(`http://localhost:5001/api/enquiry/${newEnquiryData._id}`, newEnquiryData)
-      .then((res) => getEnquiryData())
-      .catch((err) => console.log(err));
+      axios
+        .put(
+          `http://localhost:5001/api/enquiry/${newEnquiryData._id}`,
+          newEnquiryData
+        )
+        .then((res) => getEnquiryData())
+        .catch((err) => console.log(err));
   };
   const addEnquiry = () => {
     setShowModal(false),
@@ -42,14 +45,23 @@ function Enquiry() {
         .catch((err) => console.log(err));
   };
 
-
+  const handleStatus = (id) => {
+    axios
+      .put(`http://localhost:5001/api/enquiry/${id}`, {
+        status: "Completed",
+      })
+      .then((res) => {
+        getEnquiryData();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div className="p-6 h-[89vh] bg-gray-100 overflow-y-auto">
+    <div className="p-6 h-[89vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Enquiry</h1>
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowModal("Add")}
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
         >
           Add New Enquiry
@@ -83,26 +95,32 @@ function Enquiry() {
           <tbody className="bg-white divide-y divide-gray-200">
             {enquiryList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{i.name}</td>
-                <td className="px-6 py-4">{i.phoneNumber}</td>
-                <td className="px-6 py-4">{i.dateOfEnquriy}</td>
-                <td className="px-6 py-4">{i.category}</td>
-                <td className="px-6 py-4">{i.productName}</td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-3">{index + 1}</td>
+                <td className="px-4 py-3">{i.name}</td>
+                <td className="px-4 py-3">{i.phoneNumber}</td>
+                <td className="px-4 py-3">{i.dateOfEnquriy}</td>
+                <td className="px-4 py-3">{i.category}</td>
+                <td className="px-4 py-3">{i.productName}</td>
+                <td className="px-4 py-3">
                   <button
-                    onClick={() => setStatus(!status)}
+                    onClick={() => handleStatus(i._id)}
                     className={`${
-                      status
+                      i.status != "Pending"
                         ? "text-green-600 hover:text-green-800 "
                         : "text-red-600 hover:text-red-800"
                     } hover:cursor-pointer`}
                   >
-                    {status ? "Completed" : "Pending"}
+                    {i.status}
                   </button>
                 </td>
-                <td className="px-6 py-4">
-                  <button onClick={()=> {setNewEnquiryData(i); setShowModal(true)}} className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
+                <td className="px-4 py-3">
+                  <button
+                    onClick={() => {
+                      setNewEnquiryData(i);
+                      setShowModal("Edit");
+                    }}
+                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                  >
                     Edit
                   </button>
                   <button
@@ -127,42 +145,42 @@ function Enquiry() {
               <div className="flex flex-col">
                 <label htmlFor="">Customer Name</label>
                 <input
-                value={newEnquiryData.name}
+                  value={newEnquiryData.name}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
                       name: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Phone Number</label>
                 <input
-                 value={newEnquiryData.phoneNumber}
+                  value={newEnquiryData.phoneNumber}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
                       phoneNumber: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Email-Id</label>
                 <input
-                value={newEnquiryData.email}
+                  value={newEnquiryData.email}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
                       email: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
@@ -173,14 +191,14 @@ function Enquiry() {
               <div className="flex flex-col">
                 <label htmlFor="">Category</label>
                 <select
-                value={newEnquiryData.category}
+                  value={newEnquiryData.category}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
                       category: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   name=""
                   id=""
                 >
@@ -196,14 +214,15 @@ function Enquiry() {
               <div className="flex flex-col">
                 <label htmlFor="">Product Name</label>
                 <input
-                value={newEnquiryData.productName}
+                  disabled={false}
+                  value={newEnquiryData.productName}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
                       productName: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
                 />
               </div>
@@ -213,36 +232,32 @@ function Enquiry() {
                 onClick={() => {
                   setShowModal(false),
                     setNewEnquiryData({
-                      dateOfEnquriy: Date(),_id:""
+                      dateOfEnquriy: Date(),
                     });
                 }}
                 className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
-             {newEnquiryData._id == ""? 
-             ( <button
-                onClick={() => {
-                  addEnquiry(),
-                    setNewEnquiryData({
-                      dateOfEnquriy: Date(),_id:""
-                    });
-                }}
-                className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-              >
-                {"Save"}
-              </button>):
-              (<button
-                onClick={() => {
-                  updateEnquiry(),
-                  setNewEnquiryData({
-                    dateOfEnquriy: Date(),_id:""
-                  });
-                }}
-                className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-              >
-                {"Update"}
-              </button>)}
+              {showModal == "Add" ? (
+                <button
+                  onClick={() => {
+                    addEnquiry();
+                  }}
+                  className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                >
+                  {"Save"}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    updateEnquiry();
+                  }}
+                  className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                >
+                  {"Update"}
+                </button>
+              )}
             </div>
           </div>
         </div>

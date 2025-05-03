@@ -2,8 +2,9 @@ import { React, useState, useContext } from "react";
 
 function Invoice() {
   const [showModal, setShowModal] = useState(false);
+  const [category, setCategory] = useState("Mobile");
   return (
-    <div className="p-6 bg-gray-100 overflow-y-auto">
+    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="w-[100%] flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Invoices</h1>
         <div className="w-[23%] flex">
@@ -14,7 +15,7 @@ function Invoice() {
             onClick={() => setShowModal(true)}
             className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
           >
-            Generate New Invoice
+            Generate Invoice
           </button>
         </div>
       </div>
@@ -28,17 +29,15 @@ function Invoice() {
                 "Invoice No.",
                 "Category",
                 "Product",
-                "Amount",
+                "Price",
                 "Discount",
-                "Customer Name",
-                "Phone Number",
-                "Address",
-                "Final Price",
+                "Tax (%)",
+                "Total",
                 "Action",
               ].map((header) => (
                 <th
                   key={header}
-                  className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   {header}
                 </th>
@@ -47,17 +46,15 @@ function Invoice() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             <tr className="hover:bg-gray-50">
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4">
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3"></td>
+              <td className="px-4 py-3">
                 <button className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
                   Edit
                 </button>
@@ -77,70 +74,256 @@ function Invoice() {
               <h2 className="text-xl font-bold mb-4">Invoice Number:</h2>
               <h2 className="text-xl font-bold mb-4 mr-[10%]">Date:</h2>
             </div>
-            <div className="w-[100%] grid grid-cols-2">
+            <h2 className="text-xl font-bold mb-4">Product Details:</h2>
+            <div className="w-[100%] h-[10vh] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Category:</label>
-                <input
+                <select
+                onChange= {(e)=>{
+                  setCategory(e.target.value)
+                }}
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Appliance Name:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Model Number:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Serial Number:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Quantity:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label htmlFor="">Discounts:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label htmlFor="">Final Price:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
+                  name=""
+                  id=""
+                >
+                  <option value="Mobile">Mobile</option>
+                  <option value="TV">TV</option>
+                  <option value="Fridge">Fridge</option>
+                  <option value="Washing Machine">Washing Machine</option>
+                  <option value="Others">Others</option>
+                </select>
               </div>
             </div>
+            {category == "Mobile" ? (
+              <div>
+                <h2 className="text-xl font-bold my-4">Mobile Details:</h2>
+                <div className="w-[100%] h-[29vh] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Company:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Model Name:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Ram,Rom fomat(ram/rom):</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Colour:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Quantity:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Description:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : category == "TV" ? (
+              <div>
+                <h2 className="text-xl font-bold my-4">TV Details:</h2>
+                <div className="w-[100%] h-[29vh] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Company:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Model Name:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Size:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Quantity:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Description:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : category == "Washing Machine" ? (
+              <div>
+                <h2 className="text-xl font-bold my-4">
+                  Washing Machine Details:
+                </h2>
+                <div className="w-[100%] h-[29vh] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Company:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Model Name:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Size (in liters):</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Type:</label>
+                    <select
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      name=""
+                      id=""
+                    >
+                      <option value="Semi-auto">Semi-auto</option>
+                      <option value="Automatic">Automatic</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Quantity:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Description:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : category == "Fridge" ? (
+              <div>
+                <h2 className="text-xl font-bold my-4">Fridge Details:</h2>
+                <div className="w-[100%] h-[29vh] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Company:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Model Name:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Size (in liters):</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Doors:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Quantity:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Description:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : category == "Others" ? (
+              <div>
+                <h2 className="text-xl font-bold my-4">Product Details:</h2>
+                <div className="w-[100%] h-[29vh] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Company:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Model Name:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Quantity:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Description:</label>
+                    <input
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <h2 className="text-xl font-bold my-4">Customer Details:</h2>
             <div className="w-[100%] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Name:</label>
-                <input
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Phone number:</label>
                 <input
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
                   type="text"

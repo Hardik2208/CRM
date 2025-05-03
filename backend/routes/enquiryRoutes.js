@@ -15,7 +15,7 @@ router.get('/enquiry', async(req, res)=>{
 
 router.delete('/enquiry/:id', async(req, res)=>{
     await Enquiry.findByIdAndDelete(req.params.id)
-    res.send('Enquiry Deleted SUccessfully')
+    res.send('Enquiry Deleted Successfully')
 })
 
 router.put('/enquiry/:id', async(req, res)=>{

@@ -1,0 +1,16 @@
+const mongoose = require('mongoose')
+
+const StaffSchema = new mongoose.Schema({
+    work: String,
+    workTimmings: String,
+    salary: Number,
+    leavesAllowded: Number,
+    staffName: String,
+    staffPhoneNumber: String,
+    staffEmail: String,
+    staffAddress: String,
+    aadharCardNumber: String,
+    panCardNumber: String,
+})
+
+module.exports = mongoose.model("Staff", StaffSchema)
