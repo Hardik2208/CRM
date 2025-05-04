@@ -19,7 +19,7 @@ const Home = () => {
   };
 
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white min-h-screen">
+    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white min-h-screen">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-blue-900">Dashboard</h1>

@@ -7,9 +7,7 @@ function Enquiry() {
   }, []);
   const [showModal, setShowModal] = useState("");
   const [status, setStatus] = useState(false);
-  const [newEnquiryData, setNewEnquiryData] = useState({
-    dateOfEnquriy: Date(),
-  });
+  const [newEnquiryData, setNewEnquiryData] = useState({dateOfEnquriy:"",});
   const [enquiryList, setEnquiryList] = useState([]);
 
   const getEnquiryData = () => {
@@ -26,7 +24,7 @@ function Enquiry() {
       .catch((err) => console.log(err));
   };
   const updateEnquiry = () => {
-    setShowModal(false),
+    setShowModal(false);
       axios
         .put(
           `http://localhost:5001/api/enquiry/${newEnquiryData._id}`,
@@ -36,7 +34,7 @@ function Enquiry() {
         .catch((err) => console.log(err));
   };
   const addEnquiry = () => {
-    setShowModal(false),
+    setShowModal(false);
       axios
         .post("http://localhost:5001/api/enquiry", newEnquiryData)
         .then((res) => {
@@ -57,7 +55,7 @@ function Enquiry() {
   };
 
   return (
-    <div className="p-6 h-[89vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Enquiry</h1>
         <button
@@ -98,7 +96,7 @@ function Enquiry() {
                 <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{i.name}</td>
                 <td className="px-4 py-3">{i.phoneNumber}</td>
-                <td className="px-4 py-3">{i.dateOfEnquriy}</td>
+                <td className="px-4 py-3">{new Date(i.dateOfEnquriy).toLocaleDateString("en-IN")}</td>
                 <td className="px-4 py-3">{i.category}</td>
                 <td className="px-4 py-3">{i.productName}</td>
                 <td className="px-4 py-3">
@@ -149,7 +147,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      name: e.target.value,
+                      name: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -163,7 +161,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      phoneNumber: e.target.value,
+                      phoneNumber: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -177,7 +175,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      email: e.target.value,
+                      email: e.target.value
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -195,7 +193,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      category: e.target.value,
+                      category: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -203,12 +201,11 @@ function Enquiry() {
                   id=""
                 >
                   <option value="">Choose Option</option>
-                  <option value="Mobile">Mobile</option>
+                  <option value="MOBILE">Mobile</option>
                   <option value="TV">TV</option>
-                  <option value="Almirah">Almirah</option>
-                  <option value="Fridge">Fridge</option>
-                  <option value="Washing Machine">Washing Machine</option>
-                  <option value="Others">Others</option>
+                  <option value="FRIDGE">FRIDGE</option>
+                  <option value="WASHING MACHINE">Washing Machine</option>
+                  <option value="OTHERS">Others</option>
                 </select>
               </div>
               <div className="flex flex-col">
@@ -219,7 +216,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      productName: e.target.value,
+                      productName: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -232,7 +229,7 @@ function Enquiry() {
                 onClick={() => {
                   setShowModal(false),
                     setNewEnquiryData({
-                      dateOfEnquriy: Date(),
+                      dateOfEnquriy:""
                     });
                 }}
                 className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"

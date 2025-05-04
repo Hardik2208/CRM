@@ -38,7 +38,7 @@ const Product = () => {
 
   // UI Components
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Product Management</h1>
         <button
@@ -101,7 +101,7 @@ const Product = () => {
                   onChange={(e) => {
                     setNewProductOBJ({
                       ...newProductOBJ,
-                      category: e.target.value,
+                      category: e.target.value.toUpperCase(),
                     });
                     
                   }}
@@ -122,7 +122,7 @@ const Product = () => {
                 </select>
               </div>
             </div>
-            {newProductOBJ.category == "Mobile" ? (
+            {newProductOBJ.category == "MOBILE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Mobile Details:</h2>
                 <div className="w-[100%] h-[35vh] grid grid-cols-2">
@@ -135,7 +135,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -150,7 +150,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          modelName: e.target.value,
+                          modelName: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -166,7 +166,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            specs: e.target.value,
+                            specs: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -183,7 +183,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            color: e.target.value,
+                            color: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -212,7 +212,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          description: e.target.value,
+                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -234,7 +234,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -249,7 +249,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          modelName: e.target.value,
+                          modelName: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -294,7 +294,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          description: e.target.value,
+                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -303,7 +303,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "Washing Machine" ? (
+            ) : newProductOBJ.category == "WASHING MACHINE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">
                   Washing Machine Details:
@@ -318,7 +318,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -333,7 +333,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          modelName: e.target.value,
+                          modelName: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -366,7 +366,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            type: e.target.value,
+                            type: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -385,7 +385,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          quantity: e.target.value,
+                          quantity: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -399,7 +399,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          description: e.target.value,
+                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -408,7 +408,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "Fridge" ? (
+            ) : newProductOBJ.category == "FRIDGE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Fridge Details:</h2>
                 <div className="w-[100%] h-[35vh] grid grid-cols-2">
@@ -421,7 +421,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -436,7 +436,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          modelName: e.target.value,
+                          modelName: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -498,7 +498,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          description: e.target.value,
+                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -507,7 +507,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "Others" ? (
+            ) : newProductOBJ.category == "OTHERS" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Product Details:</h2>
                 <div className="w-[100%] h-[35vh] grid grid-cols-2">
@@ -520,7 +520,7 @@ const Product = () => {
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ.productObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -535,7 +535,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          modelName: e.target.value,
+                          modelName: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -563,7 +563,7 @@ const Product = () => {
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          description: e.target.value,
+                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"

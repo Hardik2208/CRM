@@ -11,6 +11,8 @@ const StaffSchema = new mongoose.Schema({
     staffAddress: String,
     aadharCardNumber: String,
     panCardNumber: String,
+    leaves: Array,
+    halfDay: Array,
 })
 
 module.exports = mongoose.model("Staff", StaffSchema)

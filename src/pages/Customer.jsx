@@ -53,7 +53,7 @@ const Customer = () => {
 
   // UI Components
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 bg-gradient-to-br h-[100vh] from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Customers</h1>
         <button
@@ -134,7 +134,7 @@ const Customer = () => {
                   onChange={(e) => {
                     setNewCustomerData({
                       ...newCustomerData,
-                      name: e.target.value,
+                      name: e.target.value.toUpperCase(),
                     });
                   }}
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
@@ -175,7 +175,7 @@ const Customer = () => {
                   onChange={(e) => {
                     setNewCustomerData({
                       ...newCustomerData,
-                      address: e.target.value,
+                      address: e.target.value.toUpperCase(),
                     });
                   }}
                   value={newCustomerData.address}

@@ -10,6 +10,18 @@ const Staff = () => {
   const [showModal2, setShowModal2] = useState(false);
   const [newStaff, setNewStaff] = useState({});
   const [staffList, setStaffList] = useState([]);
+  const [attendance, setAttendance] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const getDaysInMonth = (year, month) =>
+    new Date(year, month + 1, 0).getDate();
+
+  const today = new Date();
+  const currentDay = today.getDate();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const daysInMonth = getDaysInMonth(year, month);
+  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
   const getStaffData = () => {
     axios
@@ -25,24 +37,26 @@ const Staff = () => {
       .catch((err) => console.log(err));
   };
   const updatestaff = () => {
-    setShowModal(false),
-      axios
-        .put(`http://localhost:5001/api/staff/${newstaff._id}`, newStaff)
-        .then((res) => getStaffData())
-        .catch((err) => console.log(err));
+    setShowModal(false);
+    setNewStaff({});
+    axios
+      .put(`http://localhost:5001/api/staff/${newStaff._id}`, newStaff)
+      .then((res) => getStaffData())
+      .catch((err) => console.log(err));
   };
   const addstaff = () => {
-    setShowModal(false),
-      axios
-        .post("http://localhost:5001/api/staff", newStaff)
-        .then((res) => {
-          getStaffData();
-        })
-        .catch((err) => console.log(err));
+    setShowModal(false);
+    setNewStaff({});
+    axios
+      .post("http://localhost:5001/api/staff", newStaff)
+      .then((res) => {
+        getStaffData();
+      })
+      .catch((err) => console.log(err));
   };
   // UI Components
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6  h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Staffs</h1>
         <button
@@ -129,7 +143,10 @@ const Staff = () => {
                 <input
                   value={newStaff.work}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, work: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      work: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -140,7 +157,10 @@ const Staff = () => {
                 <input
                   value={newStaff.workTimmings}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, workTimmings: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      workTimmings: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -169,14 +189,18 @@ const Staff = () => {
                 />
               </div>
             </div>
-            <h2 className="text-xl font-bold my-4">Staff's Details:</h2>
+            <h2 className="text-xl font-bold my-4">Staff's Details:
+            </h2>
             <div className="w-[100%] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Name:</label>
                 <input
                   value={newStaff.staffName}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, staffName: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      staffName: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -189,7 +213,7 @@ const Staff = () => {
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
-                      staffPhoneNumber: e.target.value,
+                      staffPhoneNumber: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -201,7 +225,10 @@ const Staff = () => {
                 <input
                   value={newStaff.staffEmail}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, staffEmail: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      staffEmail: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -212,7 +239,10 @@ const Staff = () => {
                 <input
                   value={newStaff.address}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, address: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      address: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -226,7 +256,7 @@ const Staff = () => {
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
-                      aadharCardNumber: e.target.value,
+                      aadharCardNumber: e.target.value.toUpperCase(),
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -238,7 +268,10 @@ const Staff = () => {
                 <input
                   value={newStaff.panCardNumber}
                   onChange={(e) =>
-                    setNewStaff({ ...newStaff, panCardNumber: e.target.value })
+                    setNewStaff({
+                      ...newStaff,
+                      panCardNumber: e.target.value.toUpperCase(),
+                    })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   type="text"
@@ -247,18 +280,27 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label htmlFor="">Aadhar Card Picture:</label>
 
-                <input className="h-[5vh] mt-[1vh] uppercase w-[80%]" type="file" />
+                <input
+                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
+                  type="file"
+                />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Pan Card Picture:</label>
 
-                <input className="h-[5vh] mt-[1vh] uppercase w-[80%]" type="file" />
+                <input
+                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
+                  type="file"
+                />
               </div>
 
               <div className="flex flex-col">
                 <label htmlFor="">Staff's Picture:</label>
 
-                <input className="h-[5vh] mt-[1vh] uppercase w-[80%]" type="file" />
+                <input
+                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
+                  type="file"
+                />
               </div>
             </div>
 
@@ -274,17 +316,15 @@ const Staff = () => {
               {showModal == "Add" ? (
                 <button
                   onClick={() => {
-                    setNewStaff({}), addstaff();
+                    addstaff();
                   }}
                   className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Save"}
                 </button>
-              ) :showModal == "Edit"? (
+              ) : showModal == "Edit" ? (
                 <button
-                  onClick={() => {
-                    setNewStaff({})
-                  }}
+                  onClick={() => {updatestaff();}}
                   className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Update"}
@@ -297,16 +337,60 @@ const Staff = () => {
       {showModal2 ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg p-6 w-[60%] h-[80vh] max-w-4xl z-10">
-          <h2 className="text-xl font-bold mb-4">Reporting Management:</h2>
-            <button
-              onClick={() => {
-                setShowModal2(false);
-              }}
-              className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
-            >
-              Cancel
-            </button>
+          <div className="bg-white rounded-lg p-6 w-[60%] h-[90vh] max-w-4xl z-10">
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-4">
+                Staff Attendance -{" "}
+                {today.toLocaleString("default", { month: "long" })} {year}
+                {JSON.stringify(attendance)}
+              </h2>
+              <div className="grid grid-cols-7 gap-2 sm:gap-3 md:gap-4">
+                {daysArray.map((day) => {
+                  const isToday = day === currentDay;
+                  return (
+                    <div
+                      key={day}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl border flex flex-col items-center justify-center text-sm font-semibold transition-all duration-200
+                      ${
+                        isToday
+                          ? "bg-green-100 border-green-500 shadow-md"
+                          : "bg-gray-50 border-gray-300 text-gray-400"
+                      }
+                    `}
+                    >
+                      <span className="text-sm font-medium">{day}</span>
+                      <input
+                        type="checkbox"
+                        disabled={!isToday}
+                        onChange={(e) => {
+                          !attendance.includes(day)
+                            ? setAttendance([...attendance, day])
+                            : setAttendance(attendance.filter((i) => i !== day));
+                        }}
+                        className={`mt-1 w-4 h-4 ${
+                          isToday
+                            ? "accent-green-600 cursor-pointer"
+                            : "cursor-not-allowed"
+                        }`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex justify-end w-[95%]">
+              <button className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer mr-[2%]">
+                Save
+              </button>
+              <button
+                onClick={() => {
+                  setShowModal2(false);
+                }}
+                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

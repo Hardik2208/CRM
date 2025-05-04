@@ -12,7 +12,7 @@ const Order = () => {
     orderObject: {},
     customerObject: {},
     paymentObject: { paymentType: "Cash" },
-    category: "Mobile",
+    category: "MOBILE",
     tpf: {},
   });
   const [orderList, setOrderList] = useState([]);
@@ -33,7 +33,7 @@ const Order = () => {
 
   // UI Components
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Orders</h1>
         <button
@@ -107,7 +107,10 @@ const Order = () => {
                 <select
                   value={newOrder.category}
                   onChange={(e) => {
-                    setNewOrder({ ...newOrder, category: e.target.value });
+                    setNewOrder({
+                      ...newOrder,
+                      category: e.target.value.toUpperCase(),
+                    });
                   }}
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   name=""
@@ -121,7 +124,7 @@ const Order = () => {
                 </select>
               </div>
             </div>
-            {newOrder.category == "Mobile" ? (
+            {newOrder.category == "MOBILE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Mobile Details:</h2>
                 <div className="w-[100%] h-[29vh] grid grid-cols-2">
@@ -134,7 +137,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -147,7 +150,10 @@ const Order = () => {
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, modelName: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          modelName: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
@@ -162,7 +168,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            specs: e.target.value,
+                            specs: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -179,7 +185,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            color: e.target.value,
+                            color: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -207,7 +213,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            description: e.target.value,
+                            description: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -230,7 +236,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -243,7 +249,10 @@ const Order = () => {
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, modelName: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          modelName: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
@@ -258,7 +267,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            size: e.target.value,
+                            size: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -286,7 +295,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            description: e.target.value,
+                            description: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -296,7 +305,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "Washing Machine" ? (
+            ) : newOrder.category == "WASHING MACHINE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">
                   Washing Machine Details:
@@ -311,7 +320,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -324,7 +333,10 @@ const Order = () => {
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, modelName: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          modelName: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
@@ -339,7 +351,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            size: e.target.value,
+                            size: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -356,7 +368,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            type: e.target.value,
+                            type: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -388,7 +400,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            description: e.target.value,
+                            description: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -398,7 +410,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "Fridge" ? (
+            ) : newOrder.category == "FRIDGE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Fridge Details:</h2>
                 <div className="w-[100%] h-[29vh] grid grid-cols-2">
@@ -411,7 +423,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -424,7 +436,10 @@ const Order = () => {
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, modelName: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          modelName: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
@@ -439,7 +454,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            size: e.target.value,
+                            size: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -456,7 +471,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            doors: e.target.value,
+                            doors: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -484,7 +499,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            description: e.target.value,
+                            description: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -494,7 +509,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "Others" ? (
+            ) : newOrder.category == "OTHERS" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Product Details:</h2>
                 <div className="w-[100%] h-[29vh] grid grid-cols-2">
@@ -507,7 +522,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            company: e.target.value,
+                            company: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -520,7 +535,10 @@ const Order = () => {
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, modelName: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          modelName: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="text"
@@ -531,7 +549,10 @@ const Order = () => {
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
-                        setNewOrder({ ...newOrder, quantity: e.target.value })
+                        setNewOrder({
+                          ...newOrder,
+                          quantity: e.target.value.toUpperCase(),
+                        })
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
@@ -546,7 +567,7 @@ const Order = () => {
                           ...newOrder,
                           orderObject: {
                             ...newOrder.orderObject,
-                            description: e.target.value,
+                            description: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -556,6 +577,44 @@ const Order = () => {
                   </div>
                 </div>
               </div>
+            ) : null}
+            {showModal != "Add" ? (
+              <>
+                <h2 className="text-xl font-bold my-4">Order Generation Details:</h2>
+                <div className="w-[100%] grid grid-cols-2">
+                  <div className="flex flex-col">
+                    <label htmlFor="">Date Of Order:</label>
+                    <input
+                      value={
+                        newOrder?.date
+                          ? new Date(newOrder.date).toLocaleDateString("en-IN")
+                          : ""
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label htmlFor="">Time:</label>
+                    <input
+                      value={
+                        newOrder?.date
+                          ? new Date(newOrder.date).toLocaleTimeString(
+                              "en-IN",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            )
+                          : ""
+                      }
+                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </>
             ) : null}
             <h2 className="text-xl font-bold my-4">Customer Details:</h2>
             <div className="w-[100%] grid grid-cols-2">
@@ -567,8 +626,8 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       customerObject: {
-                        ...newOrder.CustomerObject,
-                        name: e.target.value,
+                        ...newOrder.customerObject,
+                        name: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -585,7 +644,7 @@ const Order = () => {
                       ...newOrder,
                       customerObject: {
                         ...newOrder.customerObject,
-                        phoneNumber: e.target.value,
+                        phoneNumber: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -619,7 +678,7 @@ const Order = () => {
                       ...newOrder,
                       customerObject: {
                         ...newOrder.customerObject,
-                        address: e.target.value,
+                        address: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -639,7 +698,7 @@ const Order = () => {
                       ...newOrder,
                       paymentObject: {
                         ...newOrder.paymentObject,
-                        price: e.target.value,
+                        price: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -656,7 +715,7 @@ const Order = () => {
                       ...newOrder,
                       paymentObject: {
                         ...newOrder.paymentObject,
-                        discount: e.target.value,
+                        discount: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -673,7 +732,7 @@ const Order = () => {
                       ...newOrder,
                       paymentObject: {
                         ...newOrder.paymentObject,
-                        paymentType: e.target.value,
+                        paymentType: e.target.value.toUpperCase(),
                       },
                     });
                   }}
@@ -681,10 +740,10 @@ const Order = () => {
                   name=""
                   id=""
                 >
-                  <option value="Cash">Cash</option>
-                  <option value="Finance">Finance</option>
+                  <option value="CASH">Cash</option>
+                  <option value="FINANCE">Finance</option>
                   <option value="UPI">UPI</option>
-                  <option value="Third Party Finance">
+                  <option value="THIRD PARTY FINANCE">
                     Third Party Finance
                   </option>
                 </select>
@@ -698,7 +757,7 @@ const Order = () => {
                       ...newOrder,
                       paymentObject: {
                         ...newOrder.paymentObject,
-                        remarks: e.target.value,
+                        remarks: e.target.value.toUpperCase(),
                       },
                     })
                   }
@@ -707,7 +766,7 @@ const Order = () => {
                 />
               </div>
             </div>
-            {newOrder?.paymentObject?.paymentType == "Third Party Finance" ? (
+            {newOrder?.paymentObject?.paymentType == "THIRD PARTY FINANCE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Third Party Finance</h2>
                 <h2 className="text-xl font-bold my-4">Finance Number:</h2>
@@ -721,7 +780,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            downPayment: e.target.value,
+                            downPayment: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -738,7 +797,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            numberOfEMI: e.target.value,
+                            numberOfEMI: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -755,7 +814,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            fileCharge: e.target.value,
+                            fileCharge: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -772,7 +831,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            intrest: e.target.value,
+                            intrest: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -789,7 +848,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            amountOfEMI: e.target.value,
+                            amountOfEMI: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -806,7 +865,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            remarks: e.target.value,
+                            remarks: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -823,7 +882,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            photo: e.target.value,
+                            photo: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -845,7 +904,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            guaranteerName: e.target.value,
+                            guaranteerName: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -862,7 +921,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            guaranteerPhoneNumber: e.target.value,
+                            guaranteerPhoneNumber: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -879,7 +938,7 @@ const Order = () => {
                           ...newOrder,
                           tpf: {
                             ...newOrder.tpf,
-                            guaranteerAddress: e.target.value,
+                            guaranteerAddress: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -900,7 +959,7 @@ const Order = () => {
                       customerObject: {},
                       paymentObject: { paymentType: "Cash" },
                       tpf: {},
-                      category: "Mobile",
+                      category: "MOBILE",
                     }),
                     setTpf({});
                 }}
@@ -918,7 +977,7 @@ const Order = () => {
                         customerObject: {},
                         paymentObject: { paymentType: "Cash" },
                         tpf: {},
-                        category: "Mobile",
+                        category: "MOBILE",
                       },
                       setTpf({})
                     );

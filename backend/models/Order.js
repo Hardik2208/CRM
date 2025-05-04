@@ -9,6 +9,7 @@ const OrderSchema = new mongoose.Schema(
     customerObject : Object,
     paymentObject : Object,
     tpf : Object,
+    date : Date,
 }
 )
 

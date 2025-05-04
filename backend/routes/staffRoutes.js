@@ -1,26 +1,46 @@
-const express = require('express')
-const Staff = require('../models/Staff')
-const router = express.Router() 
+const express = require('express');
+const Staff = require('../models/Staff');
+const router = express.Router();
 
-router.post('/staff', (req, res)=>{
-    const newStaff = new Staff(req.body)
-    newStaff.save()
-    res.send('Staff Added Successfully!')
-})
+// Add Staff
+router.post('/staff', async (req, res) => {
+    try {
+        const newStaff = new Staff(req.body);
+        await newStaff.save();
+        res.status(201).send('Staff Added Successfully!');
+    } catch (err) {
+        res.status(500).send('Error adding staff: ' + err.message);
+    }
+});
 
-router.get('/staff', async(req, res)=>{
-    const allEnquiries = await Staff.find()
-    res.send(allEnquiries)
-})
+// Get All Staff
+router.get('/staff', async (req, res) => {
+    try {
+        const allStaff = await Staff.find();
+        res.status(200).send(allStaff);
+    } catch (err) {
+        res.status(500).send('Error fetching staff: ' + err.message);
+    }
+});
 
-router.delete('/staff/:id', async(req, res)=>{
-    await Staff.findByIdAndDelete(req.params.id)
-    res.send('Staff Deleted Successfully')
-})
+// Delete Staff by ID
+router.delete('/staff/:id', async (req, res) => {
+    try {
+        await Staff.findByIdAndDelete(req.params.id);
+        res.status(200).send('Staff Deleted Successfully');
+    } catch (err) {
+        res.status(500).send('Error deleting staff: ' + err.message);
+    }
+});
 
-router.put('/staff/:id', async(req, res)=>{
-    await Staff.findByIdAndUpdate(req.params.id, req.body)
-    res.send('Staff Updated Successfully')
-})
+// Update Staff by ID
+router.put('/staff/:id', async (req, res) => {
+    try {
+        await Staff.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).send('Staff Updated Successfully');
+    } catch (err) {
+        res.status(500).send('Error updating staff: ' + err.message);
+    }
+});
 
-module.exports = router
+module.exports = router;

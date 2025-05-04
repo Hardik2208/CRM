@@ -1,26 +1,47 @@
-const express = require('express')
-const Enquiry = require('../models/Enquiry')
-const router = express.Router() 
+const express = require('express');
+const Enquiry = require('../models/Enquiry');
+const router = express.Router();
 
-router.post('/enquiry', (req, res)=>{
-    const newEnquiry = new Enquiry(req.body)
-    newEnquiry.save()
-    res.send('Enquiry Added Successfully!')
-})
+// Add Enquiry
+router.post('/enquiry', async (req, res) => {
+    try {
+        const newEnquiry = new Enquiry(req.body);
+        newEnquiry.dateOfEnquiry = new Date(); // ✅ Corrected typo
+        await newEnquiry.save();
+        res.status(201).send('Enquiry Added Successfully!');
+    } catch (err) {
+        res.status(500).send('Error adding enquiry: ' + err.message);
+    }
+});
 
-router.get('/enquiry', async(req, res)=>{
-    const allEnquiries = await Enquiry.find()
-    res.send(allEnquiries)
-})
+// Get All Enquiries
+router.get('/enquiry', async (req, res) => {
+    try {
+        const allEnquiries = await Enquiry.find();
+        res.status(200).send(allEnquiries);
+    } catch (err) {
+        res.status(500).send('Error fetching enquiries: ' + err.message);
+    }
+});
 
-router.delete('/enquiry/:id', async(req, res)=>{
-    await Enquiry.findByIdAndDelete(req.params.id)
-    res.send('Enquiry Deleted Successfully')
-})
+// Delete Enquiry
+router.delete('/enquiry/:id', async (req, res) => {
+    try {
+        await Enquiry.findByIdAndDelete(req.params.id);
+        res.status(200).send('Enquiry Deleted Successfully');
+    } catch (err) {
+        res.status(500).send('Error deleting enquiry: ' + err.message);
+    }
+});
 
-router.put('/enquiry/:id', async(req, res)=>{
-    await Enquiry.findByIdAndUpdate(req.params.id, req.body)
-    res.send('Enquiry Updated Successfully')
-})
+// Update Enquiry
+router.put('/enquiry/:id', async (req, res) => {
+    try {
+        await Enquiry.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).send('Enquiry Updated Successfully');
+    } catch (err) {
+        res.status(500).send('Error updating enquiry: ' + err.message);
+    }
+});
 
-module.exports = router
+module.exports = router;

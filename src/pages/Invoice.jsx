@@ -4,7 +4,7 @@ function Invoice() {
   const [showModal, setShowModal] = useState(false);
   const [category, setCategory] = useState("Mobile");
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
       <div className="w-[100%] flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Invoices</h1>
         <div className="w-[23%] flex">

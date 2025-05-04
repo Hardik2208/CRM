@@ -1,17 +1,14 @@
 const mongoose = require('mongoose')
 
 const TPFSchema = new mongoose.Schema({
-    downpayment: Number,
-    numberOfEMI: Number,
-    numberOfEMILeft: Number,
-    amountOfEMI: Number,
-    intrest: Number,
-    fileCharge: Number,
-    photo: File,
+    orderNumber: Number,
+    financeNumber: Number,
+    financeObject: Object,
+    paymentObject : Object,
     guaranteerObject: Object,
     customerObject: Object,
     productObject: Object,
-    upComingEMIDate: Date,
+    EMI: Array,
 })
 
 module.exports = mongoose.model("TPF", TPFSchema)
