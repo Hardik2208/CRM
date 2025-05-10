@@ -1,21 +1,31 @@
-const express = require('express')
-const connectDB = require('./db')
-const cors = require('cors')
+const express = require('express');
+const connectDB = require('./db');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
-const server = express()
-server.use(express.json())
-server.use(cors())
-server.use('/api', require('./routes/enquiryRoutes'))
-server.use('/api', require('./routes/productRoutes'))
-server.use('/api', require('./routes/orderRoutes'))
-server.use('/api', require('./routes/staffRoutes'))
-server.use('/api', require('./routes/customerRoutes'))
-server.use('/api', require('./routes/tpfRoutes'))
+// Initialize Express App
+const server = express();
 
-connectDB()
+// Middleware
+server.use(express.json());
+server.use(bodyParser.json());
+server.use(cors());
 
+// Routes
+server.use('/api', require('./routes/enquiryRoutes'));
+server.use('/api', require('./routes/productRoutes'));
+server.use('/api', require('./routes/orderRoutes'));
+server.use('/api', require('./routes/staffRoutes'));
+server.use('/api', require('./routes/customerRoutes'));
+server.use('/api', require('./routes/tpfRoutes'));
+server.use('/api', require('./routes/attendanceRoutes')); 
+server.use('/api', require('./routes/invoiceRoutes'))
 
+// Connect to DB
+connectDB();
 
-server.listen(5001, ()=>{
-    console.log(`server running at localhost:5001`)
-})
+// Start Server
+const PORT = process.env.PORT || 5001;
+server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});

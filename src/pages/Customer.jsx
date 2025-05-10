@@ -55,7 +55,7 @@ const Customer = () => {
   return (
     <div className="p-6 bg-gradient-to-br h-[100vh] from-blue-50 to-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Customers</h1>
+        <h1 className="text-3xl font-bold ">Customers</h1>
         <button
           onClick={() => setShowModal("Add")}
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"

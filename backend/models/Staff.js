@@ -13,6 +13,7 @@ const StaffSchema = new mongoose.Schema({
     panCardNumber: String,
     leaves: Array,
     halfDay: Array,
+    attendance: Object,
 })
 
 module.exports = mongoose.model("Staff", StaffSchema)

@@ -1,25 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Staff = () => {
-  useEffect(() => {
-    getStaffData();
-  }, []);
-
   const [showModal, setShowModal] = useState("");
   const [showModal2, setShowModal2] = useState(false);
   const [newStaff, setNewStaff] = useState({});
   const [staffList, setStaffList] = useState([]);
-  const [attendance, setAttendance] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const getDaysInMonth = (year, month) =>
-    new Date(year, month + 1, 0).getDate();
+  const [attendance, setAttendance] = useState("");
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
 
   const today = new Date();
   const currentDay = today.getDate();
   const year = today.getFullYear();
   const month = today.getMonth();
+  const getDaysInMonth = (year, month) =>
+    new Date(year, month + 1, 0).getDate();
   const daysInMonth = getDaysInMonth(year, month);
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
@@ -30,29 +26,54 @@ const Staff = () => {
       .catch((err) => console.log(err));
   };
 
-  const deletestaff = (id) => {
+  const getAttendance = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+
     axios
-      .delete(`http://localhost:5001/api/staff/${id}`)
-      .then((res) => getStaffData())
+      .get(`http://localhost:5001/api/attendance/${year}/${month}`)
+      .then((res) => setAttendanceList(res.data))
       .catch((err) => console.log(err));
   };
-  const updatestaff = () => {
-    setShowModal(false);
-    setNewStaff({});
+
+  useEffect(() => {
+    getStaffData();
+    getAttendance();
+  }, []);
+
+  const addAttendance = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+
     axios
-      .put(`http://localhost:5001/api/staff/${newStaff._id}`, newStaff)
-      .then((res) => getStaffData())
-      .catch((err) => console.log(err));
-  };
-  const addstaff = () => {
-    setShowModal(false);
-    setNewStaff({});
-    axios
-      .post("http://localhost:5001/api/staff", newStaff)
-      .then((res) => {
-        getStaffData();
+      .post(`http://localhost:5001/api/attendance/${year}/${month}`, {
+        staff_id: selectedId,
+        status: attendance,
       })
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log("Saved Successfully");
+        setAttendance(""); // Clear the attendance status after successful submission
+        getAttendance(); // Refresh the attendance list
+        setShowModal2(false); // Close the modal
+      })
+      .catch((err) => {
+        // Check if the error response has a message
+        if (err.response && err.response.data && err.response.data.message) {
+          alert(err.response.data.message); // Show the specific error message
+        } else {
+          alert("Error: " + err.message); // Show the general error message
+        }
+      });
+  };
+
+  const getStatusForDay = (staffId, day) => {
+    const dateStr = new Date(year, month, day).toISOString().split("T")[0];
+    const record = attendanceList.find(
+      (att) => att.staff_id === staffId && att.date === dateStr
+    );
+    return record ? record.status : null;
   };
   // UI Components
   return (
@@ -101,7 +122,11 @@ const Staff = () => {
                 <td className="px-6 py-4">{i.address}</td>
                 <td className="px-6 py-4 flex items-center justify-center">
                   <button
-                    onClick={() => setShowModal2(true)}
+                    onClick={() => {
+                      setShowModal2(true);
+                      setSelectedId(i._id);
+                      // getAttendance();
+                    }}
                     className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Manage
@@ -189,8 +214,7 @@ const Staff = () => {
                 />
               </div>
             </div>
-            <h2 className="text-xl font-bold my-4">Staff's Details:
-            </h2>
+            <h2 className="text-xl font-bold my-4">Staff's Details:</h2>
             <div className="w-[100%] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Name:</label>
@@ -324,7 +348,9 @@ const Staff = () => {
                 </button>
               ) : showModal == "Edit" ? (
                 <button
-                  onClick={() => {updatestaff();}}
+                  onClick={() => {
+                    updatestaff();
+                  }}
                   className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Update"}
@@ -334,66 +360,92 @@ const Staff = () => {
           </div>
         </div>
       ) : null}
-      {showModal2 ? (
-        <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
-          <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg p-6 w-[60%] h-[90vh] max-w-4xl z-10">
+      {showModal2 && (
+        <div className="fixed flex w-full h-full top-0 left-0 items-center z-50 justify-center">
+          <div className="absolute w-full h-full inset-0 bg-black opacity-50"></div>
+          <div className="bg-white rounded-lg p-6 w-3/4 h-[90vh] max-w-4xl z-10 overflow-y-auto">
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-4">
                 Staff Attendance -{" "}
                 {today.toLocaleString("default", { month: "long" })} {year}
-                {JSON.stringify(attendance)}
               </h2>
-              <div className="grid grid-cols-7 gap-2 sm:gap-3 md:gap-4">
+              <div className="grid grid-cols-7 gap-2">
                 {daysArray.map((day) => {
                   const isToday = day === currentDay;
+
+                  // Get the status for the specific day (present, leave, half-day)
+                  const statusForDay = getStatusForDay(selectedId, day);
+
+                  // Determine the base box class
+                  const boxClassNames = [
+                    "w-14 h-14 rounded-xl border flex flex-col items-center justify-center text-sm font-semibold",
+                    
+                       "bg-green-100 border-green-500 shadow-md"
+                      
+                  ];
+
+                  // Apply a green color for days that are "present"
+                  if (statusForDay === "present") {
+                    boxClassNames.push("bg-green-100 border-green-500");
+                  }
+
+                  // Apply red color for "leave" or "absent" status
+                  if (statusForDay === "leave") {
+                    boxClassNames.push("bg-red-100 border-red-500");
+                  }
+
                   return (
-                    <div
-                      key={day}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl border flex flex-col items-center justify-center text-sm font-semibold transition-all duration-200
-                      ${
-                        isToday
-                          ? "bg-green-100 border-green-500 shadow-md"
-                          : "bg-gray-50 border-gray-300 text-gray-400"
-                      }
-                    `}
-                    >
-                      <span className="text-sm font-medium">{day}</span>
-                      <input
-                        type="checkbox"
-                        disabled={!isToday}
-                        onChange={(e) => {
-                          !attendance.includes(day)
-                            ? setAttendance([...attendance, day])
-                            : setAttendance(attendance.filter((i) => i !== day));
-                        }}
-                        className={`mt-1 w-4 h-4 ${
-                          isToday
-                            ? "accent-green-600 cursor-pointer"
-                            : "cursor-not-allowed"
-                        }`}
-                      />
+                    <div key={day} className={boxClassNames.join(" ")}>
+                      <span>{day}</span>
+                      <div className="flex gap-1 mt-1">
+                        {["present", "leave", "half-day"].map((option) => (
+                          <input
+                            key={option}
+                            type="radio"
+                            name={`status-${day}`}
+                            checked={
+                              statusForDay === option ||
+                              (isToday && attendance === option)
+                            }
+                            disabled={!isToday || !!statusForDay}
+                            onChange={() => setAttendance(option)}
+                            className={`w-4 h-4 ${
+                              option === "present"
+                                ? "accent-green-600"
+                                : option === "leave"
+                                ? "accent-red-600"
+                                : "accent-blue-600"
+                            }`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-            <div className="flex justify-end w-[95%]">
-              <button className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer mr-[2%]">
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={addAttendance}
+                disabled={!attendance}
+                className={`px-4 py-2 bg-blue-500 text-white rounded-md ${
+                  attendance
+                    ? "hover:bg-blue-600"
+                    : "opacity-50 cursor-not-allowed"
+                } mr-2`}
+              >
                 Save
               </button>
               <button
-                onClick={() => {
-                  setShowModal2(false);
-                }}
-                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+                onClick={() => setShowModal2(false)}
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400"
               >
                 Cancel
               </button>
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

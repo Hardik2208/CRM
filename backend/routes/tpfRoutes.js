@@ -7,6 +7,19 @@ router.get("/tpf", async (req, res) => {
   res.send(allFinance);
 });
 
+router.post("/tpf/find", async (req, res) => {
+  try {
+    const { financeNumber } = req.body; // extract it
+    console.log("Searching for financeNumber:", financeNumber);
+    const finance = await TPF.findOne({ financeNumber: Number(financeNumber) }); // make sure it's a number
+    if (!finance) return res.status(404).send({ message: "Finance not found" });
+    res.send(finance);
+  } catch (err) {
+    console.error("Error in /tpf/find:", err);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 router.post("/tpf", async (req, res) => {
   try {
     const { financeNumber, paymentAmount, paymentType, remarks } = req.body;

@@ -14,10 +14,23 @@ const ThirdPartyF = () => {
   const [fNumber, setFNumber] = useState(null);
   const [emiPayment, setEmiPayment] = useState({});
   const [sumOfEMI, setSumOfEMI] = useState(0);
+
   const getFinanceData = () => {
     axios
       .get("http://localhost:5001/api/tpf")
       .then((res) => setFinanceList(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  const getDetails = () => {
+    axios
+      .post("http://localhost:5001/api/tpf/find", {
+        financeNumber: Number(fNumber),
+      })
+      .then((res) => {
+        console.log("RESPONSE:", res.data);
+        setNewFinance(res.data); 
+      })
       .catch((err) => console.log(err));
   };
 
@@ -545,22 +558,29 @@ const ThirdPartyF = () => {
             <div className="w-[100%] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Finance Number:</label>
-                <input
-                  onChange={(e) => {
-                    const selected = financeList.filter(
-                      (i) => i.financeNumber == e.target.value
-                    );
-                    setNewFinance(selected);
-                    setEmiPayment((prev) => ({
-                      ...prev,
-                      financeNumber: e.target.value,
-                      paymentAmount:
-                        selected[0]?.financeObject?.amountOfEMI || "",
-                    }));
-                  }}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                  type="number"
-                />
+                <div>
+                  <input
+                    onChange={(e) => {
+                      setFNumber(e.target.value);
+                      setEmiPayment((prev) => ({
+                        ...prev,
+                        financeNumber: e.target.value,
+                        paymentAmount:
+                          newFinance[0]?.financeObject?.amountOfEMI || "",
+                      }));
+                    }}
+                    className="border border-gray-500 h-[5vh] mt-[1vh] w-[50%] uppercase pl-[1%] rounded-[5px]"
+                    type="number"
+                  />
+                  <button
+                    onClick={() => {
+                      getDetails();
+                    }}
+                    className="px-4 py-2 mx-[2%] bg-blue-500 w-[20%]  text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  >
+                    {"Search"}
+                  </button>
+                </div>
               </div>
             </div>
             <h2 className="text-xl font-bold my-4">Customer Detail:</h2>
@@ -569,7 +589,7 @@ const ThirdPartyF = () => {
                 <label htmlFor="">Customer Name:</label>
                 <input
                   disabled={true}
-                  value={newFinance[0]?.customerObject?.name}
+                  value={newFinance?.customerObject?.name}
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
@@ -578,7 +598,7 @@ const ThirdPartyF = () => {
                 <label htmlFor="">Phone Number:</label>
                 <input
                   disabled={true}
-                  value={newFinance[0]?.customerObject?.phoneNumber}
+                  value={newFinance?.customerObject?.phoneNumber}
                   className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                   type="text"
                 />
@@ -639,7 +659,10 @@ const ThirdPartyF = () => {
               </button>
               <button
                 onClick={() => {
-                  setNewFinance([]), setShowModal2(""), setEmiPayment({}), setNewFinance({});
+                  setNewFinance([]),
+                    setShowModal2(""),
+                    setEmiPayment({}),
+                    setNewFinance({});
                 }}
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >

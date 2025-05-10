@@ -4,6 +4,7 @@ import axios from "axios";
 const Order = () => {
   useEffect(() => {
     getOrderData();
+     getFinanceData(); 
   }, []);
 
   const [showModal, setShowModal] = useState("");
@@ -16,6 +17,11 @@ const Order = () => {
     tpf: {},
   });
   const [orderList, setOrderList] = useState([]);
+  const [financeList,setFinanceList] = useState([]);
+  const today = new Date();
+  const formatted = `${today.getFullYear()}-${String(
+    today.getMonth() + 1
+  ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
   const getOrderData = () => {
     axios
@@ -30,6 +36,13 @@ const Order = () => {
       .then((res) => getOrderData())
       .catch((err) => alert(err.response.data));
   };
+
+    const getFinanceData = () => {
+      axios
+        .get("http://localhost:5001/api/tpf")
+        .then((res) => setFinanceList(res.data))
+        .catch((err) => console.log(err));
+    };
 
   // UI Components
   return (
@@ -100,7 +113,15 @@ const Order = () => {
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 w-[60%] h-[80vh] overflow-y-scroll max-w-4xl z-10 overflow-x-hidden">
-            <h2 className="text-xl font-bold mb-4">Product Details:</h2>
+            {showModal == "Add" ? (
+              <div className="flex justify-between w-[90%]">
+                <h2 className="text-xl font-bold mb-4">Product Details:</h2>
+                <h2 className="text-xl font-bold mb-4">
+                  Order Number: {orderList.length + 1}
+                </h2>
+              </div>
+            ) : null}
+            <h2 className="text-xl font-bold mb-4">Date: {formatted}</h2>
             <div className="w-[100%] h-[10vh] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Category:</label>
@@ -580,7 +601,9 @@ const Order = () => {
             ) : null}
             {showModal != "Add" ? (
               <>
-                <h2 className="text-xl font-bold my-4">Order Generation Details:</h2>
+                <h2 className="text-xl font-bold my-4">
+                  Order Generation Details:
+                </h2>
                 <div className="w-[100%] grid grid-cols-2">
                   <div className="flex flex-col">
                     <label htmlFor="">Date Of Order:</label>
@@ -724,6 +747,40 @@ const Order = () => {
                 />
               </div>
               <div className="flex flex-col">
+                <label htmlFor="">CGST (in %):</label>
+                <input
+                  value={newOrder?.paymentObject?.CGST}
+                  onChange={(e) =>
+                    setNewOrder({
+                      ...newOrder,
+                      paymentObject: {
+                        ...newOrder.paymentObject,
+                        CGST: e.target.value.toUpperCase(),
+                      },
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                  type="number"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="">SGST (in %):</label>
+                <input
+                  value={newOrder?.paymentObject?.SGST}
+                  onChange={(e) =>
+                    setNewOrder({
+                      ...newOrder,
+                      paymentObject: {
+                        ...newOrder.paymentObject,
+                        SGST: e.target.value.toUpperCase(),
+                      },
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                  type="number"
+                />
+              </div>
+              <div className="flex flex-col">
                 <label htmlFor="">Payment Type:</label>
                 <select
                   value={newOrder?.paymentObject?.paymentType}
@@ -769,7 +826,7 @@ const Order = () => {
             {newOrder?.paymentObject?.paymentType == "THIRD PARTY FINANCE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Third Party Finance</h2>
-                <h2 className="text-xl font-bold my-4">Finance Number:</h2>
+                <h2 className="text-xl font-bold my-4">Finance Number: {financeList.length + 1}</h2>
                 <div className="w-[100%] grid grid-cols-2">
                   <div className="flex flex-col">
                     <label htmlFor="">Downpayment:</label>
