@@ -15,6 +15,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@tailwindcss/vite": "^4.0.13",
     "axios": "^1.8.4",
+    "build": "^0.1.4",
     "chart.js": "^4.4.9",
     "cloudinary": "^2.6.1",
     "react": "^19.0.0",
