@@ -9,7 +9,6 @@ const Staff = () => {
   const [staffList, setStaffList] = useState([]);
   const [attendance, setAttendance] = useState("");
   const [attendanceList, setAttendanceList] = useState([]);
-  const [newAttendanceList, setNewAttendanceList] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
   const today = new Date();
@@ -37,7 +36,6 @@ const Staff = () => {
 
   useEffect(() => {
     getStaffData();
-    getAttendance();
   }, []);
 
   const addAttendance = () => {
