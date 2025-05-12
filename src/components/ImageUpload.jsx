@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ImageUploader = ({setNewStaff, newStaff, imageKey}) => {
+const imageUploader = ({setNewStaff, newStaff, imageKey}) => {
   const [imageURL, setImageURL] = useState(null);
 
   const handleImageUpload = async (e) => {
@@ -48,4 +48,4 @@ const ImageUploader = ({setNewStaff, newStaff, imageKey}) => {
   );
 };
 
-export default ImageUploader;
+export default imageUploader;
