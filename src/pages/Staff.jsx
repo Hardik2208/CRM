@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import ImageUploader from "../components/imageUpload";
 
 const Staff = () => {
   const [showModal, setShowModal] = useState("");
@@ -26,14 +27,10 @@ const Staff = () => {
       .catch((err) => console.log(err));
   };
 
-  const getAttendance = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-
+  const addStaff = () => {
     axios
-      .get(`http://localhost:5001/api/attendance/${year}/${month}`)
-      .then((res) => setAttendanceList(res.data))
+      .post(`http://localhost:5001/api/staff`,newStaff)
+      .then((res) => {getStaffData(),setShowModal("")})
       .catch((err) => console.log(err));
   };
 
@@ -302,28 +299,12 @@ const Staff = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Aadhar Card Picture:</label>
-
-                <input
-                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
-                  type="file"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Pan Card Picture:</label>
-
-                <input
-                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
-                  type="file"
-                />
-              </div>
-
-              <div className="flex flex-col">
                 <label htmlFor="">Staff's Picture:</label>
 
-                <input
-                  className="h-[5vh] mt-[1vh] uppercase w-[80%]"
-                  type="file"
+                <ImageUploader
+                  setNewStaff={setNewStaff}
+                  newStaff={newStaff}
+                  imageKey="staffImage"
                 />
               </div>
             </div>
@@ -340,7 +321,7 @@ const Staff = () => {
               {showModal == "Add" ? (
                 <button
                   onClick={() => {
-                    addstaff();
+                    addStaff();
                   }}
                   className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
                 >
@@ -379,9 +360,8 @@ const Staff = () => {
                   // Determine the base box class
                   const boxClassNames = [
                     "w-14 h-14 rounded-xl border flex flex-col items-center justify-center text-sm font-semibold",
-                    
-                       "bg-green-100 border-green-500 shadow-md"
-                      
+
+                    "bg-green-100 border-green-500 shadow-md",
                   ];
 
                   // Apply a green color for days that are "present"

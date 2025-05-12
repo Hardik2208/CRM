@@ -4,7 +4,7 @@ import axios from "axios";
 const Order = () => {
   useEffect(() => {
     getOrderData();
-     getFinanceData(); 
+    getFinanceData();
   }, []);
 
   const [showModal, setShowModal] = useState("");
@@ -17,7 +17,7 @@ const Order = () => {
     tpf: {},
   });
   const [orderList, setOrderList] = useState([]);
-  const [financeList,setFinanceList] = useState([]);
+  const [financeList, setFinanceList] = useState([]);
   const today = new Date();
   const formatted = `${today.getFullYear()}-${String(
     today.getMonth() + 1
@@ -37,12 +37,12 @@ const Order = () => {
       .catch((err) => alert(err.response.data));
   };
 
-    const getFinanceData = () => {
-      axios
-        .get("http://localhost:5001/api/tpf")
-        .then((res) => setFinanceList(res.data))
-        .catch((err) => console.log(err));
-    };
+  const getFinanceData = () => {
+    axios
+      .get("http://localhost:5001/api/tpf")
+      .then((res) => setFinanceList(res.data))
+      .catch((err) => console.log(err));
+  };
 
   // UI Components
   return (
@@ -115,13 +115,13 @@ const Order = () => {
           <div className="bg-white rounded-lg p-6 w-[60%] h-[80vh] overflow-y-scroll max-w-4xl z-10 overflow-x-hidden">
             {showModal == "Add" ? (
               <div className="flex justify-between w-[90%]">
-                <h2 className="text-xl font-bold mb-4">Product Details:</h2>
                 <h2 className="text-xl font-bold mb-4">
                   Order Number: {orderList.length + 1}
                 </h2>
+                <h2 className="text-xl font-bold mb-4">Date: {formatted}</h2>
               </div>
             ) : null}
-            <h2 className="text-xl font-bold mb-4">Date: {formatted}</h2>
+            <h2 className="text-xl font-bold mb-4">Product Details:</h2>
             <div className="w-[100%] h-[10vh] grid grid-cols-2">
               <div className="flex flex-col">
                 <label htmlFor="">Category:</label>
@@ -225,23 +225,6 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Description:</label>
-                    <input
-                      value={newOrder.orderObject.description}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder.orderObject,
-                            description: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                      type="text"
-                    />
-                  </div>
                 </div>
               </div>
             ) : newOrder.category == "TV" ? (
@@ -305,23 +288,6 @@ const Order = () => {
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Description:</label>
-                    <input
-                      value={newOrder.orderObject.description}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder.orderObject,
-                            description: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -412,23 +378,6 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Description:</label>
-                    <input
-                      value={newOrder.orderObject.description}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder.orderObject,
-                            description: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                      type="text"
-                    />
-                  </div>
                 </div>
               </div>
             ) : newOrder.category == "FRIDGE" ? (
@@ -511,23 +460,6 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Description:</label>
-                    <input
-                      value={newOrder.orderObject.description}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder.orderObject,
-                            description: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                      type="text"
-                    />
-                  </div>
                 </div>
               </div>
             ) : newOrder.category == "OTHERS" ? (
@@ -577,23 +509,6 @@ const Order = () => {
                       }
                       className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
                       type="number"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Description:</label>
-                    <input
-                      value={newOrder.orderObject.description}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder.orderObject,
-                            description: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -826,7 +741,9 @@ const Order = () => {
             {newOrder?.paymentObject?.paymentType == "THIRD PARTY FINANCE" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Third Party Finance</h2>
-                <h2 className="text-xl font-bold my-4">Finance Number: {financeList.length + 1}</h2>
+                <h2 className="text-xl font-bold my-4">
+                  Finance Number: {financeList.length + 1}
+                </h2>
                 <div className="w-[100%] grid grid-cols-2">
                   <div className="flex flex-col">
                     <label htmlFor="">Downpayment:</label>

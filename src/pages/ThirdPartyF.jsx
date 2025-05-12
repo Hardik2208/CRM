@@ -12,8 +12,10 @@ const ThirdPartyF = () => {
   const [financeList, setFinanceList] = useState([]);
   const [newFinance, setNewFinance] = useState({});
   const [fNumber, setFNumber] = useState(null);
+  const [oNumber, setONumber] = useState(null);
   const [emiPayment, setEmiPayment] = useState({});
   const [sumOfEMI, setSumOfEMI] = useState(0);
+  const [optionVar, setOptionVar] = useState("")
 
   const getFinanceData = () => {
     axios
@@ -22,16 +24,29 @@ const ThirdPartyF = () => {
       .catch((err) => console.log(err));
   };
 
-  const getDetails = () => {
-    axios
+  const getDetailsFinance = () => {
+      axios
       .post("http://localhost:5001/api/tpf/find", {
         financeNumber: Number(fNumber),
       })
       .then((res) => {
         console.log("RESPONSE:", res.data);
-        setNewFinance(res.data); 
+        setNewFinance(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));    
+  };
+
+  const getDetailsFinanceByOrder = () => {
+      axios
+      .post("http://localhost:5001/api/tpf/find/order", {
+        orderNumber: Number(oNumber),
+      })
+      .then((res) => {
+        console.log("RESPONSE:", res.data);
+        setNewFinance(res.data);
+        setEmiPayment({financeNumber: res.data.financeNumber})
+      })
+      .catch((err) => console.log(err));    
   };
 
   const addEMI = () => {
@@ -556,17 +571,31 @@ const ThirdPartyF = () => {
           <div className="bg-white rounded-lg p-6 w-[60%] overflow-y-scroll max-w-4xl z-10 overflow-x-hidden">
             <h2 className="text-xl font-bold mb-4">EMI Payment:</h2>
             <div className="w-[100%] grid grid-cols-2">
+              <div>
+                  <select
+                    name=""
+                    id=""
+                    className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] uppercase pl-[1%] rounded-[5px]"
+                    onChange={(e)=>{setOptionVar(e.target.value)}}
+                  >
+                    <option value="">Choose Option</option>
+                    <option value="F">Finance Number</option>
+                    <option value="O">Order Number</option>
+                  </select>
+                </div>
               <div className="flex flex-col">
-                <label htmlFor="">Finance Number:</label>
+                
                 <div>
-                  <input
+                  {optionVar == "F" ? 
+                    (<div className="flex flex-col">
+                    <label htmlFor="">Finance Number:</label>
+                  <div>
+                    <input
                     onChange={(e) => {
                       setFNumber(e.target.value);
                       setEmiPayment((prev) => ({
                         ...prev,
                         financeNumber: e.target.value,
-                        paymentAmount:
-                          newFinance[0]?.financeObject?.amountOfEMI || "",
                       }));
                     }}
                     className="border border-gray-500 h-[5vh] mt-[1vh] w-[50%] uppercase pl-[1%] rounded-[5px]"
@@ -574,14 +603,31 @@ const ThirdPartyF = () => {
                   />
                   <button
                     onClick={() => {
-                      getDetails();
+                      getDetailsFinance();
                     }}
                     className="px-4 py-2 mx-[2%] bg-blue-500 w-[20%]  text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
                   >
                     {"Search"}
-                  </button>
+                  </button></div></div>): optionVar == "O" ?(
+                  <div className="flex flex-col">
+                  <label htmlFor="">Order Number:</label>
+                  <div>
+                    <input
+                    onChange={(e) => {setONumber(e.target.value)}}
+                    className="border border-gray-500 h-[5vh] mt-[1vh] w-[50%] uppercase pl-[1%] rounded-[5px]"
+                    type="number"
+                  />
+                  <button
+                    onClick={() => {getDetailsFinanceByOrder()
+                    }}
+                    className="px-4 py-2 mx-[2%] bg-blue-500 w-[20%]  text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  >
+                    {"Search"}
+                  </button></div></div>):null}
+                  
                 </div>
               </div>
+              
             </div>
             <h2 className="text-xl font-bold my-4">Customer Detail:</h2>
             <div className="w-[100%] grid grid-cols-2">
@@ -675,7 +721,7 @@ const ThirdPartyF = () => {
       {showModal3 ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10 flex flex-col">
+          <div className="bg-white rounded-lg p-6 w-[80%] max-h-96 overflow-auto max-w-4xl z-10 flex flex-col">
             <h2 className="text-xl font-bold my-4">EMI Details:</h2>
             <table className="min-w-full my-[5vh] overflow-y-auto">
               <thead className="w-[100%] bg-gray-50 ">

@@ -7,7 +7,7 @@ function Enquiry() {
   }, []);
   const [showModal, setShowModal] = useState("");
   const [status, setStatus] = useState(false);
-  const [newEnquiryData, setNewEnquiryData] = useState({dateOfEnquriy:"",});
+  const [newEnquiryData, setNewEnquiryData] = useState({});
   const [enquiryList, setEnquiryList] = useState([]);
 
   const getEnquiryData = () => {
@@ -25,22 +25,26 @@ function Enquiry() {
   };
   const updateEnquiry = () => {
     setShowModal(false);
-      axios
-        .put(
-          `http://localhost:5001/api/enquiry/${newEnquiryData._id}`,
-          newEnquiryData
-        )
-        .then((res) => getEnquiryData())
-        .catch((err) => console.log(err));
+    axios
+      .put(
+        `http://localhost:5001/api/enquiry/${newEnquiryData._id}`,
+        newEnquiryData
+      )
+      .then((res) => {
+        getEnquiryData();
+        setNewEnquiryData({});
+      })
+      .catch((err) => console.log(err));
   };
   const addEnquiry = () => {
     setShowModal(false);
-      axios
-        .post("http://localhost:5001/api/enquiry", newEnquiryData)
-        .then((res) => {
-          getEnquiryData();
-        })
-        .catch((err) => console.log(err));
+    axios
+      .post("http://localhost:5001/api/enquiry", newEnquiryData)
+      .then((res) => {
+        getEnquiryData();
+        setNewEnquiryData({});
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleStatus = (id) => {
@@ -96,7 +100,9 @@ function Enquiry() {
                 <td className="px-4 py-3">{index + 1}</td>
                 <td className="px-4 py-3">{i.name}</td>
                 <td className="px-4 py-3">{i.phoneNumber}</td>
-                <td className="px-4 py-3">{new Date(i.dateOfEnquriy).toLocaleDateString("en-IN")}</td>
+                <td className="px-4 py-3">
+                  {new Date(i.dateOfEnquriy).toLocaleDateString("en-IN")}
+                </td>
                 <td className="px-4 py-3">{i.category}</td>
                 <td className="px-4 py-3">{i.productName}</td>
                 <td className="px-4 py-3">
@@ -175,7 +181,7 @@ function Enquiry() {
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
-                      email: e.target.value
+                      email: e.target.value,
                     })
                   }
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
@@ -208,28 +214,29 @@ function Enquiry() {
                   <option value="OTHERS">Others</option>
                 </select>
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Product Name</label>
-                <input
-                  disabled={false}
-                  value={newEnquiryData.productName}
-                  onChange={(e) =>
-                    setNewEnquiryData({
-                      ...newEnquiryData,
-                      productName: e.target.value.toUpperCase(),
-                    })
-                  }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
-                />
-              </div>
+              {newEnquiryData.category ? (
+                <div className="flex flex-col">
+                  <label htmlFor="">Product Name</label>
+                  <input
+                    disabled={false}
+                    value={newEnquiryData.productName}
+                    onChange={(e) =>
+                      setNewEnquiryData({
+                        ...newEnquiryData,
+                        productName: e.target.value.toUpperCase(),
+                      })
+                    }
+                    className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                    type="text"
+                  />
+                </div>
+              ) : null}
             </div>
             <div className="w-[90%] h-[8vh] flex justify-end">
               <button
                 onClick={() => {
                   setShowModal(false),
                     setNewEnquiryData({
-                      dateOfEnquriy:""
                     });
                 }}
                 className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"

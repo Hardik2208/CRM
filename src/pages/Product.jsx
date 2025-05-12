@@ -7,16 +7,19 @@ const Product = () => {
   }, []);
   const [showModal, setShowModal] = useState("");
   const [productList, setProductList] = useState([]);
-  const [newProductOBJ, setNewProductOBJ] = useState( {productObject: {}});
+  const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
 
   const updateProduct = () => {
-    setNewProductOBJ({ productObject: {}});
+    setNewProductOBJ({ productObject: {} });
     setShowModal("");
     axios
-      .put(`http://localhost:5001/api/product/${newProductOBJ._id}`, newProductOBJ)
+      .put(
+        `http://localhost:5001/api/product/${newProductOBJ._id}`,
+        newProductOBJ
+      )
       .then((res) => getProductData())
       .catch((err) => console.log(err));
-  }
+  };
 
   const getProductData = () => {
     axios
@@ -27,13 +30,13 @@ const Product = () => {
 
   const addProduct = () => {
     setShowModal("");
-    setNewProductOBJ({ productObject: {}});
-      axios
-        .post("http://localhost:5001/api/product", newProductOBJ)
-        .then((res) => {
-          getProductData();
-        })
-        .catch((err) => console.log(err));
+    setNewProductOBJ({ productObject: {} });
+    axios
+      .post("http://localhost:5001/api/product", newProductOBJ)
+      .then((res) => {
+        getProductData();
+      })
+      .catch((err) => console.log(err));
   };
 
   // UI Components
@@ -75,11 +78,12 @@ const Product = () => {
                 <td className="px-6 py-3">{product.quantity}</td>
                 <td className="px-6 py-3">
                   <button
-                  onClick={()=>{
-                    setNewProductOBJ(product);
-                    setShowModal("Edit");
-                  }}
-                  className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer">
+                    onClick={() => {
+                      setNewProductOBJ(product);
+                      setShowModal("Edit");
+                    }}
+                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                  >
                     Edit
                   </button>
                 </td>
@@ -91,7 +95,7 @@ const Product = () => {
       {showModal ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10">
+          <div className="bg-white rounded-lg p-6 w-[80%] max-h-[70vh] overflow-auto max-w-4xl z-10">
             <h2 className="text-xl font-bold mb-4">Product Details:</h2>
             <div className="w-[100%] h-[10vh] grid grid-cols-2">
               <div className="flex flex-col">
@@ -103,18 +107,13 @@ const Product = () => {
                       ...newProductOBJ,
                       category: e.target.value.toUpperCase(),
                     });
-                    
                   }}
                   className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
                   name=""
                   id=""
                 >
-                  <option value="">
-                    Choose Option
-                  </option>
-                  <option value="Mobile">
-                    Mobile
-                  </option>
+                  <option value="">Choose Option</option>
+                  <option value="Mobile">Mobile</option>
                   <option value="TV">TV</option>
                   <option value="Fridge">Fridge</option>
                   <option value="Washing Machine">Washing Machine</option>
@@ -129,7 +128,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newProductOBJ?.productObject?.company}
+                      value={newProductOBJ?.productObject?.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -146,7 +145,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newProductOBJ.modelName}
+                      value={newProductOBJ.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -160,7 +159,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Ram,Rom fomat(ram/rom):</label>
                     <input
-                    value={newProductOBJ?.productObject?.specs}
+                      value={newProductOBJ?.productObject?.specs}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -177,7 +176,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Colour:</label>
                     <input
-                    value={newProductOBJ.productObject.color}
+                      value={newProductOBJ.productObject.color}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -194,7 +193,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newProductOBJ.quantity}
+                      value={newProductOBJ.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -208,7 +207,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newProductOBJ.productObject.description}
+                      value={newProductOBJ.productObject.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -228,7 +227,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newProductOBJ.productObject.company}
+                      value={newProductOBJ.productObject.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -245,7 +244,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newProductOBJ.modelName}
+                      value={newProductOBJ.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -259,7 +258,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Dimensions (in inch):</label>
                     <input
-                    value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ.productObject.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -276,7 +275,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newProductOBJ.quantity}
+                      value={newProductOBJ.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -290,7 +289,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newProductOBJ.productObject.description}
+                      value={newProductOBJ.productObject.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -312,7 +311,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newProductOBJ.productObject.company}
+                      value={newProductOBJ.productObject.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -329,7 +328,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newProductOBJ.modelName}
+                      value={newProductOBJ.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -343,7 +342,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Dimensions (in liters):</label>
                     <input
-                    value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ.productObject.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -360,7 +359,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Type:</label>
                     <select
-                    value={newProductOBJ.productObject.type}
+                      value={newProductOBJ.productObject.type}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -381,7 +380,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newProductOBJ.quantity}
+                      value={newProductOBJ.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -395,7 +394,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newProductOBJ.productObject.description}
+                      value={newProductOBJ.productObject.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -415,7 +414,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newProductOBJ.productObject.company}
+                      value={newProductOBJ.productObject.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -432,7 +431,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newProductOBJ.modelName}
+                      value={newProductOBJ.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -446,7 +445,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Dimensions (in liters):</label>
                     <input
-                    value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ.productObject.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -463,7 +462,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Doors:</label>
                     <input
-                    value={newProductOBJ.productObject.doors}
+                      value={newProductOBJ.productObject.doors}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -480,7 +479,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newProductOBJ.dimensions}
+                      value={newProductOBJ.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -494,7 +493,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newProductOBJ.productObject.description}
+                      value={newProductOBJ.productObject.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -510,11 +509,11 @@ const Product = () => {
             ) : newProductOBJ.category == "OTHERS" ? (
               <div>
                 <h2 className="text-xl font-bold my-4">Product Details:</h2>
-                <div className="w-[100%] h-[35vh] grid grid-cols-2">
+                <div className="w-[100%] max-h-[35vh] grid grid-cols-2">
                   <div className="flex flex-col">
                     <label htmlFor="">Company:</label>
                     <input
-                    value={newProductOBJ.productObject.company}
+                      value={newProductOBJ.productObject.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -531,7 +530,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Model Name:</label>
                     <input
-                    value={newProductOBJ.modelName}
+                      value={newProductOBJ.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -545,7 +544,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Quantity:</label>
                     <input
-                    value={newProductOBJ.quantity}
+                      value={newProductOBJ.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -559,7 +558,7 @@ const Product = () => {
                   <div className="flex flex-col">
                     <label htmlFor="">Description:</label>
                     <input
-                    value={newProductOBJ.productObject.description}
+                      value={newProductOBJ.productObject.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -573,33 +572,51 @@ const Product = () => {
                 </div>
               </div>
             ) : null}
-
+            <h2 className="text-xl font-bold my-4">Mechant Purchased Price:</h2>
+            <div className="w-[100%] grid grid-cols-2">
+              <div className="flex flex-col">
+                <label htmlFor="">Amount:</label>
+                <input
+                  value={newProductOBJ.amount}
+                  onChange={(e) =>
+                    setNewProductOBJ({
+                      ...newProductOBJ,
+                      amount: e.target.value,
+                    })
+                  }
+                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  type="number"
+                />
+              </div>
+            </div>
             <div className="flex justify-end space-x-2 mt-4 w-[90%]">
               <button
                 onClick={() => {
-                  setShowModal(""), setNewProductOBJ({ productObject: {}});
+                  setShowModal(""), setNewProductOBJ({ productObject: {} });
                 }}
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
-              {showModal=="Add"?
-                (<button
-                onClick={() => {
-                  addProduct();
-                }}
-                className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-              >
-                {"Save"}
-              </button>):showModal=="Edit"?
-              (<button
-                onClick={() => {
-                  updateProduct();
-                }}
-                className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-              >
-                {"Update"}
-              </button>):null}
+              {showModal == "Add" ? (
+                <button
+                  onClick={() => {
+                    addProduct();
+                  }}
+                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                >
+                  {"Save"}
+                </button>
+              ) : showModal == "Edit" ? (
+                <button
+                  onClick={() => {
+                    updateProduct();
+                  }}
+                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                >
+                  {"Update"}
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
