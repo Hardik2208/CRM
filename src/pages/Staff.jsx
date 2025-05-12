@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ImageUploader from "../components/imageUpload";
+import ImageUploader from "../components/ImageUploader";
 
 const Staff = () => {
   const [showModal, setShowModal] = useState("");
