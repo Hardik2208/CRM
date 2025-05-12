@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 import {
-  FaShoppingCart,
-  FaUsers,
-  FaMoneyBillWave,
-  FaChartLine,
-} from "react-icons/fa";
+  Users,
+  ShoppingCart,
+  BarChart2,
+  BadgeAlert,
+  TrendingUp,
+} from "lucide-react";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -14,17 +16,29 @@ const Home = () => {
   const [orderList, setOrderList] = useState([]);
   const [sumOfQuantity, setSumOfQuantity] = useState(0);
   const [sumOfSales, setSumOfSales] = useState(0);
+  const [productList, setProductList] = useState([]);
   const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
     getCustomerData();
     getSalesThisMonth();
+    getProductData();
   }, []);
 
   const getCustomerData = () => {
     axios
       .get("https://shop-software.onrender.com/api/customer")
       .then((res) => setCustomerList(res.data))
+      .catch((err) => console.log(err));
+  };
+
+  const getProductData = () => {
+    axios
+      .get("https://shop-software.onrender.com/api/product")
+      .then((res) => {
+        const lowStock = res.data.filter((item) => item.quantity <= 2);
+        setProductList(lowStock);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -91,67 +105,65 @@ const Home = () => {
     .slice(0, 5);
 
   return (
-    <div className="p-8 min-h-screen bg-gray-100">
+    <div className="p-8 bg-white h-[100vh] overflow-auto">
       {/* Header */}
       <div className="mb-[2vh]">
-        <h1 className="text-4xl text-center font-bold text-slate-800">
-          Dashboard
-        </h1>
+        <h1 className="text-4xl mb-[5vh] font-bold text-black">Dashboard</h1>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div className="bg-white border border-gray-200 rounded-lg shadow p-5 hover:shadow-md transition">
-          <div className="flex items-center gap-4">
-            <FaUsers className="text-3xl text-indigo-800" />
-            <div>
-              <p className="text-sm text-gray-500 ">Total Customers</p>
-              <p className="text-2xl font-semibold text-indigo-800">
-                {customerList.length || "--"}
-              </p>
+        <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="text-sm font-medium ">Total Customers</p>
+              <Users className="text-3xl text-[#27548A]" />
             </div>
+            <p className="text-2xl font-semibold text-[#27548A] ">
+              {customerList.length || "--"}
+            </p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg shadow p-5 hover:shadow-md transition">
-          <div className="flex items-center gap-4">
-            <FaShoppingCart className="text-3xl text-teal-600" />
-            <div>
-              <p className="text-sm text-gray-500">Items Sold (Month)</p>
-              <p className="text-2xl font-semibold text-teal-600">
-                {sumOfQuantity || "--"}
-              </p>
+        <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="text-sm font-medium">Items Sold (Month)</p>
+              <ShoppingCart className="text-3xl text-[#27548A]" />
             </div>
+            <p className="text-2xl font-semibold text-[#27548A]">
+              {sumOfQuantity || "--"}
+            </p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg shadow p-5 hover:shadow-md transition">
-          <div className="flex items-center gap-4">
-            <FaMoneyBillWave className="text-3xl text-green-600" />
-            <div>
-              <p className="text-sm text-gray-500">Sales This Month</p>
-              <p className="text-2xl font-semibold text-green-600">
-                ₹{sumOfSales || "--"}
-              </p>
+        <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="text-sm font-medium">Sales This Month</p>
+              <BarChart2 className="text-3xl text-[#27548A]" />
             </div>
+            <p className="text-2xl font-semibold text-[#27548A]">
+              ₹{sumOfSales || "--"}
+            </p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg shadow p-5 hover:shadow-md transition">
-          <div className="flex items-center gap-4">
-            <FaChartLine className="text-3xl text-yellow-500" />
-            <div>
-              <p className="text-sm text-gray-500">Revenue This Month</p>
-              <p className="text-2xl font-semibold text-yellow-500">
-                ₹{revenue || "--"}
-              </p>
+        <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="text-sm font-medium">Revenue This Month</p>
+              <TrendingUp className="text-3xl text-[#27548A]" />
             </div>
+            <p className="text-2xl font-semibold text-[#27548A]">
+              ₹{revenue || "--"}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+      <div className=" rounded-lg border border-gray-200 p-6">
         <h2 className="text-xl font-semibold text-slate-700 mb-4">
           Recent Orders
         </h2>
@@ -165,14 +177,13 @@ const Home = () => {
                 <th className="px-4 py-3">Model Name</th>
                 <th className="px-4 py-3">Items</th>
                 <th className="px-4 py-3">Amount</th>
-                
               </tr>
             </thead>
             <tbody>
               {recentOrders.map((order) => (
                 <tr
                   key={order._id}
-                  className="odd:bg-white even:bg-gray-50 hover:bg-indigo-50 transition"
+                  className="odd: even:bg-gray-50 hover:bg-indigo-50 transition"
                 >
                   <td className="px-4 py-3 text-slate-700">
                     {order.customerObject?.name || "--"}
@@ -194,7 +205,49 @@ const Home = () => {
                     {Number(order.paymentObject?.price || 0) -
                       Number(order.paymentObject?.discount || 0)}
                   </td>
-                  
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition mt-10 w-[50%]">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between">
+            <p className="text-sm font-medium text-red-500">Low Stock</p>
+            <BadgeAlert className="text-3xl text-red-500" />
+          </div>
+          <table className="min-w-full text-sm text-left">
+            <thead className="bg-slate-100 text-slate-600 uppercase text-xs tracking-wide">
+              <tr>
+                <th className="px-4 py-3">Category</th>
+                <th className="px-4 py-3">Company</th>
+                <th className="px-4 py-3">Product</th>
+                <th className="px-4 py-3">Quantity</th>
+                <th className="px-4 py-3">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {productList.map((product) => (
+                <tr
+                  key={product._id}
+                  className="odd: even:bg-gray-50 hover:bg-indigo-50 transition"
+                >
+                  <td className="px-4 py-3 text-slate-700">
+                    {product.category || "--"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {product.productObject.company || "--"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {product.modelName || "--"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {product.quantity || "--"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {product.amount || "--"}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -85,7 +85,7 @@ const Sales = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-white min-h-screen h-[100vh] overflow-y-auto">
+    <div className="p-6 space-y-6 bg-white min-h-screen h-[100vh] overflow-y-auto">
       <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Sales Overview</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

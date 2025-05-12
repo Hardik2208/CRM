@@ -53,14 +53,14 @@ const Customer = () => {
 
   // UI Components
   return (
-    <div className="p-6 bg-gradient-to-br h-[100vh] from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 bg-white h-[100vh] overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold ">Customers</h1>
         <button
           onClick={() => setShowModal("Add")}
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
+          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
         >
-          Add New Customer
+         <span className="mr-1">+</span> Add New Customer
         </button>
       </div>
 

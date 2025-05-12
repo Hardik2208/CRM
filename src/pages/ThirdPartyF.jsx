@@ -63,18 +63,16 @@ const ThirdPartyF = () => {
 
   // UI Components
   return (
-    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Finance</h1>
         <div className="w-[18%] flex justify-between">
-          <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer">
-            Filter
-          </button>
+          
           <button
             onClick={() => setShowModal2(true)}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
-          >
-            EMI Payment
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
+        >
+         <span className="mr-1">+</span> New EMI Payment
           </button>
         </div>
       </div>

@@ -46,14 +46,14 @@ const Order = () => {
 
   // UI Components
   return (
-    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Orders</h1>
         <button
           onClick={() => setShowModal("Add")}
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
+          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
         >
-          Generate New Order
+         <span className="mr-1">+</span> Add New Order
         </button>
       </div>
 

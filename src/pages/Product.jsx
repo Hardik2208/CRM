@@ -41,14 +41,14 @@ const Product = () => {
 
   // UI Components
   return (
-    <div className="p-6 h-[100vh] bg-gradient-to-br from-blue-50 to-white overflow-y-auto">
+    <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Product Management</h1>
+        <h1 className="text-3xl font-bold">Stocks</h1>
         <button
           onClick={() => setShowModal("Add")}
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:cursor-pointer"
+          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
         >
-          Add New Product
+         <span className="mr-1">+</span> Add New Product
         </button>
       </div>
 
@@ -57,7 +57,7 @@ const Product = () => {
         <table className="min-w-full">
           <thead className="w-[100%] bg-gray-50 ">
             <tr className="w-[100%]">
-              {["S.No", "Category", "Product Name", "Quanity", "Action"].map(
+              {[ "Category", "Product Name","Price", "Quanity", "Action"].map(
                 (header) => (
                   <th
                     key={header}
@@ -72,9 +72,10 @@ const Product = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {productList.map((product, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-3">{index + 1}</td>
-                <td className="px-6 py-3">{product.category}</td>
+                <td className="px-6 py-3 font-medium">{product.category}</td>
+                
                 <td className="px-6 py-3">{product.modelName}</td>
+                <td className="px-6 py-3">{product.amount}</td>
                 <td className="px-6 py-3">{product.quantity}</td>
                 <td className="px-6 py-3">
                   <button
@@ -82,7 +83,7 @@ const Product = () => {
                       setNewProductOBJ(product);
                       setShowModal("Edit");
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-black hover:text-violet-500 hover:cursor-pointer"
                   >
                     Edit
                   </button>
