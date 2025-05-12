@@ -14,7 +14,7 @@ const Product = () => {
     setShowModal("");
     axios
       .put(
-        `http://localhost:5001/api/product/${newProductOBJ._id}`,
+        `https://shop-software.onrender.com/api/product/${newProductOBJ._id}`,
         newProductOBJ
       )
       .then((res) => getProductData())
@@ -23,7 +23,7 @@ const Product = () => {
 
   const getProductData = () => {
     axios
-      .get("http://localhost:5001/api/product")
+      .get("https://shop-software.onrender.com/api/product")
       .then((res) => setProductList(res.data))
       .catch((err) => console.log(err));
   };
@@ -32,7 +32,7 @@ const Product = () => {
     setShowModal("");
     setNewProductOBJ({ productObject: {} });
     axios
-      .post("http://localhost:5001/api/product", newProductOBJ)
+      .post("https://shop-software.onrender.com/api/product", newProductOBJ)
       .then((res) => {
         getProductData();
       })

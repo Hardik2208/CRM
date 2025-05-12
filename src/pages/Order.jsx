@@ -25,21 +25,21 @@ const Order = () => {
 
   const getOrderData = () => {
     axios
-      .get("http://localhost:5001/api/order")
+      .get("https://shop-software.onrender.com/api/order")
       .then((res) => setOrderList(res.data))
       .catch((err) => console.log(err));
   };
   const addOrder = () => {
     setShowModal(false);
     axios
-      .post("http://localhost:5001/api/order", newOrder)
+      .post("https://shop-software.onrender.com/api/order", newOrder)
       .then((res) => getOrderData())
       .catch((err) => alert(err.response.data));
   };
 
   const getFinanceData = () => {
     axios
-      .get("http://localhost:5001/api/tpf")
+      .get("https://shop-software.onrender.com/api/tpf")
       .then((res) => setFinanceList(res.data))
       .catch((err) => console.log(err));
   };

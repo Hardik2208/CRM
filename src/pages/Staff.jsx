@@ -22,14 +22,14 @@ const Staff = () => {
 
   const getStaffData = () => {
     axios
-      .get("http://localhost:5001/api/staff")
+      .get("https://shop-software.onrender.com/api/staff")
       .then((res) => setStaffList(res.data))
       .catch((err) => console.log(err));
   };
 
   const addStaff = () => {
     axios
-      .post(`http://localhost:5001/api/staff`,newStaff)
+      .post(`https://shop-software.onrender.com/api/staff`,newStaff)
       .then((res) => {getStaffData(),setShowModal("")})
       .catch((err) => console.log(err));
   };
@@ -45,7 +45,7 @@ const Staff = () => {
     const month = today.getMonth() + 1;
 
     axios
-      .post(`http://localhost:5001/api/attendance/${year}/${month}`, {
+      .post(`https://shop-software.onrender.com/api/attendance/${year}/${month}`, {
         staff_id: selectedId,
         status: attendance,
       })

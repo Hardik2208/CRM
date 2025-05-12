@@ -12,14 +12,14 @@ function Enquiry() {
 
   const getEnquiryData = () => {
     axios
-      .get("http://localhost:5001/api/enquiry")
+      .get("https://shop-software.onrender.com/api/enquiry")
       .then((res) => setEnquiryList(res.data))
       .catch((err) => console.log(err));
   };
 
   const deleteEnquiry = (id) => {
     axios
-      .delete(`http://localhost:5001/api/enquiry/${id}`)
+      .delete(`https://shop-software.onrender.com/api/enquiry/${id}`)
       .then((res) => getEnquiryData())
       .catch((err) => console.log(err));
   };
@@ -27,7 +27,7 @@ function Enquiry() {
     setShowModal(false);
     axios
       .put(
-        `http://localhost:5001/api/enquiry/${newEnquiryData._id}`,
+        `https://shop-software.onrender.com/api/enquiry/${newEnquiryData._id}`,
         newEnquiryData
       )
       .then((res) => {
@@ -39,7 +39,7 @@ function Enquiry() {
   const addEnquiry = () => {
     setShowModal(false);
     axios
-      .post("http://localhost:5001/api/enquiry", newEnquiryData)
+      .post("https://shop-software.onrender.com/api/enquiry", newEnquiryData)
       .then((res) => {
         getEnquiryData();
         setNewEnquiryData({});
@@ -49,7 +49,7 @@ function Enquiry() {
 
   const handleStatus = (id) => {
     axios
-      .put(`http://localhost:5001/api/enquiry/${id}`, {
+      .put(`https://shop-software.onrender.com/api/enquiry/${id}`, {
         status: "Completed",
       })
       .then((res) => {

@@ -19,14 +19,14 @@ const ThirdPartyF = () => {
 
   const getFinanceData = () => {
     axios
-      .get("http://localhost:5001/api/tpf")
+      .get("https://shop-software.onrender.com/api/tpf")
       .then((res) => setFinanceList(res.data))
       .catch((err) => console.log(err));
   };
 
   const getDetailsFinance = () => {
       axios
-      .post("http://localhost:5001/api/tpf/find", {
+      .post("https://shop-software.onrender.com/api/tpf/find", {
         financeNumber: Number(fNumber),
       })
       .then((res) => {
@@ -38,7 +38,7 @@ const ThirdPartyF = () => {
 
   const getDetailsFinanceByOrder = () => {
       axios
-      .post("http://localhost:5001/api/tpf/find/order", {
+      .post("https://shop-software.onrender.com/api/tpf/find/order", {
         orderNumber: Number(oNumber),
       })
       .then((res) => {
@@ -52,7 +52,7 @@ const ThirdPartyF = () => {
   const addEMI = () => {
     setShowModal2("");
     axios
-      .post("http://localhost:5001/api/tpf", emiPayment)
+      .post("https://shop-software.onrender.com/api/tpf", emiPayment)
       .then((res) => {
         console.log("EMI saved:", res.data);
         getFinanceData();

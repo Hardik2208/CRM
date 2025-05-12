@@ -23,7 +23,7 @@ const Home = () => {
 
   const getCustomerData = () => {
     axios
-      .get("http://localhost:5001/api/customer")
+      .get("https://shop-software.onrender.com/api/customer")
       .then((res) => setCustomerList(res.data))
       .catch((err) => console.log(err));
   };
@@ -31,8 +31,8 @@ const Home = () => {
   const getSalesThisMonth = async () => {
     try {
       const [orderRes, productRes] = await Promise.all([
-        axios.get("http://localhost:5001/api/order/month"),
-        axios.get("http://localhost:5001/api/product"),
+        axios.get("https://shop-software.onrender.com/api/order/month"),
+        axios.get("https://shop-software.onrender.com/api/product"),
       ]);
 
       const orders = orderRes.data;

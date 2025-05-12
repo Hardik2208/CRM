@@ -17,7 +17,7 @@ const formatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStar
 
   const getInvoice = () => {
     axios
-      .get("http://localhost:5001/api/invoice")
+      .get("https://shop-software.onrender.com/api/invoice")
       .then((res) => setInvoiceList(res.data))
       .catch((err) => console.log(err));
   };
@@ -25,14 +25,14 @@ const formatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStar
   const getDetails = () => {
     const orderData = { orderNumber: orderNumber };
     axios
-      .post("http://localhost:5001/api/invoice/order", orderData)
+      .post("https://shop-software.onrender.com/api/invoice/order", orderData)
       .then((res) => setNewInvoice(res.data))
       .catch((err) => alert(err.response.data));
   };
 
   const generateInvoice = () => {
     axios
-    .post("http://localhost:5001/api/invoice", newInvoice)
+    .post("https://shop-software.onrender.com/api/invoice", newInvoice)
     .then((res)=> {getInvoice(),setShowModal('')})
     .catch((err)=> console.log(err))
   };

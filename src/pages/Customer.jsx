@@ -16,7 +16,7 @@ const Customer = () => {
 
   const getCustomerData = () => {
     axios
-      .get("http://localhost:5001/api/Customer")
+      .get("https://shop-software.onrender.com/api/Customer")
       .then((res) => setCustomerList(res.data))
       .catch((err) => console.log(err));
   };
@@ -24,7 +24,7 @@ const Customer = () => {
   const assignOrder = () => {
     setShowModal2(""), setAssignmentList({}),
     axios
-      .put(`http://localhost:5001/api/Customer/Reassign/${selectedCustomer._id}`,assignmentList)
+      .put(`https://shop-software.onrender.com/api/Customer/Reassign/${selectedCustomer._id}`,assignmentList)
       .then((res) => getCustomerData())
       .catch((err) => alert(err.response.data));
   };
@@ -33,7 +33,7 @@ const Customer = () => {
     setShowModal(false), setNewCustomerData({});
     axios
       .put(
-        `http://localhost:5001/api/Customer/${newCustomerData._id}`,
+        `https://shop-software.onrender.com/api/Customer/${newCustomerData._id}`,
         newCustomerData
       )
       .then((res) => getCustomerData())
@@ -44,7 +44,7 @@ const Customer = () => {
     setShowModal(false),
       setNewCustomerData({}),
       axios
-        .post("http://localhost:5001/api/Customer", newCustomerData)
+        .post("https://shop-software.onrender.com/api/Customer", newCustomerData)
         .then((res) => {
           getCustomerData();
         })
