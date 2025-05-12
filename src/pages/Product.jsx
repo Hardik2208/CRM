@@ -83,7 +83,7 @@ const Product = () => {
                       setNewProductOBJ(product);
                       setShowModal("Edit");
                     }}
-                    className="text-black hover:text-violet-500 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-violet-500 hover:cursor-pointer"
                   >
                     Edit
                   </button>

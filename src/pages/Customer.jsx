@@ -100,7 +100,7 @@ const Customer = () => {
                     onClick={() => {
                       setShowModal2(true), setSelectedCustomer(i);
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Browse
                   </button>
@@ -110,7 +110,7 @@ const Customer = () => {
                     onClick={() => {
                       setShowModal("Edit"), setNewCustomerData(i);
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Edit
                   </button>
@@ -264,7 +264,7 @@ const Customer = () => {
                               
                             });
                         }}
-                        className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                        className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                       >
                         Reassign
                       </button>

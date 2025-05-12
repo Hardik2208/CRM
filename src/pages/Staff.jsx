@@ -123,7 +123,7 @@ const Staff = () => {
                       setSelectedId(i._id);
                       // getAttendance();
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Manage
                   </button>
@@ -134,7 +134,7 @@ const Staff = () => {
                     onClick={() => {
                       setNewStaff(i), setShowModal("Edit");
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Edit
                   </button>
@@ -142,7 +142,7 @@ const Staff = () => {
                     onClick={() => {
                       setNewStaff(i), setShowModal("View");
                     }}
-                    className="text-indigo-600 ml-[25%] hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 ml-[25%] hover:text-indigo-900 hover:cursor-pointer"
                   >
                     View
                   </button>

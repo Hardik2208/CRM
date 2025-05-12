@@ -123,13 +123,13 @@ function Enquiry() {
                       setNewEnquiryData(i);
                       setShowModal("Edit");
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => deleteEnquiry(i._id)}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[10%]"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[10%]"
                   >
                     Delete
                   </button>

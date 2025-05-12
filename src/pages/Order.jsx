@@ -99,7 +99,7 @@ const Order = () => {
                       setNewOrder(i);
                       setShowModal("View");
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
                   >
                     View
                   </button>

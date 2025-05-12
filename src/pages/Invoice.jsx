@@ -91,7 +91,7 @@ const formatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStar
                 
                 <button
                 onClick={()=>{setShowModal("View"), setNewInvoice(i)}}
-                className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[10%]">
+                className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[10%]">
                   View
                 </button>
               </td>

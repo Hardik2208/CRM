@@ -119,7 +119,7 @@ const ThirdPartyF = () => {
                     onClick={() => {
                       setShowModal3(true), setNewFinance(i);
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
                   >
                     Browse
                   </button>
@@ -129,7 +129,7 @@ const ThirdPartyF = () => {
                     onClick={() => {
                       setNewFinance(i), setShowModal(true);
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
                   >
                     View
                   </button>
