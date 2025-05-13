@@ -31,7 +31,7 @@ const Product = () => {
     const deleteProduct = (id) => {
     axios
       .delete(`https://shop-software.onrender.com/api/product/${id}`)
-      .then((res) => getProductData())
+      .then((res) => {getProductData();setShowModal("")})
       .catch((err) => console.log(err));
   };
 
@@ -647,7 +647,7 @@ const Product = () => {
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Product Details:
                 </h2>
-                <div className="w-[100%] max-h-[35vh] grid grid-cols-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div className="">
                     <label
                       className="text-gray-600 font-medium text-sm"
