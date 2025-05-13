@@ -20,7 +20,7 @@ const ThirdPartyF = () => {
   const getFinanceData = () => {
     axios
       .get("https://shop-software.onrender.com/api/tpf")
-      .then((res) => setFinanceList(res.data))
+      .then((res) => setFinanceList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 
@@ -30,7 +30,6 @@ const ThirdPartyF = () => {
         financeNumber: Number(fNumber),
       })
       .then((res) => {
-        console.log("RESPONSE:", res.data);
         setNewFinance(res.data);
       })
       .catch((err) => console.log(err));
@@ -42,7 +41,6 @@ const ThirdPartyF = () => {
         orderNumber: Number(oNumber),
       })
       .then((res) => {
-        console.log("RESPONSE:", res.data);
         setNewFinance(res.data);
         setEmiPayment({ financeNumber: res.data.financeNumber });
       })

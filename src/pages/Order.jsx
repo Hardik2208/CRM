@@ -26,7 +26,7 @@ const Order = () => {
   const getOrderData = () => {
     axios
       .get("https://shop-software.onrender.com/api/order")
-      .then((res) => setOrderList(res.data))
+      .then((res) => setOrderList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
   const addOrder = () => {
@@ -40,7 +40,7 @@ const Order = () => {
   const getFinanceData = () => {
     axios
       .get("https://shop-software.onrender.com/api/tpf")
-      .then((res) => setFinanceList(res.data))
+      .then((res) => setFinanceList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 

@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  FaHome,
-  FaUserTie,
-  FaUsers,
-  FaUniversity,
-  FaCog,
-  FaSignOutAlt,
-  FaWpforms,
-  FaChartLine,
-  FaShoppingCart,
-  FaBoxOpen,
-  FaMoneyBillWave,
-} from "react-icons/fa";
+
 import { FaPeopleGroup } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -25,10 +13,11 @@ import {
   UserCog,
   LogOut,
   Home,
+  IndianRupee,
   FileText,
   Building,
-  DollarSign,
 } from "lucide-react";
+
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -162,7 +151,7 @@ const Sidebar = () => {
                   : "hover:bg-gray-100 w-[90%] mx-[5%]"
               }`}
             >
-              <DollarSign className="text-xs text-gray-600" />
+              <IndianRupee className="text-xs text-gray-600" />
               <span className="text-xs mt-1">Finances</span>
             </div>
           </li>

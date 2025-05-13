@@ -13,7 +13,7 @@ function Enquiry() {
   const getEnquiryData = () => {
     axios
       .get("https://shop-software.onrender.com/api/enquiry")
-      .then((res) => setEnquiryList(res.data))
+      .then((res) => setEnquiryList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 

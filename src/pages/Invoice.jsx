@@ -18,7 +18,7 @@ function Invoice() {
   const getInvoice = () => {
     axios
       .get("https://shop-software.onrender.com/api/invoice")
-      .then((res) => setInvoiceList(res.data))
+      .then((res) => setInvoiceList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 

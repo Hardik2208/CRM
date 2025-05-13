@@ -23,7 +23,7 @@ const Staff = () => {
   const getStaffData = () => {
     axios
       .get("https://shop-software.onrender.com/api/staff")
-      .then((res) => setStaffList(res.data))
+      .then((res) => setStaffList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 

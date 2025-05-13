@@ -24,7 +24,7 @@ const Product = () => {
   const getProductData = () => {
     axios
       .get("https://shop-software.onrender.com/api/product")
-      .then((res) => setProductList(res.data))
+      .then((res) => setProductList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 

@@ -17,7 +17,7 @@ const Customer = () => {
   const getCustomerData = () => {
     axios
       .get("https://shop-software.onrender.com/api/Customer")
-      .then((res) => setCustomerList(res.data))
+      .then((res) => setCustomerList(res.data.reverse()))
       .catch((err) => console.log(err));
   };
 
