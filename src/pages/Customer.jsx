@@ -125,10 +125,10 @@ const Customer = () => {
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 w-[60%] max-w-4xl z-10">
-            <h2 className="text-xl font-bold my-4">Customer Details:</h2>
-            <div className="w-[100%] grid grid-cols-2">
-              <div className="flex flex-col">
-                <label htmlFor="">Name:</label>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Customer Details:</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div>
+                <label className="text-gray-600 font-medium text-sm">Name:</label>
                 <input
                   value={newCustomerData.name}
                   onChange={(e) => {
@@ -137,12 +137,12 @@ const Customer = () => {
                       name: e.target.value.toUpperCase(),
                     });
                   }}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Phone number:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">Phone number:</label>
                 <input
                   onChange={(e) => {
                     setNewCustomerData({
@@ -151,12 +151,12 @@ const Customer = () => {
                     });
                   }}
                   value={newCustomerData.phoneNumber}
-                  className="border border-gray-500 h-[5vh] mt-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">E-mail:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">E-mail:</label>
                 <input
                   onChange={(e) => {
                     setNewCustomerData({
@@ -165,12 +165,12 @@ const Customer = () => {
                     });
                   }}
                   value={newCustomerData.email}
-                  className="border border-gray-500 h-[5vh] my-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                 className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Address:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">Address:</label>
                 <input
                   onChange={(e) => {
                     setNewCustomerData({
@@ -179,17 +179,17 @@ const Customer = () => {
                     });
                   }}
                   value={newCustomerData.address}
-                  className="border border-gray-500 h-[5vh] my-[1vh] w-[80%] pl-[1%] rounded-[5px]"
+                 className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
             </div>
-            <div className="flex justify-end space-x-2 mt-4 w-[90%]">
+            <div className="flex justify-end space-x-2 mt-4">
               <button
                 onClick={() => {
                   setShowModal(""), setNewCustomerData([]);
                 }}
-                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+                className="px-4 py-2 bg-gray-200 w-[15%] rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
@@ -198,7 +198,7 @@ const Customer = () => {
                   onClick={() => {
                     addCustomer();
                   }}
-                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Save"}
                 </button>
@@ -207,7 +207,7 @@ const Customer = () => {
                   onClick={() => {
                     updateCustomer();
                   }}
-                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Update"}
                 </button>
@@ -220,7 +220,7 @@ const Customer = () => {
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10 flex flex-col">
-            <h2 className="text-xl font-bold my-4">Order Details:
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Order Details:
             </h2>
             <table className="min-w-full my-[5vh] overflow-y-auto">
               <thead className="w-[100%] bg-gray-50 ">
@@ -274,22 +274,22 @@ const Customer = () => {
               </tbody>
             </table>
             {reassign ? (
-              <div className="w-[60%] flex h-[10vh]">
-                <div className="flex flex-col w-[50%]">
-                  <label htmlFor="">Reassigner's Phone Number:</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-gray-600 font-medium text-sm">Reassigner's Phone Number:</label>
                   <input
                   onChange={(e)=>{
                     setAssignmentList({...assignmentList,
                       assignedNumber: e.target.value
                     });
                   }}
-                    className="border border-gray-500 h-[5vh] mt-[1vh] pl-[1%] rounded-[5px] mr-[5%]"
+                    className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
                 </div>
                 <button
                 onClick={()=>{assignOrder()}}
-                className="py-1.5 w-[15%] bg-blue-500 hover:bg-blue-600 rounded-md text-white hover:cursor-pointer self-end">
+                className="py-1.5 w-[25%] bg-[#615AE7] hover:bg-[#615ae7d6] rounded-md text-white hover:cursor-pointer self-end">
                   Reassgin
                 </button>
               </div>
@@ -298,7 +298,7 @@ const Customer = () => {
               onClick={() => {
                 setShowModal2(false), setSelectedCustomer([]), setReassign(""), setAssignmentList({});
               }}
-              className="py-2 w-[12%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer self-end"
+              className="py-2 w-[15%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer self-end"
             >
               Cancel
             </button>

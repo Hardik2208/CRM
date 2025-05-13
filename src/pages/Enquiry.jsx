@@ -66,7 +66,7 @@ function Enquiry() {
           onClick={() => setShowModal("Add")}
           className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
         >
-         <span className="mr-1">+</span> Add New Enquiry
+          <span className="mr-1">+</span> Add New Enquiry
         </button>
       </div>
 
@@ -143,12 +143,17 @@ function Enquiry() {
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
           <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10">
-            <h2 className="text-xl font-bold mb-4">Customer Information:</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Customer Information
+            </h2>
 
-            <div className="w-[100%] h-[20vh] grid grid-cols-2">
-              <div className="flex flex-col">
-                <label htmlFor="">Customer Name</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Customer Name
+                </label>
                 <input
+                  type="text"
                   value={newEnquiryData.name}
                   onChange={(e) =>
                     setNewEnquiryData({
@@ -156,13 +161,16 @@ function Enquiry() {
                       name: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Phone Number</label>
+
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Phone Number
+                </label>
                 <input
+                  type="text"
                   value={newEnquiryData.phoneNumber}
                   onChange={(e) =>
                     setNewEnquiryData({
@@ -170,13 +178,16 @@ function Enquiry() {
                       phoneNumber: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Email-Id</label>
+
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Email ID
+                </label>
                 <input
+                  type="text"
                   value={newEnquiryData.email}
                   onChange={(e) =>
                     setNewEnquiryData({
@@ -184,16 +195,20 @@ function Enquiry() {
                       email: e.target.value,
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                  type="text"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
 
-            <h2 className="text-xl font-bold my-4">Product Information:</h2>
-            <div className="w-[100%] h-[20vh] grid grid-cols-2">
-              <div className="flex flex-col">
-                <label htmlFor="">Category</label>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Product Information
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Category
+                </label>
                 <select
                   value={newEnquiryData.category}
                   onChange={(e) =>
@@ -202,23 +217,24 @@ function Enquiry() {
                       category: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                  name=""
-                  id=""
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                 >
                   <option value="">Choose Option</option>
                   <option value="MOBILE">Mobile</option>
                   <option value="TV">TV</option>
-                  <option value="FRIDGE">FRIDGE</option>
+                  <option value="FRIDGE">Fridge</option>
                   <option value="WASHING MACHINE">Washing Machine</option>
                   <option value="OTHERS">Others</option>
                 </select>
               </div>
-              {newEnquiryData.category ? (
-                <div className="flex flex-col">
-                  <label htmlFor="">Product Name</label>
+
+              {newEnquiryData.category && (
+                <div>
+                  <label className="text-gray-600 font-medium text-sm">
+                    Product Name
+                  </label>
                   <input
-                    disabled={false}
+                    type="text"
                     value={newEnquiryData.productName}
                     onChange={(e) =>
                       setNewEnquiryData({
@@ -226,42 +242,31 @@ function Enquiry() {
                         productName: e.target.value.toUpperCase(),
                       })
                     }
-                    className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
-                    type="text"
+                    className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   />
                 </div>
-              ) : null}
+              )}
             </div>
-            <div className="w-[90%] h-[8vh] flex justify-end">
+
+            <div className="flex justify-end space-x-4 mt-6">
               <button
                 onClick={() => {
-                  setShowModal(false),
-                    setNewEnquiryData({
-                    });
+                  setShowModal(false);
+                  setNewEnquiryData({});
                 }}
-                className="px-4 py-2 mt-[2vh] mx-[2%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+                className="px-5 py-2 rounded-md hover:cursor-pointer w-[15%] bg-gray-200 hover:bg-gray-300 text-gray-800 transition-all"
               >
                 Cancel
               </button>
-              {showModal == "Add" ? (
-                <button
-                  onClick={() => {
-                    addEnquiry();
-                  }}
-                  className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-                >
-                  {"Save"}
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    updateEnquiry();
-                  }}
-                  className="px-4 py-2 mt-[2vh] w-[15%] bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
-                >
-                  {"Update"}
-                </button>
-              )}
+
+              <button
+                onClick={() =>
+                  showModal === "Add" ? addEnquiry() : updateEnquiry()
+                }
+                className="px-6 py-2 rounded-md hover:cursor-pointer bg-[#615AE7] hover:bg-[#615ae7d6] text-white font-medium transition-all w-[15%]"
+              >
+                {showModal === "Add" ? "Save" : "Update"}
+              </button>
             </div>
           </div>
         </div>

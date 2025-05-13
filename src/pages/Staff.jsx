@@ -156,11 +156,11 @@ const Staff = () => {
       {showModal ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
-          <div className="bg-white rounded-lg p-6 w-[60%] h-[80vh] overflow-y-scroll max-w-4xl z-10">
-            <h2 className="text-xl font-bold mb-4">Work Details:</h2>
-            <div className="w-[100%] grid grid-cols-2">
+          <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10 h-[70vh] overflow-auto">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Work Details:</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="flex flex-col">
-                <label htmlFor="">Work:</label>
+                <label className="text-gray-600 font-medium text-sm">Work:</label>
                 <input
                   value={newStaff.work}
                   onChange={(e) =>
@@ -169,12 +169,12 @@ const Staff = () => {
                       work: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Work Timmings:</label>
+                <label className="text-gray-600 font-medium text-sm">Work Timmings:</label>
                 <input
                   value={newStaff.workTimmings}
                   onChange={(e) =>
@@ -183,37 +183,37 @@ const Staff = () => {
                       workTimmings: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Salary:</label>
+                <label className="text-gray-600 font-medium text-sm">Salary:</label>
                 <input
                   value={newStaff.salary}
                   onChange={(e) =>
                     setNewStaff({ ...newStaff, salary: e.target.value })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="number"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Leaves Allowded:</label>
+                <label className="text-gray-600 font-medium text-sm">Leaves Allowded:</label>
                 <input
                   value={newStaff.leavesAllowded}
                   onChange={(e) =>
                     setNewStaff({ ...newStaff, leavesAllowded: e.target.value })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="number"
                 />
               </div>
             </div>
-            <h2 className="text-xl font-bold my-4">Staff's Details:</h2>
-            <div className="w-[100%] grid grid-cols-2">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Staff's Details:</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="flex flex-col">
-                <label htmlFor="">Name:</label>
+                <label className="text-gray-600 font-medium text-sm">Name:</label>
                 <input
                   value={newStaff.staffName}
                   onChange={(e) =>
@@ -222,12 +222,12 @@ const Staff = () => {
                       staffName: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Phone number:</label>
+                <label className="text-gray-600 font-medium text-sm">Phone number:</label>
                 <input
                   value={newStaff.staffPhoneNumber}
                   onChange={(e) =>
@@ -236,12 +236,12 @@ const Staff = () => {
                       staffPhoneNumber: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">E-mail:</label>
+                <label className="text-gray-600 font-medium text-sm">E-mail:</label>
                 <input
                   value={newStaff.staffEmail}
                   onChange={(e) =>
@@ -250,12 +250,12 @@ const Staff = () => {
                       staffEmail: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Address:</label>
+                <label className="text-gray-600 font-medium text-sm">Address:</label>
                 <input
                   value={newStaff.address}
                   onChange={(e) =>
@@ -264,13 +264,13 @@ const Staff = () => {
                       address: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="">Aadhar Card Number:</label>
+                <label className="text-gray-600 font-medium text-sm">Aadhar Card Number:</label>
                 <input
                   value={newStaff.aadharCardNumber}
                   onChange={(e) =>
@@ -279,12 +279,12 @@ const Staff = () => {
                       aadharCardNumber: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">PAN Card Number:</label>
+                <label className="text-gray-600 font-medium text-sm">PAN Card Number:</label>
                 <input
                   value={newStaff.panCardNumber}
                   onChange={(e) =>
@@ -293,12 +293,12 @@ const Staff = () => {
                       panCardNumber: e.target.value.toUpperCase(),
                     })
                   }
-                  className="border border-gray-500 h-[5vh] mt-[1vh] uppercase w-[80%] pl-[1%] rounded-[5px]"
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Staff's Picture:</label>
+                <label className="text-gray-600 font-medium text-sm">Staff's Picture:</label>
 
                 <ImageUploader
                   setNewStaff={setNewStaff}
@@ -308,12 +308,12 @@ const Staff = () => {
               </div>
             </div>
 
-            <div className="flex justify-end space-x-2 mt-4 w-[90%]">
+            <div className="flex justify-end space-x-2 mt-4">
               <button
                 onClick={() => {
                   setShowModal(false), setNewStaff({});
                 }}
-                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+                className="px-4 py-2 w-[15%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
                 Cancel
               </button>
@@ -322,7 +322,7 @@ const Staff = () => {
                   onClick={() => {
                     addStaff();
                   }}
-                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Save"}
                 </button>
@@ -331,7 +331,7 @@ const Staff = () => {
                   onClick={() => {
                     updatestaff();
                   }}
-                  className="px-4 py-2 bg-blue-500 w-[15%] text-white rounded-md hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+                  className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6]   disabled:opacity-50 hover:cursor-pointer"
                 >
                   {"Update"}
                 </button>
@@ -407,9 +407,9 @@ const Staff = () => {
               <button
                 onClick={addAttendance}
                 disabled={!attendance}
-                className={`px-4 py-2 bg-blue-500 text-white rounded-md ${
+                className={`px-4 py-2 bg-[#615AE7] text-white rounded-md ${
                   attendance
-                    ? "hover:bg-blue-600"
+                    ? "hover:bg-[#615ae7d6]"
                     : "opacity-50 cursor-not-allowed"
                 } mr-2`}
               >
