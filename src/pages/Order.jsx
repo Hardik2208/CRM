@@ -63,7 +63,6 @@ const Order = () => {
           <thead className="w-[100%] bg-gray-50 ">
             <tr className="w-[100%]">
               {[
-                "S.No",
                 "Order No.",
                 "Category",
                 "Modal Name",
@@ -85,9 +84,8 @@ const Order = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {orderList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-3">{index + 1}</td>
-                <td className="px-6 py-3">{i.orderNumber}</td>
-                <td className="px-6 py-3">{i.category}</td>
+                <td className="px-6 py-3 font-medium">{i.orderNumber}</td>
+                <td className="px-6 py-3 font-medium">{i.category}</td>
                 <td className="px-6 py-3">{i.modelName}</td>
                 <td className="px-6 py-3">{i.quantity}</td>
                 <td className="px-6 py-3">{i.customerObject.name}</td>

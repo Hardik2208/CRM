@@ -82,7 +82,6 @@ const ThirdPartyF = () => {
           <thead className="w-[100%] bg-gray-50 ">
             <tr className="w-[100%]">
               {[
-                "S.No",
                 "Finance No.",
                 "Customer Name",
                 "Phone No.",
@@ -105,12 +104,11 @@ const ThirdPartyF = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {financeList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-3 py-4">{index + 1}</td>
-                <td className="px-3 py-4">{i.financeNumber}</td>
-                <td className="px-3 py-4">{i.customerObject.name}</td>
+                <td className="px-3 py-4 font-medium">{i.financeNumber}</td>
+                <td className="px-3 py-4 font-medium">{i.customerObject.name}</td>
                 <td className="px-3 py-4">{i.customerObject.phoneNumber}</td>
                 <td className="px-3 py-4">{}</td>
-                <td className="px-3 py-4">{i.financeObject.numberOfEMILeft}</td>
+                <td className="px-3 py-4 font-medium">{i.financeObject.numberOfEMILeft}</td>
                 <td className="px-3 py-4">{i.financeObject.amountOfEMI}</td>
                 <td className="px-3 py-4"></td>
                 <td className="px-3 py-4">

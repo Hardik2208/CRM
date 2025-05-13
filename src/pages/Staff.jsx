@@ -113,7 +113,7 @@ const Staff = () => {
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
                 <td className="px-6 py-4">{i.work}</td>
-                <td className="px-6 py-4">{i.staffName}</td>
+                <td className="px-6 py-4 font-medium">{i.staffName}</td>
                 <td className="px-6 py-4">{i.staffPhoneNumber}</td>
                 <td className="px-6 py-4">{i.address}</td>
                 <td className="px-6 py-4 flex items-center justify-center">

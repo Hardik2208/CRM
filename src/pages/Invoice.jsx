@@ -58,7 +58,6 @@ function Invoice() {
           <thead className="w-[100%] bg-gray-50 ">
             <tr className="w-[100%]">
               {[
-                "S.No",
                 "Invoice No.",
                 "Category",
                 "Product",
@@ -80,9 +79,8 @@ function Invoice() {
           <tbody className="bg-white divide-y divide-gray-200">
             {invoiceList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-4 py-3">{index + 1}</td>
-                <td className="px-4 py-3">{i.invoiceNumber}</td>
-                <td className="px-4 py-3">{i.category}</td>
+                <td className="px-4 py-3 font-medium">{i.invoiceNumber}</td>
+                <td className="px-4 py-3 font-medium">{i.category}</td>
                 <td className="px-4 py-3">
                   {i.orderObject?.company}
                   {i.modelName}

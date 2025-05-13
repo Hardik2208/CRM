@@ -91,7 +91,7 @@ const Customer = () => {
             {customerList.map((i, index) => (
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{i.name}</td>
+                <td className="px-6 py-4 font-medium">{i.name}</td>
                 <td className="px-6 py-4">{i.phoneNumber}</td>
                 <td className="px-6 py-4">{i.address}</td>
                 <td className="px-6 py-4">{i.orderList.length}</td>

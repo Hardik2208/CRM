@@ -98,7 +98,7 @@ function Enquiry() {
             {enquiryList.map((i, index) => (
               <tr className="hover:bg-gray-50">
                 <td className="px-4 py-3">{index + 1}</td>
-                <td className="px-4 py-3">{i.name}</td>
+                <td className="px-4 py-3 font-medium">{i.name}</td>
                 <td className="px-4 py-3">{i.phoneNumber}</td>
                 <td className="px-4 py-3">
                   {new Date(i.dateOfEnquriy).toLocaleDateString("en-IN")}
