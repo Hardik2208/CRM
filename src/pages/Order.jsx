@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import ImageUploader from "../components/ImageUploader";
 
 const Order = () => {
   useEffect(() => {
@@ -53,7 +54,7 @@ const Order = () => {
           onClick={() => setShowModal("Add")}
           className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
         >
-         <span className="mr-1">+</span> Add New Order
+          <span className="mr-1">+</span> Add New Order
         </button>
       </div>
 
@@ -116,13 +117,19 @@ const Order = () => {
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Order Number: {orderList.length + 1}
                 </h2>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Date: {formatted}</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Date: {formatted}
+                </h2>
               </div>
             ) : null}
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Product Details:</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Product Details:
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Category:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Category:
+                </label>
                 <select
                   value={newOrder.category}
                   onChange={(e) => {
@@ -145,10 +152,14 @@ const Order = () => {
             </div>
             {newOrder.category == "MOBILE" ? (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Mobile Details:</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Mobile Details:
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Company:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Company:
+                    </label>
                     <input
                       value={newOrder.orderObject.company}
                       onChange={(e) =>
@@ -164,8 +175,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Model Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Model Name:
+                    </label>
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
@@ -178,8 +191,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Ram,Rom fomat(ram/rom):</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Ram,Rom fomat(ram/rom):
+                    </label>
                     <input
                       value={newOrder.orderObject.specs}
                       onChange={(e) =>
@@ -195,8 +210,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Colour:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Colour:
+                    </label>
                     <input
                       value={newOrder.orderObject.color}
                       onChange={(e) =>
@@ -212,8 +229,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Quantity:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Quantity:
+                    </label>
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
@@ -227,10 +246,14 @@ const Order = () => {
               </div>
             ) : newOrder.category == "TV" ? (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">TV Details:</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  TV Details:
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Company:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Company:
+                    </label>
                     <input
                       value={newOrder.orderObject.company}
                       onChange={(e) =>
@@ -246,8 +269,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Model Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Model Name:
+                    </label>
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
@@ -260,8 +285,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Size:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Size:
+                    </label>
                     <input
                       value={newOrder.orderObject.size}
                       onChange={(e) =>
@@ -277,8 +304,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Quantity:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Quantity:
+                    </label>
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
@@ -296,8 +325,10 @@ const Order = () => {
                   Washing Machine Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Company:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Company:
+                    </label>
                     <input
                       value={newOrder.orderObject.company}
                       onChange={(e) =>
@@ -313,8 +344,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Model Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Model Name:
+                    </label>
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
@@ -327,8 +360,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Size (in liters):</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Size (in liters):
+                    </label>
                     <input
                       value={newOrder.orderObject.size}
                       onChange={(e) =>
@@ -344,8 +379,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Type:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Type:
+                    </label>
                     <select
                       value={newOrder.orderObject.type}
                       onChange={(e) =>
@@ -365,8 +402,10 @@ const Order = () => {
                       <option value="Automatic">Automatic</option>
                     </select>
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Quantity:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Quantity:
+                    </label>
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
@@ -380,10 +419,14 @@ const Order = () => {
               </div>
             ) : newOrder.category == "FRIDGE" ? (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Fridge Details:</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Fridge Details:
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Company:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Company:
+                    </label>
                     <input
                       value={newOrder.orderObject.company}
                       onChange={(e) =>
@@ -399,8 +442,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Model Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Model Name:
+                    </label>
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
@@ -413,8 +458,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Size (in liters):</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Size (in liters):
+                    </label>
                     <input
                       value={newOrder.orderObject.size}
                       onChange={(e) =>
@@ -430,8 +477,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Doors:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Doors:
+                    </label>
                     <input
                       value={newOrder.orderObject.doors}
                       onChange={(e) =>
@@ -447,8 +496,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Quantity:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Quantity:
+                    </label>
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
@@ -462,10 +513,14 @@ const Order = () => {
               </div>
             ) : newOrder.category == "OTHERS" ? (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Product Details:</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Product Details:
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Company:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Company:
+                    </label>
                     <input
                       value={newOrder.orderObject.company}
                       onChange={(e) =>
@@ -481,8 +536,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Model Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Model Name:
+                    </label>
                     <input
                       value={newOrder.modelName}
                       onChange={(e) =>
@@ -495,8 +552,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Quantity:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Quantity:
+                    </label>
                     <input
                       value={newOrder.quantity}
                       onChange={(e) =>
@@ -518,8 +577,10 @@ const Order = () => {
                   Order Generation Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Date Of Order:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Date Of Order:
+                    </label>
                     <input
                       value={
                         newOrder?.date
@@ -530,8 +591,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Time:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Time:
+                    </label>
                     <input
                       value={
                         newOrder?.date
@@ -552,10 +615,14 @@ const Order = () => {
                 </div>
               </>
             ) : null}
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Customer Details:</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Customer Details:
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Name:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Name:
+                </label>
                 <input
                   value={newOrder?.customerObject?.name}
                   onChange={(e) =>
@@ -571,8 +638,10 @@ const Order = () => {
                   type="text"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Phone number:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Phone number:
+                </label>
                 <input
                   value={newOrder?.customerObject?.phoneNumber}
                   onChange={(e) =>
@@ -588,8 +657,10 @@ const Order = () => {
                   type="text"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">E-mail:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  E-mail:
+                </label>
                 <input
                   value={newOrder?.customerObject?.email}
                   onChange={(e) =>
@@ -605,8 +676,10 @@ const Order = () => {
                   type="text"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Address:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Address:
+                </label>
                 <input
                   value={newOrder?.customerObject?.address}
                   onChange={(e) =>
@@ -623,10 +696,14 @@ const Order = () => {
                 />
               </div>
             </div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Payment Details:</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Payment Details:
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Price:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Price:
+                </label>
                 <input
                   value={newOrder?.paymentObject?.price}
                   onChange={(e) =>
@@ -642,8 +719,10 @@ const Order = () => {
                   type="number"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Discounts:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Discounts:
+                </label>
                 <input
                   value={newOrder?.paymentObject?.discount}
                   onChange={(e) =>
@@ -659,8 +738,10 @@ const Order = () => {
                   type="number"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">CGST (in %):</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  CGST (in %):
+                </label>
                 <input
                   value={newOrder?.paymentObject?.CGST}
                   onChange={(e) =>
@@ -676,8 +757,10 @@ const Order = () => {
                   type="number"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">SGST (in %):</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  SGST (in %):
+                </label>
                 <input
                   value={newOrder?.paymentObject?.SGST}
                   onChange={(e) =>
@@ -693,8 +776,10 @@ const Order = () => {
                   type="number"
                 />
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Payment Type:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Payment Type:
+                </label>
                 <select
                   value={newOrder?.paymentObject?.paymentType}
                   onChange={(e) => {
@@ -718,8 +803,10 @@ const Order = () => {
                   </option>
                 </select>
               </div>
-              <div >
-                <label className="text-gray-600 font-medium text-sm">Remarks:</label>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Remarks:
+                </label>
                 <input
                   value={newOrder?.paymentObject?.remarks}
                   onChange={(e) =>
@@ -738,13 +825,17 @@ const Order = () => {
             </div>
             {newOrder?.paymentObject?.paymentType == "THIRD PARTY FINANCE" ? (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">Third Party Finance</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Third Party Finance
+                </h2>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6  pb-2">
                   Finance Number: {financeList.length + 1}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Downpayment:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Downpayment:
+                    </label>
                     <input
                       value={newOrder.tpf.downPayment}
                       onChange={(e) =>
@@ -760,8 +851,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Number of EMI:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Number of EMI:
+                    </label>
                     <input
                       value={newOrder.tpf.numberOfEMI}
                       onChange={(e) =>
@@ -777,8 +870,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">File Charge:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      File Charge:
+                    </label>
                     <input
                       value={newOrder.tpf.fileCharge}
                       onChange={(e) =>
@@ -794,8 +889,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Intrest rate monthly(%):</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Intrest rate monthly(%):
+                    </label>
                     <input
                       value={newOrder.tpf.intrest}
                       onChange={(e) =>
@@ -811,8 +908,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Amount of EMI:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Amount of EMI:
+                    </label>
                     <input
                       value={newOrder.tpf.amountOfEMI}
                       onChange={(e) =>
@@ -828,8 +927,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Remarks:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Remarks:
+                    </label>
                     <input
                       value={newOrder.tpf.remarks}
                       onChange={(e) =>
@@ -845,21 +946,15 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Photo:</label>
-                    <input
-                      value={newOrder.tpf.photo}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          tpf: {
-                            ...newOrder.tpf,
-                            photo: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="h-[5vh] mt-[1vh] w-[50%] pl-[1%] rounded-[5px]"
-                      type="file"
+                  
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Photo:
+                    </label>
+                    <ImageUploader
+                      setNewStaff={setNewOrder}
+                      newStaff={newOrder}
+                      imageKey="customerImage"
                     />
                   </div>
                 </div>
@@ -867,8 +962,10 @@ const Order = () => {
                   Guaranteer Information:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Guaranteer Name:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Guaranteer Name:
+                    </label>
                     <input
                       value={newOrder.tpf.guaranteerName}
                       onChange={(e) =>
@@ -884,8 +981,10 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Phone Number:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Phone Number:
+                    </label>
                     <input
                       value={newOrder.tpf.guaranteerPhoneNumber}
                       onChange={(e) =>
@@ -901,8 +1000,10 @@ const Order = () => {
                       type="number"
                     />
                   </div>
-                  <div >
-                    <label className="text-gray-600 font-medium text-sm">Address:</label>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Address:
+                    </label>
                     <input
                       value={newOrder.tpf.guaranteerAddress}
                       onChange={(e) =>
@@ -919,6 +1020,7 @@ const Order = () => {
                     />
                   </div>
                 </div>
+                {JSON.stringify(newOrder)}
               </div>
             ) : null}
 

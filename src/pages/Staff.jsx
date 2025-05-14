@@ -34,6 +34,13 @@ const Staff = () => {
       .catch((err) => console.log(err));
   };
 
+    const updateStaff = (id) => {
+    axios
+      .put(`https://shop-software.onrender.com/api/staff/${id}`,newStaff)
+      .then((res) => {getStaffData(),setShowModal("")})
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     getStaffData();
   }, []);
@@ -329,7 +336,7 @@ const Staff = () => {
               ) : showModal == "Edit" ? (
                 <button
                   onClick={() => {
-                    updatestaff();
+                    updateStaff(newStaff._id);
                   }}
                   className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6]   disabled:opacity-50 hover:cursor-pointer"
                 >
