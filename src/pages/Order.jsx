@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import ImageUploader from "../components/ImageUploader";
+import { exportPDF, exportExcel } from "../components/Pdf";
+import { FileText, Table } from "lucide-react";
 
 const Order = () => {
-  useEffect(() => {
-    getOrderData();
-    getFinanceData();
-  }, []);
-
-  const [showModal, setShowModal] = useState("");
-  const [tpf, setTpf] = useState({});
   const [newOrder, setNewOrder] = useState({
     orderObject: {},
     customerObject: {},
@@ -17,8 +12,57 @@ const Order = () => {
     category: "MOBILE",
     tpf: {},
   });
+  useEffect(() => {
+    getOrderData();
+    getFinanceData();
+  }, []);
+
+  useEffect(() => {
+    const price = parseFloat(newOrder?.paymentObject?.price || 0);
+    const discount = parseFloat(newOrder?.paymentObject?.discount || 0);
+    const downPayment = parseFloat(newOrder?.tpf?.downPayment || 0);
+    const numberOfEMI = parseInt(newOrder?.tpf?.numberOfEMI || 0);
+    const interest = parseFloat(newOrder?.tpf?.intrest || 0);
+    const fileCharge = parseFloat(newOrder?.tpf?.fileCharge || 0);
+
+    if (price && numberOfEMI) {
+      const priceAfterDiscount = price - discount; // Adjust price after discount
+      const principal = priceAfterDiscount - downPayment + fileCharge; // Subtract down payment and add file charge
+
+      let amountOfEMI = 0;
+      if (interest > 0) {
+        const r = interest / 100; // monthly interest
+        const n = numberOfEMI;
+        amountOfEMI =
+          (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      } else {
+        amountOfEMI = principal / numberOfEMI; // No interest
+      }
+
+      // Update state with the calculated EMI
+      setNewOrder((prev) => ({
+        ...prev,
+        tpf: {
+          ...prev.tpf,
+          amountOfEMI: Math.round(amountOfEMI).toString(), // Round the EMI amount
+        },
+      }));
+    }
+  }, [
+    newOrder?.paymentObject?.price,
+    newOrder?.paymentObject?.discount,
+    newOrder?.tpf?.downPayment,
+    newOrder?.tpf?.numberOfEMI,
+    newOrder?.tpf?.fileCharge,
+    newOrder?.tpf?.intrest,
+  ]);
+
+  const [showModal, setShowModal] = useState("");
+  const [tpf, setTpf] = useState({});
+
   const [orderList, setOrderList] = useState([]);
   const [financeList, setFinanceList] = useState([]);
+
   const today = new Date();
   const formatted = `${today.getFullYear()}-${String(
     today.getMonth() + 1
@@ -50,12 +94,33 @@ const Order = () => {
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Orders</h1>
-        <button
-          onClick={() => setShowModal("Add")}
-          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
-        >
-          <span className="mr-1">+</span> Add New Order
-        </button>
+
+        <div className="w-[60%] flex justify-end">
+          <button
+            onClick={() => exportPDF(orderList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <FileText />
+            </span>{" "}
+            Export as PDF
+          </button>
+          <button
+            onClick={() => exportExcel(orderList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <Table />
+            </span>{" "}
+            Export to Excel
+          </button>
+          <button
+            onClick={() => setShowModal("Add")}
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1 ">+</span> Add New Product
+          </button>
+        </div>
       </div>
 
       {/* Order Table */}
@@ -87,7 +152,7 @@ const Order = () => {
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-3 font-medium">{i?.orderNumber}</td>
                 <td className="px-6 py-3 font-medium">{i?.category}</td>
-                <td className="px-6 py-3">{i?.modelName}?</td>
+                <td className="px-6 py-3">{i?.modelName}</td>
                 <td className="px-6 py-3">{i?.quantity}</td>
                 <td className="px-6 py-3">{i?.customerObject.name}</td>
                 <td className="px-6 py-3">{i?.customerObject.phoneNumber}</td>
@@ -193,35 +258,16 @@ const Order = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Ram,Rom fomat(ram/rom):
+                      IMEI Number:
                     </label>
                     <input
-                      value={newOrder?.orderObject?.specs}
+                      value={newOrder?.orderObject?.IMEI}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
                             ...newOrder?.orderObject,
-                            specs: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Colour:
-                    </label>
-                    <input
-                      value={newOrder?.orderObject?.color}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder?.orderObject,
-                            color: e.target.value.toUpperCase(),
+                            IMEI: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -287,16 +333,16 @@ const Order = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size:
+                      Serial Number:
                     </label>
                     <input
-                      value={newOrder?.orderObject?.size}
+                      value={newOrder?.orderObject?.serialNumber}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
                             ...newOrder?.orderObject,
-                            size: e.target.value.toUpperCase(),
+                            serialNumber: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -362,45 +408,22 @@ const Order = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size (in liters):
+                      Serial Number:
                     </label>
                     <input
-                      value={newOrder?.orderObject?.size}
+                      value={newOrder?.orderObject?.serialNumber}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
                             ...newOrder?.orderObject,
-                            size: e.target.value.toUpperCase(),
+                            serialNumber: e.target.value.toUpperCase(),
                           },
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Type:
-                    </label>
-                    <select
-                      value={newOrder?.orderObject?.type}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder?.orderObject,
-                            type: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      name=""
-                      id=""
-                    >
-                      <option value="Semi-auto">Semi-auto</option>
-                      <option value="Automatic">Automatic</option>
-                    </select>
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
@@ -460,35 +483,16 @@ const Order = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size (in liters):
+                      Serial Number:
                     </label>
                     <input
-                      value={newOrder?.orderObject?.size}
+                      value={newOrder?.orderObject?.serialNumber}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
                             ...newOrder?.orderObject,
-                            size: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Doors:
-                    </label>
-                    <input
-                      value={newOrder?.orderObject?.doors}
-                      onChange={(e) =>
-                        setNewOrder({
-                          ...newOrder,
-                          orderObject: {
-                            ...newOrder?.orderObject,
-                            doors: e.target.value.toUpperCase(),
+                            serialNumber: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -913,13 +917,13 @@ const Order = () => {
                       Amount of EMI:
                     </label>
                     <input
-                      value={(newOrder.paymentObject.price - newOrder.paymentObject.discount + newOrder.tpf.fileCharge - newOrder.tpf.downPayment)}
+                      value={newOrder?.tpf?.amountOfEMI || ""}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
                             ...newOrder?.tpf,
-                            amountOfEMI: e.target.value.toUpperCase(),
+                            amountOfEMI: e.target.value,
                           },
                         })
                       }
@@ -927,6 +931,7 @@ const Order = () => {
                       type="number"
                     />
                   </div>
+
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
                       Remarks:
@@ -946,17 +951,19 @@ const Order = () => {
                       type="text"
                     />
                   </div>
-                  
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Photo:
-                    </label>
-                    <ImageUploader
-                      setNewStaff={setNewOrder}
-                      newStaff={newOrder}
-                      imageKey="customerImage"
-                    />
-                  </div>
+
+                  {showModal == "Add" ? (
+                    <div>
+                      <label className="text-gray-600 font-medium text-sm">
+                        Customer Image:
+                      </label>
+                      <ImageUploader
+                        setNewStaff={setNewOrder}
+                        newStaff={newOrder}
+                        imageKey="customerImage"
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Guaranteer Information:
@@ -1019,6 +1026,18 @@ const Order = () => {
                       type="text"
                     />
                   </div>
+                  {showModal == "Add" ? (
+                    <div>
+                      <label className="text-gray-600 font-medium text-sm">
+                        Guaranteer Image:
+                      </label>
+                      <ImageUploader
+                        setNewStaff={setNewOrder}
+                        newStaff={newOrder}
+                        imageKey="guaranteerImage"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ) : null}

@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 
+import { exportPDF, exportExcel } from "../components/Pdf";
+import { FileText, Table } from "lucide-react";
+
 function Enquiry() {
   useEffect(() => {
     getEnquiryData();
@@ -62,12 +65,33 @@ function Enquiry() {
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Enquiry</h1>
-        <button
-          onClick={() => setShowModal("Add")}
-          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
-        >
-          <span className="mr-1">+</span> Add New Enquiry
-        </button>
+
+        <div className="w-[60%] flex justify-end">
+          <button
+            onClick={() => exportPDF(enquiryList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <FileText />
+            </span>{" "}
+            Export as PDF
+          </button>
+          <button
+            onClick={() => exportExcel(enquiryList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <Table />
+            </span>{" "}
+            Export to Excel
+          </button>
+          <button
+            onClick={() => setShowModal("Add")}
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">+</span> Add New Enquiry
+          </button>
+        </div>
       </div>
 
       {/* Enquiry Table */}

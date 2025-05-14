@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ImageUploader from "../components/ImageUploader";
+import { FileText ,Table} from 'lucide-react';
 
 const Staff = () => {
   const [showModal, setShowModal] = useState("");

@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { exportPDF, exportExcel } from "../components/Pdf";
+import { FileText, Table } from "lucide-react";
 
 const ThirdPartyF = () => {
   useEffect(() => {
@@ -64,21 +66,39 @@ const ThirdPartyF = () => {
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Finance</h1>
-        <div className="w-[18%] flex justify-between">
+
+        <div className="w-[60%] flex justify-end">
+          <button
+            onClick={() => exportPDF(financeList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <FileText />
+            </span>{" "}
+            Export as PDF
+          </button>
+          <button
+            onClick={() => exportExcel(financeList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <Table />
+            </span>{" "}
+            Export to Excel
+          </button>
           <button
             onClick={() => setShowModal2(true)}
-            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
           >
-            <span className="mr-1">+</span> New EMI Payment
+            <span className="mr-1 ">+</span> New EMI Payment
           </button>
         </div>
       </div>
-
       {/* Finance Table */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
-        <table className="min-w-full">
-          <thead className="w-[100%] bg-gray-50 ">
-            <tr className="w-[100%]">
+      <div className="bg-white rounded-lg shadow w-full overflow-auto">
+        <table className="w-full table-auto">
+          <thead className="bg-gray-50">
+            <tr>
               {[
                 "Finance No.",
                 "Customer Name",
@@ -87,7 +107,6 @@ const ThirdPartyF = () => {
                 "No. of EMI Left",
                 "EMI Amount",
                 "Status",
-                "Depositied EMI",
                 "Action",
               ].map((header) => (
                 <th
@@ -100,31 +119,41 @@ const ThirdPartyF = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {financeList.map((i, index) => (
-              <tr className="hover:bg-gray-50">
+            {financeList.map((i) => (
+              <tr key={i._id} className="hover:bg-gray-50">
                 <td className="px-3 py-4 font-medium">{i?.financeNumber}</td>
-                <td className="px-3 py-4 font-medium">{i.customerObject?.name}</td>
+                <td className="px-3 py-4 font-medium">
+                  {i.customerObject?.name}
+                </td>
                 <td className="px-3 py-4">{i.customerObject?.phoneNumber}</td>
-                <td className="px-3 py-4">{}</td>
-                <td className="px-3 py-4 font-medium">{i.financeObject?.numberOfEMILeft}</td>
+                <td className="px-3 py-4">--</td>
+                <td className="px-3 py-4 font-medium">
+                  {i.financeObject?.numberOfEMILeft}
+                </td>
                 <td className="px-3 py-4">{i.financeObject?.amountOfEMI}</td>
-                <td className="px-3 py-4"></td>
-                <td className="px-3 py-4">
+                <td
+                  className={`px-3 py-4 ${
+                    i.status === "Pending" ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  {i?.status}
+                </td>
+                <td className="px-3 py-4 flex space-x-2">
                   <button
                     onClick={() => {
-                      setShowModal3(true), setNewFinance(i);
+                      setShowModal3(true);
+                      setNewFinance(i);
                     }}
-                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
+                    className="text-blue-500 hover:text-indigo-900 cursor-pointer"
                   >
                     Browse
                   </button>
-                </td>
-                <td className="px-3 py-4">
                   <button
                     onClick={() => {
-                      setNewFinance(i), setShowModal(true);
+                      setNewFinance(i);
+                      setShowModal(true);
                     }}
-                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[20%]"
+                    className="text-blue-500 hover:text-indigo-900 cursor-pointer"
                   >
                     View
                   </button>
@@ -134,6 +163,7 @@ const ThirdPartyF = () => {
           </tbody>
         </table>
       </div>
+
       {showModal != "" ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
           <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
@@ -142,7 +172,22 @@ const ThirdPartyF = () => {
               Product Details:
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <img src={newFinance?.financeObject?.customerImage}></img>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Customer Image:
+                </label>
+                <img src={newFinance?.customerImage} className="h-[20vh]"></img>
+              </div>
+              <div>
+                <label className="text-gray-600 font-medium text-sm">
+                  Guaranteer Image:
+                </label>
+                <img
+                  src={newFinance?.guaranteerImage}
+                  className="h-[20vh]"
+                ></img>
+              </div>
+
               <div>
                 <label className="text-gray-600 font-medium text-sm">
                   Category:
@@ -182,20 +227,10 @@ const ThirdPartyF = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Ram,Rom fomat(ram/rom):
+                      IMEI:
                     </label>
                     <input
-                      value={newFinance?.productObject?.specs}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Colour:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.category}
+                      value={newFinance?.productObject?.IMEI}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -208,16 +243,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Description:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.description}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -250,10 +275,10 @@ const ThirdPartyF = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size:
+                      Serial Number:
                     </label>
                     <input
-                      value={newFinance?.productObject?.size}
+                      value={newFinance?.productObject?.serialNumber}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -266,16 +291,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Description:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.description}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -308,20 +323,10 @@ const ThirdPartyF = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size (in liters):
+                      Serial Number:
                     </label>
                     <input
-                      value={newFinance?.productObject?.size}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Type:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.type}
+                      value={newFinance?.productObject?.serialNumber}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -334,16 +339,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Description:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.description}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -376,20 +371,10 @@ const ThirdPartyF = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Size (in liters):
+                      Serial Number:
                     </label>
                     <input
-                      value={newFinance?.productObject?.size}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Doors:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.doors}
+                      value={newFinance?.productObject?.serialNumber}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -402,16 +387,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Description:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.description}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -450,16 +425,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Description:
-                    </label>
-                    <input
-                      value={newFinance?.productObject?.description}
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>

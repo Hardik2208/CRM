@@ -1,5 +1,7 @@
 import { React, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { FileText, Table } from "lucide-react";
+import { exportPDF, exportExcel } from "../components/Pdf";
 
 function Invoice() {
   useEffect(() => {
@@ -43,12 +45,31 @@ function Invoice() {
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="w-[100%] flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recent Invoices</h1>
-        <div className="w-[23%] flex justify-end">
+
+        <div className="w-[60%] flex justify-end">
+          <button
+            onClick={() => exportPDF(invoiceList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <FileText />
+            </span>{" "}
+            Export as PDF
+          </button>
+          <button
+            onClick={() => exportExcel(invoiceList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1">
+              <Table />
+            </span>{" "}
+            Export to Excel
+          </button>
           <button
             onClick={() => setShowModal("Add")}
-            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
           >
-            <span className="mr-1">+</span> Generate Invoice
+            <span className="mr-1 ">+</span> Add New Product
           </button>
         </div>
       </div>
@@ -88,7 +109,8 @@ function Invoice() {
                 <td className="px-4 py-3">{i?.paymentObject.price}</td>
                 <td className="px-4 py-3">{i?.paymentObject.discount}</td>
                 <td className="px-4 py-3">
-                  {Number(i?.paymentObject.CGST) + Number(i?.paymentObject.SGST)}
+                  {Number(i?.paymentObject.CGST) +
+                    Number(i?.paymentObject.SGST)}
                 </td>
                 <td className="px-4 py-3">
                   {((Number(i?.paymentObject.price) -
@@ -460,9 +482,7 @@ function Invoice() {
                     />
                   </div>
                 </div>
-                <h2
-                  className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2"
-                >
+                <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                   Payment Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

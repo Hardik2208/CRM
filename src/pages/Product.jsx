@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { FileText ,Table} from 'lucide-react';
+
+
+import { exportPDF, exportExcel } from "../components/Pdf";
 
 const Product = () => {
   useEffect(() => {
@@ -28,10 +32,13 @@ const Product = () => {
       .catch((err) => console.log(err));
   };
 
-    const deleteProduct = (id) => {
+  const deleteProduct = (id) => {
     axios
       .delete(`https://shop-software.onrender.com/api/product/${id}`)
-      .then((res) => {getProductData();setShowModal("")})
+      .then((res) => {
+        getProductData();
+        setShowModal("");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -51,12 +58,27 @@ const Product = () => {
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Stocks</h1>
-        <button
-          onClick={() => setShowModal("Add")}
-          className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
-        >
-          <span className="mr-1">+</span> Add New Product
-        </button>
+
+        <div className="w-[60%] flex justify-end">
+          <button
+            onClick={() => exportPDF(productList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1"><FileText/></span> Export as PDF
+          </button>
+          <button
+            onClick={() => exportExcel(productList)}
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1"><Table/></span> Export to Excel
+          </button>
+          <button
+            onClick={() => setShowModal("Add")}
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+          >
+            <span className="mr-1 ">+</span> Add New Product
+          </button>
+        </div>
       </div>
 
       {/* Product Table */}
@@ -185,38 +207,16 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Ram,Rom fomat(ram/rom):
+                      IMEI Number:
                     </label>
                     <input
-                      value={newProductOBJ?.productObject?.specs}
+                      value={newProductOBJ?.productObject?.IMEI}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ?.productObject,
-                            specs: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Colour:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.color}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          productObject: {
-                            ...newProductOBJ?.productObject,
-                            color: e.target.value.toUpperCase(),
+                            IMEI: e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -241,25 +241,6 @@ const Product = () => {
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Description:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.description}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          description: e.target.value.toUpperCase(),
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -319,16 +300,16 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Dimensions (in inch):
+                      Serial Number:
                     </label>
                     <input
-                      value={newProductOBJ?.productObject?.dimensions}
+                      value={newProductOBJ?.productObject?.serialNumber}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ?.productObject,
-                            dimensions: e.target.value,
+                            serialNumber: e.target.value,
                           },
                         })
                       }
@@ -355,25 +336,7 @@ const Product = () => {
                       type="number"
                     />
                   </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Description:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.description}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          description: e.target.value.toUpperCase(),
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
+                
                 </div>
               </div>
             ) : newProductOBJ?.category == "WASHING MACHINE" ? (
@@ -428,48 +391,22 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Dimensions (in liters):
+                      Serail Number:
                     </label>
                     <input
-                      value={newProductOBJ?.productObject?.dimensions}
+                      value={newProductOBJ?.productObject?.serialNumber}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ?.productObject,
-                            dimensions: e.target.value,
+                            serialNumber: e.target.value,
                           },
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Type:
-                    </label>
-                    <select
-                      value={newProductOBJ?.productObject?.type}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          productObject: {
-                            ...newProductOBJ?.productObject,
-                            type: e.target.value.toUpperCase(),
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      name=""
-                      id=""
-                    >
-                      <option value="Semi-auto">Semi-auto</option>
-                      <option value="Automatic">Automatic</option>
-                    </select>
                   </div>
                   <div className="">
                     <label
@@ -484,25 +421,6 @@ const Product = () => {
                         setNewProductOBJ({
                           ...newProductOBJ,
                           quantity: e.target.value.toUpperCase(),
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Description:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.description}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          description: e.target.value.toUpperCase(),
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
@@ -563,38 +481,16 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Dimensions (in liters):
+                      Serial Number:
                     </label>
                     <input
-                      value={newProductOBJ?.productObject?.dimensions}
+                      value={newProductOBJ?.productObject?.serialNumber}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
                             ...newProductOBJ?.productObject,
-                            dimensions: e.target.value,
-                          },
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="number"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Doors:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.doors}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          productObject: {
-                            ...newProductOBJ?.productObject,
-                            doors: e.target.value,
+                            serialNumber: e.target.value,
                           },
                         })
                       }
@@ -619,25 +515,6 @@ const Product = () => {
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Description:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.description}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          description: e.target.value.toUpperCase(),
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -706,25 +583,6 @@ const Product = () => {
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      className="text-gray-600 font-medium text-sm"
-                      htmlFor=""
-                    >
-                      Description:
-                    </label>
-                    <input
-                      value={newProductOBJ?.productObject?.description}
-                      onChange={(e) =>
-                        setNewProductOBJ({
-                          ...newProductOBJ,
-                          description: e.target.value.toUpperCase(),
-                        })
-                      }
-                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="text"
                     />
                   </div>
                 </div>
