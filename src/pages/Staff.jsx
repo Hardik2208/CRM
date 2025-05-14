@@ -119,15 +119,15 @@ const Staff = () => {
             {staffList.map((i, index) => (
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4">{i.work}</td>
-                <td className="px-6 py-4 font-medium">{i.staffName}</td>
-                <td className="px-6 py-4">{i.staffPhoneNumber}</td>
-                <td className="px-6 py-4">{i.address}</td>
+                <td className="px-6 py-4">{i?.work}</td>
+                <td className="px-6 py-4 font-medium">{i?.staffName}</td>
+                <td className="px-6 py-4">{i?.staffPhoneNumber}</td>
+                <td className="px-6 py-4">{i?.address}</td>
                 <td className="px-6 py-4 flex items-center justify-center">
                   <button
                     onClick={() => {
                       setShowModal2(true);
-                      setSelectedId(i._id);
+                      setSelectedId(i?._id);
                       // getAttendance();
                     }}
                     className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer"
@@ -135,7 +135,7 @@ const Staff = () => {
                     Manage
                   </button>
                 </td>
-                <td className="px-6 py-4">{i.leavesAllowded}</td>
+                <td className="px-6 py-4">{i?.leavesAllowded}</td>
                 <td className="px-6 py-4 flex justify-center items-center">
                   <button
                     onClick={() => {
@@ -169,7 +169,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Work:</label>
                 <input
-                  value={newStaff.work}
+                  value={newStaff?.work}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -183,7 +183,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Work Timmings:</label>
                 <input
-                  value={newStaff.workTimmings}
+                  value={newStaff?.workTimmings}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -197,7 +197,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Salary:</label>
                 <input
-                  value={newStaff.salary}
+                  value={newStaff?.salary}
                   onChange={(e) =>
                     setNewStaff({ ...newStaff, salary: e.target.value })
                   }
@@ -208,7 +208,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Leaves Allowded:</label>
                 <input
-                  value={newStaff.leavesAllowded}
+                  value={newStaff?.leavesAllowded}
                   onChange={(e) =>
                     setNewStaff({ ...newStaff, leavesAllowded: e.target.value })
                   }
@@ -222,7 +222,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Name:</label>
                 <input
-                  value={newStaff.staffName}
+                  value={newStaff?.staffName}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -236,7 +236,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Phone number:</label>
                 <input
-                  value={newStaff.staffPhoneNumber}
+                  value={newStaff?.staffPhoneNumber}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -250,7 +250,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">E-mail:</label>
                 <input
-                  value={newStaff.staffEmail}
+                  value={newStaff?.staffEmail}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -264,7 +264,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Address:</label>
                 <input
-                  value={newStaff.address}
+                  value={newStaff?.address}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -279,7 +279,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">Aadhar Card Number:</label>
                 <input
-                  value={newStaff.aadharCardNumber}
+                  value={newStaff?.aadharCardNumber}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -293,7 +293,7 @@ const Staff = () => {
               <div className="flex flex-col">
                 <label className="text-gray-600 font-medium text-sm">PAN Card Number:</label>
                 <input
-                  value={newStaff.panCardNumber}
+                  value={newStaff?.panCardNumber}
                   onChange={(e) =>
                     setNewStaff({
                       ...newStaff,
@@ -336,7 +336,7 @@ const Staff = () => {
               ) : showModal == "Edit" ? (
                 <button
                   onClick={() => {
-                    updateStaff(newStaff._id);
+                    updateStaff(newStaff?._id);
                   }}
                   className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6]   disabled:opacity-50 hover:cursor-pointer"
                 >

@@ -27,7 +27,7 @@ function Enquiry() {
     setShowModal(false);
     axios
       .put(
-        `https://shop-software.onrender.com/api/enquiry/${newEnquiryData._id}`,
+        `https://shop-software.onrender.com/api/enquiry/${newEnquiryData?._id}`,
         newEnquiryData
       )
       .then((res) => {
@@ -98,23 +98,23 @@ function Enquiry() {
             {enquiryList.map((i, index) => (
               <tr className="hover:bg-gray-50">
                 <td className="px-4 py-3">{index + 1}</td>
-                <td className="px-4 py-3 font-medium">{i.name}</td>
-                <td className="px-4 py-3">{i.phoneNumber}</td>
+                <td className="px-4 py-3 font-medium">{i?.name}</td>
+                <td className="px-4 py-3">{i?.phoneNumber}</td>
                 <td className="px-4 py-3">
-                  {new Date(i.dateOfEnquriy).toLocaleDateString("en-IN")}
+                  {new Date(i?.dateOfEnquriy).toLocaleDateString("en-IN")}
                 </td>
-                <td className="px-4 py-3">{i.category}</td>
-                <td className="px-4 py-3">{i.productName}</td>
+                <td className="px-4 py-3">{i?.category}</td>
+                <td className="px-4 py-3">{i?.productName}</td>
                 <td className="px-4 py-3">
                   <button
-                    onClick={() => handleStatus(i._id)}
+                    onClick={() => handleStatus(i?._id)}
                     className={`${
-                      i.status != "Pending"
+                      i?.status != "Pending"
                         ? "text-green-600 hover:text-green-800 "
                         : "text-red-600 hover:text-red-800"
                     } hover:cursor-pointer`}
                   >
-                    {i.status}
+                    {i?.status}
                   </button>
                 </td>
                 <td className="px-4 py-3">
@@ -128,7 +128,7 @@ function Enquiry() {
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteEnquiry(i._id)}
+                    onClick={() => deleteEnquiry(i?._id)}
                     className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[10%]"
                   >
                     Delete
@@ -154,7 +154,7 @@ function Enquiry() {
                 </label>
                 <input
                   type="text"
-                  value={newEnquiryData.name}
+                  value={newEnquiryData?.name}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
@@ -171,7 +171,7 @@ function Enquiry() {
                 </label>
                 <input
                   type="text"
-                  value={newEnquiryData.phoneNumber}
+                  value={newEnquiryData?.phoneNumber}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
@@ -188,7 +188,7 @@ function Enquiry() {
                 </label>
                 <input
                   type="text"
-                  value={newEnquiryData.email}
+                  value={newEnquiryData?.email}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
@@ -210,7 +210,7 @@ function Enquiry() {
                   Category
                 </label>
                 <select
-                  value={newEnquiryData.category}
+                  value={newEnquiryData?.category}
                   onChange={(e) =>
                     setNewEnquiryData({
                       ...newEnquiryData,
@@ -228,14 +228,14 @@ function Enquiry() {
                 </select>
               </div>
 
-              {newEnquiryData.category && (
+              {newEnquiryData?.category && (
                 <div>
                   <label className="text-gray-600 font-medium text-sm">
                     Product Name
                   </label>
                   <input
                     type="text"
-                    value={newEnquiryData.productName}
+                    value={newEnquiryData?.productName}
                     onChange={(e) =>
                       setNewEnquiryData({
                         ...newEnquiryData,

@@ -102,12 +102,12 @@ const ThirdPartyF = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {financeList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-3 py-4 font-medium">{i.financeNumber}</td>
-                <td className="px-3 py-4 font-medium">{i.customerObject.name}</td>
-                <td className="px-3 py-4">{i.customerObject.phoneNumber}</td>
+                <td className="px-3 py-4 font-medium">{i?.financeNumber}</td>
+                <td className="px-3 py-4 font-medium">{i.customerObject?.name}</td>
+                <td className="px-3 py-4">{i.customerObject?.phoneNumber}</td>
                 <td className="px-3 py-4">{}</td>
-                <td className="px-3 py-4 font-medium">{i.financeObject.numberOfEMILeft}</td>
-                <td className="px-3 py-4">{i.financeObject.amountOfEMI}</td>
+                <td className="px-3 py-4 font-medium">{i.financeObject?.numberOfEMILeft}</td>
+                <td className="px-3 py-4">{i.financeObject?.amountOfEMI}</td>
                 <td className="px-3 py-4"></td>
                 <td className="px-3 py-4">
                   <button
@@ -142,18 +142,19 @@ const ThirdPartyF = () => {
               Product Details:
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <img src={newFinance?.financeObject?.customerImage}></img>
               <div>
                 <label className="text-gray-600 font-medium text-sm">
                   Category:
                 </label>
                 <input
-                  value={newFinance.productObject.category}
+                  value={newFinance?.productObject?.category}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
               </div>
             </div>
-            {newFinance.productObject?.category == "MOBILE" ? (
+            {newFinance?.productObject?.category == "MOBILE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Mobile Details:
@@ -164,7 +165,7 @@ const ThirdPartyF = () => {
                       Company:
                     </label>
                     <input
-                      value={newFinance.productObject.company}
+                      value={newFinance?.productObject?.company}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -174,7 +175,7 @@ const ThirdPartyF = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newFinance.productObject.modelName}
+                      value={newFinance?.productObject?.modelName}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -184,7 +185,7 @@ const ThirdPartyF = () => {
                       Ram,Rom fomat(ram/rom):
                     </label>
                     <input
-                      value={newFinance.productObject.specs}
+                      value={newFinance?.productObject?.specs}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -194,7 +195,7 @@ const ThirdPartyF = () => {
                       Colour:
                     </label>
                     <input
-                      value={newFinance.productObject.category}
+                      value={newFinance?.productObject?.category}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -204,7 +205,7 @@ const ThirdPartyF = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newFinance.productObject.quantity}
+                      value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -214,14 +215,14 @@ const ThirdPartyF = () => {
                       Description:
                     </label>
                     <input
-                      value={newFinance.productObject.description}
+                      value={newFinance?.productObject?.description}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
                   </div>
                 </div>
               </div>
-            ) : newFinance.productObject?.category == "TV" ? (
+            ) : newFinance?.productObject?.category == "TV" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   TV Details:
@@ -232,7 +233,7 @@ const ThirdPartyF = () => {
                       Company:
                     </label>
                     <input
-                      value={newFinance.productObject.company}
+                      value={newFinance?.productObject?.company}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -242,7 +243,7 @@ const ThirdPartyF = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newFinance.productObject.modelName}
+                      value={newFinance?.productObject?.modelName}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -252,7 +253,7 @@ const ThirdPartyF = () => {
                       Size:
                     </label>
                     <input
-                      value={newFinance.productObject.size}
+                      value={newFinance?.productObject?.size}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -262,7 +263,7 @@ const ThirdPartyF = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newFinance.productObject.quantity}
+                      value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -272,14 +273,14 @@ const ThirdPartyF = () => {
                       Description:
                     </label>
                     <input
-                      value={newFinance.productObject.description}
+                      value={newFinance?.productObject?.description}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
                   </div>
                 </div>
               </div>
-            ) : newFinance.productObject?.category == "WASHING MACHINE" ? (
+            ) : newFinance?.productObject?.category == "WASHING MACHINE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Washing Machine Details:
@@ -290,7 +291,7 @@ const ThirdPartyF = () => {
                       Company:
                     </label>
                     <input
-                      value={newFinance.productObject.company}
+                      value={newFinance?.productObject?.company}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -300,7 +301,7 @@ const ThirdPartyF = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newFinance.productObject.modelName}
+                      value={newFinance?.productObject?.modelName}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -310,7 +311,7 @@ const ThirdPartyF = () => {
                       Size (in liters):
                     </label>
                     <input
-                      value={newFinance.productObject.size}
+                      value={newFinance?.productObject?.size}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -320,7 +321,7 @@ const ThirdPartyF = () => {
                       Type:
                     </label>
                     <input
-                      value={newFinance.productObject.type}
+                      value={newFinance?.productObject?.type}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -330,7 +331,7 @@ const ThirdPartyF = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newFinance.productObject.quantity}
+                      value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -340,14 +341,14 @@ const ThirdPartyF = () => {
                       Description:
                     </label>
                     <input
-                      value={newFinance.productObject.description}
+                      value={newFinance?.productObject?.description}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
                   </div>
                 </div>
               </div>
-            ) : newFinance.productObject?.category == "FRIDGE" ? (
+            ) : newFinance?.productObject?.category == "FRIDGE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Fridge Details:
@@ -358,7 +359,7 @@ const ThirdPartyF = () => {
                       Company:
                     </label>
                     <input
-                      value={newFinance.productObject.company}
+                      value={newFinance?.productObject?.company}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -368,7 +369,7 @@ const ThirdPartyF = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newFinance.productObject.modelName}
+                      value={newFinance?.productObject?.modelName}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -378,7 +379,7 @@ const ThirdPartyF = () => {
                       Size (in liters):
                     </label>
                     <input
-                      value={newFinance.productObject.size}
+                      value={newFinance?.productObject?.size}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -388,7 +389,7 @@ const ThirdPartyF = () => {
                       Doors:
                     </label>
                     <input
-                      value={newFinance.productObject.doors}
+                      value={newFinance?.productObject?.doors}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -398,7 +399,7 @@ const ThirdPartyF = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newFinance.productObject.quantity}
+                      value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -408,14 +409,14 @@ const ThirdPartyF = () => {
                       Description:
                     </label>
                     <input
-                      value={newFinance.productObject.description}
+                      value={newFinance?.productObject?.description}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
                   </div>
                 </div>
               </div>
-            ) : newFinance.productObject?.category == "OTHERS" ? (
+            ) : newFinance?.productObject?.category == "OTHERS" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Product Details:
@@ -426,7 +427,7 @@ const ThirdPartyF = () => {
                       Company:
                     </label>
                     <input
-                      value={newFinance.productObject.company}
+                      value={newFinance?.productObject?.company}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -436,7 +437,7 @@ const ThirdPartyF = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newFinance.productObject.modelName}
+                      value={newFinance?.productObject?.modelName}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -446,7 +447,7 @@ const ThirdPartyF = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newFinance.productObject.quantity}
+                      value={newFinance?.productObject?.quantity}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -456,7 +457,7 @@ const ThirdPartyF = () => {
                       Description:
                     </label>
                     <input
-                      value={newFinance.productObject.description}
+                      value={newFinance?.productObject?.description}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -473,7 +474,7 @@ const ThirdPartyF = () => {
                   Name:
                 </label>
                 <input
-                  value={newFinance.customerObject.name}
+                  value={newFinance?.customerObject?.name}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -483,7 +484,7 @@ const ThirdPartyF = () => {
                   Phone number:
                 </label>
                 <input
-                  value={newFinance.customerObject.phoneNumber}
+                  value={newFinance?.customerObject?.phoneNumber}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -493,7 +494,7 @@ const ThirdPartyF = () => {
                   E-mail:
                 </label>
                 <input
-                  value={newFinance.customerObject.email}
+                  value={newFinance?.customerObject?.email}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -503,7 +504,7 @@ const ThirdPartyF = () => {
                   Address:
                 </label>
                 <input
-                  value={newFinance.customerObject.address}
+                  value={newFinance?.customerObject?.address}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -527,7 +528,7 @@ const ThirdPartyF = () => {
                   Price:
                 </label>
                 <input
-                  value={newFinance.paymentObject.price}
+                  value={newFinance?.paymentObject?.price}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="number"
                 />
@@ -537,7 +538,7 @@ const ThirdPartyF = () => {
                   Discounts:
                 </label>
                 <input
-                  value={newFinance.paymentObject.discount}
+                  value={newFinance?.paymentObject?.discount}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="number"
                 />
@@ -548,7 +549,7 @@ const ThirdPartyF = () => {
                   Remarks:
                 </label>
                 <input
-                  value={newFinance.paymentObject.remarks}
+                  value={newFinance?.paymentObject?.remarks}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -568,7 +569,7 @@ const ThirdPartyF = () => {
                     Downpayment:
                   </label>
                   <input
-                    value={newFinance.financeObject.downPayment}
+                    value={newFinance?.financeObject?.downPayment}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
@@ -578,7 +579,7 @@ const ThirdPartyF = () => {
                     Number of EMI:
                   </label>
                   <input
-                    value={newFinance.financeObject.numberOfEMI}
+                    value={newFinance?.financeObject?.numberOfEMI}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
@@ -588,7 +589,7 @@ const ThirdPartyF = () => {
                     File Charge:
                   </label>
                   <input
-                    value={newFinance.financeObject.fileCharge}
+                    value={newFinance?.financeObject?.fileCharge}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
@@ -598,7 +599,7 @@ const ThirdPartyF = () => {
                     Intrest rate monthly(%):
                   </label>
                   <input
-                    value={newFinance.financeObject.interest}
+                    value={newFinance?.financeObject?.interest}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
@@ -608,7 +609,7 @@ const ThirdPartyF = () => {
                     Amount of EMI:
                   </label>
                   <input
-                    value={newFinance.financeObject.amountOfEMI}
+                    value={newFinance?.financeObject?.amountOfEMI}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="number"
                   />
@@ -623,7 +624,7 @@ const ThirdPartyF = () => {
                     Guaranteer Name:
                   </label>
                   <input
-                    value={newFinance.guaranteerObject.name}
+                    value={newFinance?.guaranteerObject?.name}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="text"
                   />
@@ -633,7 +634,7 @@ const ThirdPartyF = () => {
                     Phone Number:
                   </label>
                   <input
-                    value={newFinance.guaranteerObject.phoneNumber}
+                    value={newFinance?.guaranteerObject?.phoneNumber}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="text"
                   />
@@ -643,7 +644,7 @@ const ThirdPartyF = () => {
                     Address:
                   </label>
                   <input
-                    value={newFinance.guaranteerObject.address}
+                    value={newFinance?.guaranteerObject?.address}
                     className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     type="text"
                   />
@@ -876,19 +877,19 @@ const ThirdPartyF = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {newFinance.EMI.map((i, index) => (
+                {newFinance?.EMI.map((i, index) => (
                   <tr className="hover:bg-gray-50">
                     <td className="px-6 py-4">{index + 1}</td>
-                    <td className="px-6 py-4">{i.paymentAmount}</td>
-                    <td className="px-6 py-4">{i.paymentType}</td>
-                    <td className="px-6 py-4">{i.remarks}</td>
+                    <td className="px-6 py-4">{i?.paymentAmount}</td>
+                    <td className="px-6 py-4">{i?.paymentType}</td>
+                    <td className="px-6 py-4">{i?.remarks}</td>
                     <td className="px-6 py-4">
-                      {i.date
+                      {i?.date
                         ? new Date(i.date).toLocaleDateString("en-IN")
                         : "—"}
                     </td>
                     <td className="px-6 py-4">
-                      {i.date
+                      {i?.date
                         ? new Date(i.date).toLocaleTimeString("en-IN", {
                             hour: "2-digit",
                             minute: "2-digit",

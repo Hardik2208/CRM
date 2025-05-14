@@ -14,7 +14,7 @@ const Product = () => {
     setShowModal("");
     axios
       .put(
-        `https://shop-software.onrender.com/api/product/${newProductOBJ._id}`,
+        `https://shop-software.onrender.com/api/product/${newProductOBJ?._id}`,
         newProductOBJ
       )
       .then((res) => getProductData())
@@ -79,11 +79,11 @@ const Product = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {productList.map((product, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-3 font-medium">{product.category}</td>
+                <td className="px-6 py-3 font-medium">{product?.category}</td>
 
-                <td className="px-6 py-3">{product.modelName}</td>
-                <td className="px-6 py-3">{product.amount}</td>
-                <td className="px-6 py-3">{product.quantity}</td>
+                <td className="px-6 py-3">{product?.modelName}</td>
+                <td className="px-6 py-3">{product?.amount}</td>
+                <td className="px-6 py-3">{product?.quantity}</td>
                 <td className="px-6 py-3">
                   <button
                     onClick={() => {
@@ -113,7 +113,7 @@ const Product = () => {
                   Category:
                 </label>
                 <select
-                  value={newProductOBJ.category}
+                  value={newProductOBJ?.category}
                   onChange={(e) => {
                     setNewProductOBJ({
                       ...newProductOBJ,
@@ -133,7 +133,7 @@ const Product = () => {
                 </select>
               </div>
             </div>
-            {newProductOBJ.category == "MOBILE" ? (
+            {newProductOBJ?.category == "MOBILE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Mobile Details:
@@ -152,7 +152,7 @@ const Product = () => {
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -169,7 +169,7 @@ const Product = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newProductOBJ.modelName}
+                      value={newProductOBJ?.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -193,7 +193,7 @@ const Product = () => {
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             specs: e.target.value.toUpperCase(),
                           },
                         })
@@ -210,12 +210,12 @@ const Product = () => {
                       Colour:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.color}
+                      value={newProductOBJ?.productObject?.color}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             color: e.target.value.toUpperCase(),
                           },
                         })
@@ -232,7 +232,7 @@ const Product = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newProductOBJ.quantity}
+                      value={newProductOBJ?.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -251,7 +251,7 @@ const Product = () => {
                       Description:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.description}
+                      value={newProductOBJ?.productObject?.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -264,7 +264,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "TV" ? (
+            ) : newProductOBJ?.category == "TV" ? (
               <div>
                 <h2
                   className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2
@@ -281,12 +281,12 @@ const Product = () => {
                       Company:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.company}
+                      value={newProductOBJ?.productObject?.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -303,7 +303,7 @@ const Product = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newProductOBJ.modelName}
+                      value={newProductOBJ?.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -322,12 +322,12 @@ const Product = () => {
                       Dimensions (in inch):
                     </label>
                     <input
-                      value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ?.productObject?.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             dimensions: e.target.value,
                           },
                         })
@@ -344,7 +344,7 @@ const Product = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newProductOBJ.quantity}
+                      value={newProductOBJ?.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -363,7 +363,7 @@ const Product = () => {
                       Description:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.description}
+                      value={newProductOBJ?.productObject?.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -376,7 +376,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "WASHING MACHINE" ? (
+            ) : newProductOBJ?.category == "WASHING MACHINE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Washing Machine Details:
@@ -390,12 +390,12 @@ const Product = () => {
                       Company:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.company}
+                      value={newProductOBJ?.productObject?.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -412,7 +412,7 @@ const Product = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newProductOBJ.modelName}
+                      value={newProductOBJ?.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -431,12 +431,12 @@ const Product = () => {
                       Dimensions (in liters):
                     </label>
                     <input
-                      value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ?.productObject?.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             dimensions: e.target.value,
                           },
                         })
@@ -453,12 +453,12 @@ const Product = () => {
                       Type:
                     </label>
                     <select
-                      value={newProductOBJ.productObject.type}
+                      value={newProductOBJ?.productObject?.type}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             type: e.target.value.toUpperCase(),
                           },
                         })
@@ -479,7 +479,7 @@ const Product = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newProductOBJ.quantity}
+                      value={newProductOBJ?.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -498,7 +498,7 @@ const Product = () => {
                       Description:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.description}
+                      value={newProductOBJ?.productObject?.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -511,7 +511,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "FRIDGE" ? (
+            ) : newProductOBJ?.category == "FRIDGE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Fridge Details:
@@ -525,12 +525,12 @@ const Product = () => {
                       Company:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.company}
+                      value={newProductOBJ?.productObject?.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -547,7 +547,7 @@ const Product = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newProductOBJ.modelName}
+                      value={newProductOBJ?.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -566,12 +566,12 @@ const Product = () => {
                       Dimensions (in liters):
                     </label>
                     <input
-                      value={newProductOBJ.productObject.dimensions}
+                      value={newProductOBJ?.productObject?.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             dimensions: e.target.value,
                           },
                         })
@@ -588,12 +588,12 @@ const Product = () => {
                       Doors:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.doors}
+                      value={newProductOBJ?.productObject?.doors}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             doors: e.target.value,
                           },
                         })
@@ -610,7 +610,7 @@ const Product = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newProductOBJ.dimensions}
+                      value={newProductOBJ?.dimensions}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -629,7 +629,7 @@ const Product = () => {
                       Description:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.description}
+                      value={newProductOBJ?.productObject?.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -642,7 +642,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-            ) : newProductOBJ.category == "OTHERS" ? (
+            ) : newProductOBJ?.category == "OTHERS" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Product Details:
@@ -656,12 +656,12 @@ const Product = () => {
                       Company:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.company}
+                      value={newProductOBJ?.productObject?.company}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
                           productObject: {
-                            ...newProductOBJ.productObject,
+                            ...newProductOBJ?.productObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -678,7 +678,7 @@ const Product = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newProductOBJ.modelName}
+                      value={newProductOBJ?.modelName}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -697,7 +697,7 @@ const Product = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newProductOBJ.quantity}
+                      value={newProductOBJ?.quantity}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -716,7 +716,7 @@ const Product = () => {
                       Description:
                     </label>
                     <input
-                      value={newProductOBJ.productObject.description}
+                      value={newProductOBJ?.productObject?.description}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
@@ -739,7 +739,7 @@ const Product = () => {
                   Amount:
                 </label>
                 <input
-                  value={newProductOBJ.amount}
+                  value={newProductOBJ?.amount}
                   onChange={(e) =>
                     setNewProductOBJ({
                       ...newProductOBJ,
@@ -773,7 +773,7 @@ const Product = () => {
                 <>
                   <button
                     onClick={() => {
-                      deleteProduct(newProductOBJ._id);
+                      deleteProduct(newProductOBJ?._id);
                     }}
                     className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                   >

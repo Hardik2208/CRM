@@ -85,13 +85,13 @@ const Order = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {orderList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-3 font-medium">{i.orderNumber}</td>
-                <td className="px-6 py-3 font-medium">{i.category}</td>
-                <td className="px-6 py-3">{i.modelName}</td>
-                <td className="px-6 py-3">{i.quantity}</td>
-                <td className="px-6 py-3">{i.customerObject.name}</td>
-                <td className="px-6 py-3">{i.customerObject.phoneNumber}</td>
-                <td className="px-6 py-3">{i.paymentObject.paymentType}</td>
+                <td className="px-6 py-3 font-medium">{i?.orderNumber}</td>
+                <td className="px-6 py-3 font-medium">{i?.category}</td>
+                <td className="px-6 py-3">{i?.modelName}?</td>
+                <td className="px-6 py-3">{i?.quantity}</td>
+                <td className="px-6 py-3">{i?.customerObject.name}</td>
+                <td className="px-6 py-3">{i?.customerObject.phoneNumber}</td>
+                <td className="px-6 py-3">{i?.paymentObject.paymentType}</td>
                 <td className="px-6 py-3">
                   <button
                     onClick={() => {
@@ -131,7 +131,7 @@ const Order = () => {
                   Category:
                 </label>
                 <select
-                  value={newOrder.category}
+                  value={newOrder?.category}
                   onChange={(e) => {
                     setNewOrder({
                       ...newOrder,
@@ -150,7 +150,7 @@ const Order = () => {
                 </select>
               </div>
             </div>
-            {newOrder.category == "MOBILE" ? (
+            {newOrder?.category == "MOBILE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Mobile Details:
@@ -161,12 +161,12 @@ const Order = () => {
                       Company:
                     </label>
                     <input
-                      value={newOrder.orderObject.company}
+                      value={newOrder?.orderObject?.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -180,7 +180,7 @@ const Order = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newOrder.modelName}
+                      value={newOrder?.modelName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -196,12 +196,12 @@ const Order = () => {
                       Ram,Rom fomat(ram/rom):
                     </label>
                     <input
-                      value={newOrder.orderObject.specs}
+                      value={newOrder?.orderObject?.specs}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             specs: e.target.value.toUpperCase(),
                           },
                         })
@@ -215,12 +215,12 @@ const Order = () => {
                       Colour:
                     </label>
                     <input
-                      value={newOrder.orderObject.color}
+                      value={newOrder?.orderObject?.color}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             color: e.target.value.toUpperCase(),
                           },
                         })
@@ -234,7 +234,7 @@ const Order = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newOrder.quantity}
+                      value={newOrder?.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
@@ -244,7 +244,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "TV" ? (
+            ) : newOrder?.category == "TV" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   TV Details:
@@ -255,12 +255,12 @@ const Order = () => {
                       Company:
                     </label>
                     <input
-                      value={newOrder.orderObject.company}
+                      value={newOrder?.orderObject?.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -274,7 +274,7 @@ const Order = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newOrder.modelName}
+                      value={newOrder?.modelName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -290,12 +290,12 @@ const Order = () => {
                       Size:
                     </label>
                     <input
-                      value={newOrder.orderObject.size}
+                      value={newOrder?.orderObject?.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             size: e.target.value.toUpperCase(),
                           },
                         })
@@ -309,7 +309,7 @@ const Order = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newOrder.quantity}
+                      value={newOrder?.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
@@ -319,7 +319,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "WASHING MACHINE" ? (
+            ) : newOrder?.category == "WASHING MACHINE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Washing Machine Details:
@@ -330,12 +330,12 @@ const Order = () => {
                       Company:
                     </label>
                     <input
-                      value={newOrder.orderObject.company}
+                      value={newOrder?.orderObject?.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -349,7 +349,7 @@ const Order = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newOrder.modelName}
+                      value={newOrder?.modelName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -365,12 +365,12 @@ const Order = () => {
                       Size (in liters):
                     </label>
                     <input
-                      value={newOrder.orderObject.size}
+                      value={newOrder?.orderObject?.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             size: e.target.value.toUpperCase(),
                           },
                         })
@@ -384,12 +384,12 @@ const Order = () => {
                       Type:
                     </label>
                     <select
-                      value={newOrder.orderObject.type}
+                      value={newOrder?.orderObject?.type}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             type: e.target.value.toUpperCase(),
                           },
                         })
@@ -407,7 +407,7 @@ const Order = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newOrder.quantity}
+                      value={newOrder?.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
@@ -417,7 +417,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "FRIDGE" ? (
+            ) : newOrder?.category == "FRIDGE" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Fridge Details:
@@ -428,12 +428,12 @@ const Order = () => {
                       Company:
                     </label>
                     <input
-                      value={newOrder.orderObject.company}
+                      value={newOrder?.orderObject?.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -447,7 +447,7 @@ const Order = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newOrder.modelName}
+                      value={newOrder?.modelName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -463,12 +463,12 @@ const Order = () => {
                       Size (in liters):
                     </label>
                     <input
-                      value={newOrder.orderObject.size}
+                      value={newOrder?.orderObject?.size}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             size: e.target.value.toUpperCase(),
                           },
                         })
@@ -482,12 +482,12 @@ const Order = () => {
                       Doors:
                     </label>
                     <input
-                      value={newOrder.orderObject.doors}
+                      value={newOrder?.orderObject?.doors}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             doors: e.target.value.toUpperCase(),
                           },
                         })
@@ -501,7 +501,7 @@ const Order = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newOrder.quantity}
+                      value={newOrder?.quantity}
                       onChange={(e) =>
                         setNewOrder({ ...newOrder, quantity: e.target.value })
                       }
@@ -511,7 +511,7 @@ const Order = () => {
                   </div>
                 </div>
               </div>
-            ) : newOrder.category == "OTHERS" ? (
+            ) : newOrder?.category == "OTHERS" ? (
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Product Details:
@@ -522,12 +522,12 @@ const Order = () => {
                       Company:
                     </label>
                     <input
-                      value={newOrder.orderObject.company}
+                      value={newOrder?.orderObject?.company}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           orderObject: {
-                            ...newOrder.orderObject,
+                            ...newOrder?.orderObject,
                             company: e.target.value.toUpperCase(),
                           },
                         })
@@ -541,7 +541,7 @@ const Order = () => {
                       Model Name:
                     </label>
                     <input
-                      value={newOrder.modelName}
+                      value={newOrder?.modelName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -557,7 +557,7 @@ const Order = () => {
                       Quantity:
                     </label>
                     <input
-                      value={newOrder.quantity}
+                      value={newOrder?.quantity}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
@@ -584,7 +584,7 @@ const Order = () => {
                     <input
                       value={
                         newOrder?.date
-                          ? new Date(newOrder.date).toLocaleDateString("en-IN")
+                          ? new Date(newOrder?.date).toLocaleDateString("en-IN")
                           : ""
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
@@ -598,7 +598,7 @@ const Order = () => {
                     <input
                       value={
                         newOrder?.date
-                          ? new Date(newOrder.date).toLocaleTimeString(
+                          ? new Date(newOrder?.date).toLocaleTimeString(
                               "en-IN",
                               {
                                 hour: "2-digit",
@@ -629,7 +629,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       customerObject: {
-                        ...newOrder.customerObject,
+                        ...newOrder?.customerObject,
                         name: e.target.value.toUpperCase(),
                       },
                     })
@@ -648,7 +648,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       customerObject: {
-                        ...newOrder.customerObject,
+                        ...newOrder?.customerObject,
                         phoneNumber: e.target.value.toUpperCase(),
                       },
                     })
@@ -667,7 +667,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       customerObject: {
-                        ...newOrder.customerObject,
+                        ...newOrder?.customerObject,
                         email: e.target.value,
                       },
                     })
@@ -686,7 +686,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       customerObject: {
-                        ...newOrder.customerObject,
+                        ...newOrder?.customerObject,
                         address: e.target.value.toUpperCase(),
                       },
                     })
@@ -710,7 +710,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         price: e.target.value.toUpperCase(),
                       },
                     })
@@ -729,7 +729,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         discount: e.target.value.toUpperCase(),
                       },
                     })
@@ -748,7 +748,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         CGST: e.target.value.toUpperCase(),
                       },
                     })
@@ -767,7 +767,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         SGST: e.target.value.toUpperCase(),
                       },
                     })
@@ -786,7 +786,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         paymentType: e.target.value.toUpperCase(),
                       },
                     });
@@ -813,7 +813,7 @@ const Order = () => {
                     setNewOrder({
                       ...newOrder,
                       paymentObject: {
-                        ...newOrder.paymentObject,
+                        ...newOrder?.paymentObject,
                         remarks: e.target.value.toUpperCase(),
                       },
                     })
@@ -837,12 +837,12 @@ const Order = () => {
                       Downpayment:
                     </label>
                     <input
-                      value={newOrder.tpf.downPayment}
+                      value={newOrder?.tpf?.downPayment}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             downPayment: e.target.value.toUpperCase(),
                           },
                         })
@@ -856,12 +856,12 @@ const Order = () => {
                       Number of EMI:
                     </label>
                     <input
-                      value={newOrder.tpf.numberOfEMI}
+                      value={newOrder?.tpf?.numberOfEMI}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             numberOfEMI: e.target.value.toUpperCase(),
                           },
                         })
@@ -875,12 +875,12 @@ const Order = () => {
                       File Charge:
                     </label>
                     <input
-                      value={newOrder.tpf.fileCharge}
+                      value={newOrder?.tpf?.fileCharge}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             fileCharge: e.target.value.toUpperCase(),
                           },
                         })
@@ -894,12 +894,12 @@ const Order = () => {
                       Intrest rate monthly(%):
                     </label>
                     <input
-                      value={newOrder.tpf.intrest}
+                      value={newOrder?.tpf?.intrest}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             intrest: e.target.value.toUpperCase(),
                           },
                         })
@@ -913,12 +913,12 @@ const Order = () => {
                       Amount of EMI:
                     </label>
                     <input
-                      value={newOrder.tpf.amountOfEMI}
+                      value={(newOrder.paymentObject.price - newOrder.paymentObject.discount + newOrder.tpf.fileCharge - newOrder.tpf.downPayment)}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             amountOfEMI: e.target.value.toUpperCase(),
                           },
                         })
@@ -932,12 +932,12 @@ const Order = () => {
                       Remarks:
                     </label>
                     <input
-                      value={newOrder.tpf.remarks}
+                      value={newOrder?.tpf?.remarks}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             remarks: e.target.value.toUpperCase(),
                           },
                         })
@@ -967,12 +967,12 @@ const Order = () => {
                       Guaranteer Name:
                     </label>
                     <input
-                      value={newOrder.tpf.guaranteerName}
+                      value={newOrder?.tpf?.guaranteerName}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             guaranteerName: e.target.value.toUpperCase(),
                           },
                         })
@@ -986,12 +986,12 @@ const Order = () => {
                       Phone Number:
                     </label>
                     <input
-                      value={newOrder.tpf.guaranteerPhoneNumber}
+                      value={newOrder?.tpf?.guaranteerPhoneNumber}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             guaranteerPhoneNumber: e.target.value.toUpperCase(),
                           },
                         })
@@ -1005,12 +1005,12 @@ const Order = () => {
                       Address:
                     </label>
                     <input
-                      value={newOrder.tpf.guaranteerAddress}
+                      value={newOrder?.tpf?.guaranteerAddress}
                       onChange={(e) =>
                         setNewOrder({
                           ...newOrder,
                           tpf: {
-                            ...newOrder.tpf,
+                            ...newOrder?.tpf,
                             guaranteerAddress: e.target.value.toUpperCase(),
                           },
                         })
@@ -1020,7 +1020,6 @@ const Order = () => {
                     />
                   </div>
                 </div>
-                {JSON.stringify(newOrder)}
               </div>
             ) : null}
 

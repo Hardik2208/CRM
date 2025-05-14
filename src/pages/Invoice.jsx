@@ -79,22 +79,22 @@ function Invoice() {
           <tbody className="bg-white divide-y divide-gray-200">
             {invoiceList.map((i, index) => (
               <tr className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium">{i.invoiceNumber}</td>
-                <td className="px-4 py-3 font-medium">{i.category}</td>
+                <td className="px-4 py-3 font-medium">{i?.invoiceNumber}</td>
+                <td className="px-4 py-3 font-medium">{i?.category}</td>
                 <td className="px-4 py-3">
-                  {i.orderObject?.company}
-                  {i.modelName}
+                  {i?.orderObject?.company}
+                  {i?.modelName}
                 </td>
-                <td className="px-4 py-3">{i.paymentObject.price}</td>
-                <td className="px-4 py-3">{i.paymentObject.discount}</td>
+                <td className="px-4 py-3">{i?.paymentObject.price}</td>
+                <td className="px-4 py-3">{i?.paymentObject.discount}</td>
                 <td className="px-4 py-3">
-                  {Number(i.paymentObject.CGST) + Number(i.paymentObject.SGST)}
+                  {Number(i?.paymentObject.CGST) + Number(i?.paymentObject.SGST)}
                 </td>
                 <td className="px-4 py-3">
-                  {((Number(i.paymentObject.price) -
-                    Number(i.paymentObject.discount)) *
-                    (Number(i.paymentObject.CGST) +
-                      Number(i.paymentObject.SGST) +
+                  {((Number(i?.paymentObject.price) -
+                    Number(i?.paymentObject.discount)) *
+                    (Number(i?.paymentObject.CGST) +
+                      Number(i?.paymentObject.SGST) +
                       100)) /
                     100}
                 </td>
@@ -134,7 +134,7 @@ function Invoice() {
                 </h2>
                 <div className="flex">
                   <input
-                    value={newInvoice.orderNumber}
+                    value={newInvoice?.orderNumber}
                     onChange={(e) => {
                       setOrderNumber(e.target.value);
                     }}
@@ -164,14 +164,14 @@ function Invoice() {
                   <div className="flex flex-col">
                     <label htmlFor="">Category:</label>
                     <input
-                      value={newInvoice.category}
+                      value={newInvoice?.category}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
                   </div>
                 </div>
 
-                {newInvoice.category == "MOBILE" ? (
+                {newInvoice?.category == "MOBILE" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                       Mobile Details:
@@ -180,7 +180,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Company:</label>
                         <input
-                          value={newInvoice.orderObject.company}
+                          value={newInvoice?.orderObject?.company}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -188,7 +188,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Model Name:</label>
                         <input
-                          value={newInvoice.modelName}
+                          value={newInvoice?.modelName}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -196,7 +196,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Ram,Rom fomat(ram/rom):</label>
                         <input
-                          value={newInvoice.orderObject.specs}
+                          value={newInvoice?.orderObject?.specs}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -204,7 +204,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Colour:</label>
                         <input
-                          value={newInvoice.orderObject.color}
+                          value={newInvoice?.orderObject?.color}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -212,14 +212,14 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Quantity:</label>
                         <input
-                          value={newInvoice.quantity}
+                          value={newInvoice?.quantity}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
                     </div>
                   </div>
-                ) : newInvoice.category == "TV" ? (
+                ) : newInvoice?.category == "TV" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                       TV Details:
@@ -228,7 +228,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Company:</label>
                         <input
-                          value={newInvoice.orderObject.company}
+                          value={newInvoice?.orderObject?.company}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -236,7 +236,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Model Name:</label>
                         <input
-                          value={newInvoice.orderObject.modelName}
+                          value={newInvoice?.orderObject?.modelName}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -244,7 +244,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Size:</label>
                         <input
-                          value={newInvoice.orderObject.size}
+                          value={newInvoice?.orderObject?.size}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -252,14 +252,14 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Quantity:</label>
                         <input
-                          value={newInvoice.quantity}
+                          value={newInvoice?.quantity}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
                     </div>
                   </div>
-                ) : newInvoice.category == "WASHING MACHINE" ? (
+                ) : newInvoice?.category == "WASHING MACHINE" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                       Washing Machine Details:
@@ -268,7 +268,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Company:</label>
                         <input
-                          value={newInvoice.orderObject.company}
+                          value={newInvoice?.orderObject?.company}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -276,7 +276,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Model Name:</label>
                         <input
-                          value={newInvoice.modelName}
+                          value={newInvoice?.modelName}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -284,7 +284,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Size (in liters):</label>
                         <input
-                          value={newInvoice.orderObject.size}
+                          value={newInvoice?.orderObject?.size}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -292,7 +292,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Type:</label>
                         <input
-                          value={newInvoice.orderObject.type}
+                          value={newInvoice?.orderObject?.type}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
@@ -300,14 +300,14 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Quantity:</label>
                         <input
-                          value={newInvoice.quantity}
+                          value={newInvoice?.quantity}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
                     </div>
                   </div>
-                ) : newInvoice.category == "FRIDGE" ? (
+                ) : newInvoice?.category == "FRIDGE" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                       Fridge Details:
@@ -316,7 +316,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Company:</label>
                         <input
-                          value={newInvoice.orderObject.company}
+                          value={newInvoice?.orderObject?.company}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -324,7 +324,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Model Name:</label>
                         <input
-                          value={newInvoice.modelName}
+                          value={newInvoice?.modelName}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -332,7 +332,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Size (in liters):</label>
                         <input
-                          value={newInvoice.orderObject.size}
+                          value={newInvoice?.orderObject?.size}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -340,7 +340,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Doors:</label>
                         <input
-                          value={newInvoice.orderObject.doors}
+                          value={newInvoice?.orderObject?.doors}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -348,14 +348,14 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Quantity:</label>
                         <input
-                          value={newInvoice.quantity}
+                          value={newInvoice?.quantity}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
                     </div>
                   </div>
-                ) : newInvoice.category == "OTHERS" ? (
+                ) : newInvoice?.category == "OTHERS" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 my-6 border-b pb-2">
                       Product Details:
@@ -364,7 +364,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Company:</label>
                         <input
-                          value={newInvoice.orderObject.company}
+                          value={newInvoice?.orderObject?.company}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -372,7 +372,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Model Name:</label>
                         <input
-                          value={newInvoice.modelName}
+                          value={newInvoice?.modelName}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="text"
                         />
@@ -380,7 +380,7 @@ function Invoice() {
                       <div className="flex flex-col">
                         <label htmlFor="">Quantity:</label>
                         <input
-                          value={newInvoice.quantity}
+                          value={newInvoice?.quantity}
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
@@ -399,7 +399,7 @@ function Invoice() {
                         <input
                           value={
                             newInvoice?.date
-                              ? new Date(newInvoice.date).toLocaleDateString(
+                              ? new Date(newInvoice?.date).toLocaleDateString(
                                   "en-IN"
                                 )
                               : ""
@@ -413,7 +413,7 @@ function Invoice() {
                         <input
                           value={
                             newInvoice?.date
-                              ? new Date(newInvoice.date).toLocaleTimeString(
+                              ? new Date(newInvoice?.date).toLocaleTimeString(
                                   "en-IN",
                                   {
                                     hour: "2-digit",
@@ -437,7 +437,7 @@ function Invoice() {
                   <div className="flex flex-col">
                     <label htmlFor="">Name:</label>
                     <input
-                      value={newInvoice.customerObject?.name}
+                      value={newInvoice?.customerObject?.name}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -445,7 +445,7 @@ function Invoice() {
                   <div className="flex flex-col">
                     <label htmlFor="">Phone Number:</label>
                     <input
-                      value={newInvoice.customerObject?.phoneNumber}
+                      value={newInvoice?.customerObject?.phoneNumber}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -454,7 +454,7 @@ function Invoice() {
                   <div className="flex flex-col">
                     <label htmlFor="">Address:</label>
                     <input
-                      value={newInvoice.customerObject?.address}
+                      value={newInvoice?.customerObject?.address}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -473,12 +473,12 @@ function Invoice() {
                         setNewInvoice({
                           ...newInvoice,
                           paymentObject: {
-                            ...newInvoice.paymentObject,
+                            ...newInvoice?.paymentObject,
                             price: e.target.value,
                           },
                         });
                       }}
-                      value={newInvoice.paymentObject?.price}
+                      value={newInvoice?.paymentObject?.price}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -490,12 +490,12 @@ function Invoice() {
                         setNewInvoice({
                           ...newInvoice,
                           paymentObject: {
-                            ...newInvoice.paymentObject,
+                            ...newInvoice?.paymentObject,
                             discount: e.target.value,
                           },
                         });
                       }}
-                      value={newInvoice.paymentObject?.discount}
+                      value={newInvoice?.paymentObject?.discount}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -507,12 +507,12 @@ function Invoice() {
                         setNewInvoice({
                           ...newInvoice,
                           paymentObject: {
-                            ...newInvoice.paymentObject,
+                            ...newInvoice?.paymentObject,
                             CGST: e.target.value,
                           },
                         });
                       }}
-                      value={newInvoice.paymentObject?.CGST || ""}
+                      value={newInvoice?.paymentObject?.CGST || ""}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />
@@ -524,12 +524,12 @@ function Invoice() {
                         setNewInvoice({
                           ...newInvoice,
                           paymentObject: {
-                            ...newInvoice.paymentObject,
+                            ...newInvoice?.paymentObject,
                             SGST: e.target.value,
                           },
                         });
                       }}
-                      value={newInvoice.paymentObject?.SGST || ""}
+                      value={newInvoice?.paymentObject?.SGST || ""}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="number"
                     />

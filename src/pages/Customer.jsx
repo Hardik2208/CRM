@@ -33,7 +33,7 @@ const Customer = () => {
     setShowModal(false), setNewCustomerData({});
     axios
       .put(
-        `https://shop-software.onrender.com/api/Customer/${newCustomerData._id}`,
+        `https://shop-software.onrender.com/api/Customer/${newCustomerData?._id}`,
         newCustomerData
       )
       .then((res) => getCustomerData())
@@ -91,10 +91,10 @@ const Customer = () => {
             {customerList.map((i, index) => (
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4 font-medium">{i.name}</td>
-                <td className="px-6 py-4">{i.phoneNumber}</td>
-                <td className="px-6 py-4">{i.address}</td>
-                <td className="px-6 py-4">{i.orderList.length}</td>
+                <td className="px-6 py-4 font-medium">{i?.name}</td>
+                <td className="px-6 py-4">{i?.phoneNumber}</td>
+                <td className="px-6 py-4">{i?.address}</td>
+                <td className="px-6 py-4">{i?.orderList.length}</td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => {
@@ -130,7 +130,7 @@ const Customer = () => {
               <div>
                 <label className="text-gray-600 font-medium text-sm">Name:</label>
                 <input
-                  value={newCustomerData.name}
+                  value={newCustomerData?.name}
                   onChange={(e) => {
                     setNewCustomerData({
                       ...newCustomerData,
@@ -150,7 +150,7 @@ const Customer = () => {
                       phoneNumber: e.target.value,
                     });
                   }}
-                  value={newCustomerData.phoneNumber}
+                  value={newCustomerData?.phoneNumber}
                   className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -164,7 +164,7 @@ const Customer = () => {
                       email: e.target.value,
                     });
                   }}
-                  value={newCustomerData.email}
+                  value={newCustomerData?.email}
                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -178,7 +178,7 @@ const Customer = () => {
                       address: e.target.value.toUpperCase(),
                     });
                   }}
-                  value={newCustomerData.address}
+                  value={newCustomerData?.address}
                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                   type="text"
                 />
@@ -247,20 +247,20 @@ const Customer = () => {
                 {selectedCustomer.orderList.map((i, index) => (
                   <tr className="hover:bg-gray-50">
                     <td className="px-6 py-4">{index + 1}</td>
-                    <td className="px-6 py-4">{i.orderNumber}</td>
-                    <td className="px-6 py-4">{i.paymentObject.price}</td>
-                    <td className="px-6 py-4">{i.paymentObject.discount}</td>
+                    <td className="px-6 py-4">{i?.orderNumber}</td>
+                    <td className="px-6 py-4">{i?.paymentObject.price}</td>
+                    <td className="px-6 py-4">{i?.paymentObject.discount}</td>
                     <td className="px-6 py-4">
-                      {i.paymentObject.price - i.paymentObject.discount}
+                      {i?.paymentObject.price - i?.paymentObject.discount}
                     </td>
-                    <td className="px-6 py-4">{i.quantity}</td>
+                    <td className="px-6 py-4">{i?.quantity}</td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => {
                           setReassign(true),
                             setAssignmentList({...assignmentList,
                               phoneNumber: selectedCustomer.phoneNumber,
-                              orderNumber: i.orderNumber,
+                              orderNumber: i?.orderNumber,
                               
                             });
                         }}
