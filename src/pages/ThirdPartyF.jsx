@@ -119,47 +119,74 @@ const ThirdPartyF = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {financeList.map((i) => (
-              <tr key={i._id} className="hover:bg-gray-50">
-                <td className="px-3 py-4 font-medium">{i?.financeNumber}</td>
-                <td className="px-3 py-4 font-medium">
-                  {i.customerObject?.name}
-                </td>
-                <td className="px-3 py-4">{i.customerObject?.phoneNumber}</td>
-                <td className="px-3 py-4">--</td>
-                <td className="px-3 py-4 font-medium">
-                  {i.financeObject?.numberOfEMILeft}
-                </td>
-                <td className="px-3 py-4">{i.financeObject?.amountOfEMI}</td>
-                <td
-                  className={`px-3 py-4 ${
-                    i.status === "Pending" ? "text-red-600" : "text-green-600"
-                  }`}
-                >
-                  {i?.status}
-                </td>
-                <td className="px-3 py-4 flex space-x-2">
-                  <button
-                    onClick={() => {
-                      setShowModal3(true);
-                      setNewFinance(i);
-                    }}
-                    className="text-blue-500 hover:text-indigo-900 cursor-pointer"
+            {financeList.map((i) => {
+              console.log("Processing date:", i.date);
+              let nextEmiDate = "--";
+              const emiList = i.EMI || [];
+
+              // Fallback to order date if present
+              const orderDateRaw = i.date || i.createdAt || null;
+
+              if (
+                i.status === "Pending" &&
+                i.financeObject?.numberOfEMILeft > 0
+              ) {
+                if (emiList.length > 0) {
+                  const latestEMI = emiList
+                    .map((e) => new Date(e.date))
+                    .sort((a, b) => b - a)[0];
+                  const next = new Date(latestEMI);
+                  next.setMonth(next.getMonth() + 1);
+                  nextEmiDate = next.toLocaleDateString("en-GB"); // DD/MM/YYYY
+                } else if (orderDateRaw) {
+                  const orderDate = new Date(orderDateRaw);
+                  orderDate.setMonth(orderDate.getMonth() + 1);
+                  nextEmiDate = orderDate.toLocaleDateString("en-GB");
+                }
+              }
+
+              return (
+                <tr key={i._id} className="hover:bg-gray-50">
+                  <td className="px-3 py-4 font-medium">{i.financeNumber}</td>
+                  <td className="px-3 py-4 font-medium">
+                    {i.customerObject?.name}
+                  </td>
+                  <td className="px-3 py-4">{i.customerObject?.phoneNumber}</td>
+                  <td className="px-3 py-4">{nextEmiDate}</td>
+                  <td className="px-3 py-4 font-medium">
+                    {i.financeObject?.numberOfEMILeft}
+                  </td>
+                  <td className="px-3 py-4">{i.financeObject?.amountOfEMI}</td>
+                  <td
+                    className={`px-3 py-4 ${
+                      i.status === "Pending" ? "text-red-600" : "text-green-600"
+                    }`}
                   >
-                    Browse
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNewFinance(i);
-                      setShowModal(true);
-                    }}
-                    className="text-blue-500 hover:text-indigo-900 cursor-pointer"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    {i.status}
+                  </td>
+                  <td className="px-3 py-4 flex space-x-2">
+                    <button
+                      onClick={() => {
+                        setShowModal3(true);
+                        setNewFinance(i);
+                      }}
+                      className="text-blue-500 hover:text-indigo-900 cursor-pointer"
+                    >
+                      Browse
+                    </button>
+                    <button
+                      onClick={() => {
+                        setNewFinance(i);
+                        setShowModal(true);
+                      }}
+                      className="text-blue-500 hover:text-indigo-900 cursor-pointer"
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -662,7 +689,7 @@ const ThirdPartyF = () => {
                       <label className="text-gray-600 font-medium text-sm">
                         Finance Number:
                       </label>
-                      <div>
+                      <div className="">
                         <input
                           onChange={(e) => {
                             setFNumber(e.target.value);
@@ -671,14 +698,14 @@ const ThirdPartyF = () => {
                               financeNumber: e.target.value,
                             }));
                           }}
-                          className="border border-gray-500 h-[5vh] mt-[1vh] w-[50%] uppercase pl-[1%] rounded-[5px]"
+                          className="mt-2 h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase w-[65%]"
                           type="number"
                         />
                         <button
                           onClick={() => {
                             getDetailsFinance();
                           }}
-                          className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[20%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                          className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[30%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                         >
                           {"Search"}
                         </button>
@@ -694,14 +721,14 @@ const ThirdPartyF = () => {
                           onChange={(e) => {
                             setONumber(e.target.value);
                           }}
-                          className="border border-gray-500 h-[5vh] mt-[1vh] w-[50%] uppercase pl-[1%] rounded-[5px]"
+                          className="mt-2 h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase w-[65%]"
                           type="number"
                         />
                         <button
                           onClick={() => {
                             getDetailsFinanceByOrder();
                           }}
-                          className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[20%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                          className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[30%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
                         >
                           {"Search"}
                         </button>
