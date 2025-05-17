@@ -1,8 +1,5 @@
 import React from "react";
-
-import { FaPeopleGroup } from "react-icons/fa6";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import {
   Package,
   Store,
@@ -18,171 +15,80 @@ import {
   Building,
 } from "lucide-react";
 
+const menuItems = [
+  { path: "/Home", label: "Dashboard", icon: Home },
+  { path: "/Product", label: "Stocks", icon: Package },
+  { path: "/Enquiry", label: "Enquiry", icon: FileText },
+  { path: "/Order", label: "Orders", icon: ShoppingCart },
+  { path: "/Sales", label: "Sales", icon: BarChart2 },
+  { path: "/Staff", label: "Staff", icon: UserCog },
+  { path: "/Invoice", label: "Invoice", icon: Building },
+  { path: "/Customer", label: "Customer", icon: Users },
+  { path: "/ThirdPartyF", label: "Finances", icon: IndianRupee },
+];
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="bg-[#FAFAFA] h-[100vh] text-[gray-400] shadow-md z-50 m-[0] w-[18%] border-r border-gray-200">
-      <h1 className="text-xl font-bold my-[8vh] flex ml-[5%]">
-        <span className="text-blue-600 mr-2">
-          <Store />
-        </span>{" "}
-        Admin Panel
-      </h1>
-      <div className="overflow-y-auto h-[80vh]">
-        <label className="px-[8%] text-xs text-gray-600 font-medium" htmlFor="">
+    <div className="h-screen w-[18%] bg-[#F9FAFB] text-gray-800 shadow-sm border-r border-gray-200">
+      <div className="py-6 px-4">
+        {/* Header */}
+        <div className="flex items-center gap-2 text-2xl font-semibold text-blue-900 mb-10">
+          <Store className="text-blue-600" />
+          <span>Admin Panel</span>
+        </div>
+
+        {/* Main Navigation */}
+        <label className="text-xs text-gray-500 font-medium mb-3 block">
           MAIN NAVIGATION
         </label>
-        <ul className="flex flex-col justify-around">
-          <li onClick={() => navigate("/")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <Home className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Dashboard</span>
-            </div>
-          </li>
+        <ul className="space-y-1">
+          {menuItems.map(({ path, label, icon: Icon }) => (
+            <li key={path} onClick={() => navigate(path)} className="cursor-pointer">
+              <div
+                className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition ${
+                  isActive(path)
+                    ? "bg-blue-100 text-blue-700 font-semibold"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                <Icon size={18} />
+                <span>{label}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
 
-          <li onClick={() => navigate("/Product")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Product"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <Package className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Stocks</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Enquiry")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Enquiry"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <FileText className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Enquiry</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Order")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Order"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <ShoppingCart className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Orders</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Sales")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Sales"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <BarChart2 className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Sales</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Staff")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Staff"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <UserCog className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Staff</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Invoice")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Invoice"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <Building className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Invoice</span>
-            </div>
-          </li>
-
-          <li onClick={() => navigate("/Customer")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Customer"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <Users className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Customer</span>
-            </div>
-          </li>
-
-          <li
-            onClick={() => navigate("/ThirdPartyF")}
-            className="cursor-pointer"
-          >
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/ThirdPartyF"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <IndianRupee className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Finances</span>
-            </div>
-          </li>
-
-          <label
-            className="px-[8%] mt-[5vh] text-xs text-gray-600 font-medium"
-            htmlFor=""
-          >
+        {/* Settings */}
+        <div className="mt-8">
+          <label className="text-xs text-gray-500 font-medium mb-3 block">
             SETTINGS
           </label>
-
-          <li onClick={() => navigate("/Settings")} className="cursor-pointer">
-            <div
-              className={`flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 ${
-                location.pathname === "/Settings"
-                  ? " w-[90%] mx-[5%]"
-                  : "hover:bg-gray-100 w-[90%] mx-[5%]"
-              }`}
-            >
-              <Settings className="text-xs text-gray-600" />
-              <span className="text-xs mt-1">Settings</span>
-            </div>
-          </li>
-
-          <li className="cursor-pointer">
-            <div className="flex items-center gap-4 py-1 px-[5%] my-1 rounded-md transition duration-300 hover:bg-red-100 mx-[5%]">
-              <LogOut className="text-xs text-red-500" />
-              <span className="text-xs mt-1 text-red-500">Logout</span>
-            </div>
-          </li>
-        </ul>
+          <ul>
+            <li onClick={() => navigate("/Settings")} className="cursor-pointer">
+              <div
+                className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition ${
+                  isActive("/Settings")
+                    ? "bg-blue-100 text-blue-700 font-semibold"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                <Settings size={18} />
+                <span>Settings</span>
+              </div>
+            </li>
+            <li onClick={() => navigate("/")} className="cursor-pointer mt-2">
+              <div className="flex items-center gap-3 px-4 py-2 rounded-md text-sm transition hover:bg-red-50 text-red-500 hover:text-red-600">
+                <LogOut size={18} />
+                <span>Logout</span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

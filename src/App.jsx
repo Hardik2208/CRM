@@ -11,16 +11,16 @@ import Order from "./pages/Order"
 import Sales from "./pages/Sales"
 import Customer from "./pages/Customer";
 import ThirdPartyF from "./pages/ThirdPartyF";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col h-screen overflow-hidden">
-       <div className="flex">
-       <Sidebar />
+     
        <main className="flex-grow bg-gray-100">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/Home" element={<Home />} />
             <Route path="/Product" element={<Product />} />
             <Route path="/Settings" element={<Settings />} />
             <Route path="/Enquiry" element={<Enquiry />} />
@@ -32,8 +32,7 @@ function App() {
             <Route path="/ThirdPartyF" element={<ThirdPartyF />} />
           </Routes>
         </main>
-       </div>
-      </div>
+       
     </Router>
   );
 }
