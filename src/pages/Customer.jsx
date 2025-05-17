@@ -225,7 +225,23 @@ const Customer = () => {
                 }}
                 className="px-4 py-2 bg-gray-200 w-[15%] rounded-md hover:bg-gray-300 hover:cursor-pointer"
               >
+<<<<<<< Updated upstream
                 Cancel
+=======
+                <span className="mr-1"><FileText /></span> Export as PDF
+              </button>
+              <button
+                onClick={() => exportExcel(customerList)}
+                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+              >
+                <span className="mr-1"><Table /></span> Export to Excel
+              </button>
+              <button
+                onClick={() => setShowModal("Add")}
+                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+              >
+                <span className="mr-1 text-[18px]">+</span> Add New Customer
+>>>>>>> Stashed changes
               </button>
               {showModal == "Add" ? (
                 <button
