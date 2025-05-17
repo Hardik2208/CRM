@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { FileText ,Table} from 'lucide-react';
 
 import { exportPDF, exportExcel } from "../components/Pdf";
 
@@ -67,24 +66,24 @@ const Customer = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold ">Customers</h1>
 
-        <div className="w-[60%] flex justify-end">
+        <div>
           <button
             onClick={() => exportPDF(customerList)}
-            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
           >
-            <span className="mr-1"><FileText /></span> Export as PDF
+            <span className="mr-1">+</span> Export as PDF
           </button>
           <button
             onClick={() => exportExcel(customerList)}
-            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
+            className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
           >
-            <span className="mr-1"><Table /></span> Export to Excel
+            <span className="mr-1">+</span> Export to Excel
           </button>
           <button
             onClick={() => setShowModal("Add")}
-            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
+            className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
           >
-            <span className="mr-1 text-[18px]">+</span> Add New Customer
+            <span className="mr-1">+</span> Add New Customer
           </button>
         </div>
       </div>
