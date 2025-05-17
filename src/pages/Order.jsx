@@ -1041,7 +1041,6 @@ const Order = () => {
                 </div>
               </div>
             ) : null}
-            {JSON.stringify(newOrder)}
             <div className="flex justify-end space-x-2 mt-4">
               <button
                 onClick={() => {

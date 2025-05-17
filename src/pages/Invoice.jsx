@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
 import { exportPDF, exportExcel } from "../components/Pdf";
@@ -13,6 +13,7 @@ function Invoice() {
   const [newInvoice, setNewInvoice] = useState([]);
   const [orderNumber, setOrderNumber] = useState(null);
   const today = new Date();
+
   const formatted = `${today.getFullYear()}-${String(
     today.getMonth() + 1
   ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -40,6 +41,21 @@ function Invoice() {
       })
       .catch((err) => console.log(err));
   };
+
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const printRef = useRef();
+
+  const handlePrint = () => {
+    const printContents = printRef.current.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload(); // Restore after print
+  };
+
+  
 
   return (
     <div className="p-6 h-[100vh] bg-white overflow-y-auto">
@@ -69,7 +85,7 @@ function Invoice() {
             onClick={() => setShowModal("Add")}
             className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
           >
-            <span className="mr-1 ">+</span> Add New Product
+            <span className="mr-1 ">+</span> Generate New Invoice
           </button>
         </div>
       </div>
@@ -129,11 +145,114 @@ function Invoice() {
                   >
                     View
                   </button>
+                  <button
+                    onClick={() => {
+                      setSelectedInvoice(i);
+                      setTimeout(() => handlePrint(), 0);
+                    }}
+                    className="text-blue-500 hover:text-indigo-900 hover:cursor-pointer ml-[10%]"
+                  >
+                    Print
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {/* ====== Hidden Printable Invoice Layout ====== */}
+        {selectedInvoice && (
+          <div
+            ref={printRef}
+            className="print:block p-10 max-w-3xl mx-auto text-black bg-white"
+          >
+            {/* Heading */}
+            <h1 className="text-4xl font-extrabold text-center mb-8">
+              INVOICE
+            </h1>
+
+            {/* Company Info */}
+            <div className="text-center mb-6 text-gray-700">
+              <p>Shree Vaibhav Laxmi</p>
+              <p>170A Ganga Devi Nagar, Indore, 452010</p>
+              <p>Phone: 9425311513 | Email: shreevaibhavlaxmielectronics@gmail.com</p>
+            </div>
+
+            <hr className="border-gray-300 mb-6" />
+
+            {/* Invoice Details */}
+            <div className="mb-6 space-y-2 text-lg">
+              <div className=" flex justify-between">
+                <p>
+                <strong>Invoice No:</strong> {selectedInvoice.invoiceNumber}
+              </p><p>
+                <strong>Date:</strong> {formatted}
+              </p>
+              </div>
+              <hr className="border-gray-300 my-6" />
+              <p>
+                <strong>Product:</strong> {selectedInvoice.orderObject?.company}{" "}
+                {selectedInvoice.modelName}
+              </p>
+              <div className="flex justify-between mt-14">
+                <p>
+                Price (₹): 
+                </p>
+                <p>
+                 {selectedInvoice.paymentObject.price}
+              </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p>
+                Discount (₹): 
+                </p>
+                <p>
+                 {selectedInvoice.paymentObject.discount}
+              </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p>
+                CGST (%): 
+                </p>
+                <p>
+                 {selectedInvoice.paymentObject.CGST}
+              </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p>
+                SGST (%): 
+                </p>
+                <p>
+                 {selectedInvoice.paymentObject.SGST}
+              </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p>
+                Total Tax (%): 
+                </p>
+                <p>
+                 {Number(selectedInvoice.paymentObject.CGST) +
+                  Number(selectedInvoice.paymentObject.SGST)}
+              </p>
+              </div>
+              
+            </div>
+
+            <hr className="border-gray-300 mb-6" />
+
+            {/* Total */}
+            <div className="text-right text-2xl font-bold">
+              Grand Total: ₹
+              {(
+                ((Number(selectedInvoice.paymentObject.price) -
+                  Number(selectedInvoice.paymentObject.discount)) *
+                  (Number(selectedInvoice.paymentObject.CGST) +
+                    Number(selectedInvoice.paymentObject.SGST) +
+                    100)) /
+                100
+              ).toFixed(2)}
+            </div>
+          </div>
+        )}
       </div>
       {showModal ? (
         <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
