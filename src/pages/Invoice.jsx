@@ -67,24 +67,6 @@ function Invoice() {
 
             <div className="w-[60%] flex justify-end">
               <button
-                onClick={() => exportPDF(invoiceList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <FileText />
-                </span>{" "}
-                Export as PDF
-              </button>
-              <button
-                onClick={() => exportExcel(invoiceList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <Table />
-                </span>{" "}
-                Export to Excel
-              </button>
-              <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >

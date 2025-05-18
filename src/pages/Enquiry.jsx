@@ -72,15 +72,6 @@ function Enquiry() {
 
             <div className="w-[60%] flex justify-end">
               <button
-                onClick={() => exportPDF(enquiryList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <FileText />
-                </span>{" "}
-                Export as PDF
-              </button>
-              <button
                 onClick={() => exportExcel(enquiryList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >
