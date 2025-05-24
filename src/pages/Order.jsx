@@ -114,7 +114,7 @@ const Order = () => {
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >
-                <span className="mr-1 ">+</span> Add New Product
+                <span className="mr-1 ">+</span> Generate New Order
               </button>
             </div>
           </div>
