@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/Sidebar";
+import { supabase } from './supabaseClient';
 
 import {
   Users,
@@ -13,6 +14,16 @@ import {
 
 const Home = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        navigate('/');
+      }
+    });
+  }, []);
+
+  
   const [customerList, setCustomerList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [sumOfQuantity, setSumOfQuantity] = useState(0);

@@ -1,60 +1,63 @@
-import React from "react";
-import logo from './logo.png'; 
-
-import { useNavigate, useLocation } from "react-router-dom";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "./supabaseClient";
+import logo from './logo.png';
 import { Cpu, HardDrive, Cable } from "lucide-react";
 
-export default function LoginPage() {
+export default function AuthPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleAuth = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    let result;
+    if (isSignUp) {
+      result = await supabase.auth.signUp({ email, password });
+    } else {
+      result = await supabase.auth.signInWithPassword({ email, password });
+    }
+
+    const { error } = result;
+    setLoading(false);
+
+    if (error) {
+      alert(error.message);
+    } else {
+      if (isSignUp) {
+        alert('Signup successful. Check your email for verification.');
+      }
+      navigate("/Home");
+    }
+  };
 
   return (
     <div className="flex h-screen">
       {/* Left Side */}
-
       <div className="w-1/2 bg-blue-600 text-white flex flex-col justify-center px-16 relative z-0">
-        <div className="bg-[#3B73ED] rounded-[75px] h-[150px] w-[150px] flex items-center justify-center absolute top-[10vh] left-[5%] -z-1">
-          <div className="bg-blue-600 rounded-[70px] h-[140px] w-[140px]"></div>
-        </div>
+        <div className="bg-[#3B73ED] rounded-[75px] h-[150px] w-[150px] absolute top-[10vh] left-[5%] -z-1" />
+        <div className="bg-[#3B73ED] rounded-full h-[300px] w-[300px] absolute top-[32vh] left-[30%] -z-10 opacity-80" />
+        <div className="bg-[#3B73ED] rounded-full h-[200px] w-[200px] absolute top-[40vh] left-[60%] -z-10 opacity-50" />
 
-        <div className="bg-[#3B73ED] rounded-full h-[300px] w-[300px] flex items-center justify-center absolute top-[32vh] left-[30%] -z-10 opacity-80">
-          <div className="bg-blue-600 rounded-full h-[290px] w-[290px]"></div>
-        </div>
-
-        <div className="bg-[#3B73ED] rounded-full h-[200px] w-[200px] flex items-center justify-center absolute top-[40vh] left-[60%] -z-10 opacity-50">
-          <div className="bg-blue-600 rounded-full h-[190px] w-[190px]"></div>
-        </div>
-
-        <div className="absolute top-6 left-6 space-x-2 z-10 w-[100%]">
-          <h1 className="text-2xl font-bold flex items-center gap-2"><img src={logo} alt="MyShopDesk logo" className= "w-[10%] bg-black rounded-full" />MyShopDesk</h1>
+        <div className="absolute top-6 left-6 z-10 w-[100%]">
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <img src={logo} alt="MyShopDesk logo" className="w-[10%] bg-black rounded-full" />
+            MyShopDesk
+          </h1>
         </div>
         <div className="mt-20">
-          <h2 className="text-4xl font-bold mb-4 z-10">
-            MyShopDesk Management
-          </h2>
+          <h2 className="text-4xl font-bold mb-4 z-10">MyShopDesk Management</h2>
           <p className="text-lg mb-8">
             Streamline your electronics store operations with our comprehensive
             management solution.
           </p>
           <ul className="space-y-4 z-10">
-            <li className="flex items-center">
-              <span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center">
-                <Cpu />
-              </span>
-              Inventory tracking with real-time updates
-            </li>
-            <li className="flex items-center">
-              <span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center">
-                <HardDrive />
-              </span>
-              Detailed sales analytics and reporting
-            </li>
-            <li className="flex items-center">
-              <span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center">
-                <Cable />
-              </span>
-              Smart customer relationship management
-            </li>
+            <li className="flex items-center"><span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center"><Cpu /></span> Inventory tracking with real-time updates</li>
+            <li className="flex items-center"><span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center"><HardDrive /></span> Detailed sales analytics and reporting</li>
+            <li className="flex items-center"><span className="mx-2 bg-[#5182EF] rounded-[25px] w-[50px] h-[50px] flex justify-center items-center"><Cable /></span> Smart customer relationship management</li>
           </ul>
         </div>
         <footer className="absolute bottom-6 text-sm text-white/80 z-10">
@@ -66,45 +69,54 @@ export default function LoginPage() {
       <div className="w-1/2 flex items-center justify-center bg-gray-50">
         <div className="bg-white shadow-lg rounded-xl p-10 w-full max-w-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
-            Login to your account
+            {isSignUp ? "Create an Account" : "Login to your Account"}
           </h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleAuth}>
             <input
-              type="text"
-              placeholder="Username or Email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
             />
-            <div className="flex justify-between items-center text-sm">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                Remember me
-              </label>
-              <a href="#" className="text-blue-600 hover:underline">
-                Forgot password?
-              </a>
-            </div>
             <button
-              onClick={() => navigate("/Home")}
+              type="submit"
               className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 hover:cursor-pointer"
+              disabled={loading}
             >
-              Log in
+              {loading ? "Please wait..." : isSignUp ? "Sign Up" : "Log In"}
             </button>
           </form>
 
           <div className="mt-6 text-sm text-gray-500 text-center">
-            Need help? Contact{" "}
-            <a
-              href="mailto:support@electroretail.com"
-              className="text-blue-600 hover:underline"
-            >
-              support@electroretail.com
-            </a>
+            {isSignUp ? (
+              <>
+                Already have an account?{" "}
+                <button
+                  onClick={() => setIsSignUp(false)}
+                  className="text-blue-600 hover:underline hover:cursor-pointer"
+                >
+                  Log in
+                </button>
+              </>
+            ) : (
+              null
+            )}
           </div>
+          {isSignUp?
+          null:<div className="mt-4 text-sm text-gray-500 text-center">
+            Forgot Password? 
+            <label onClick={()=>{navigate("/PasswordReset")}} htmlFor="" className="text-blue-600 mx-2 hover:cursor-pointer hover:underline">Forgot</label>
+          </div>}
         </div>
       </div>
     </div>

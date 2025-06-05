@@ -1,7 +1,6 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Sidebar from "./components/Sidebar";
 import Product from "./pages/Product";
 import Settings from "./pages/Settings";
 import Enquiry from "./pages/Enquiry";
@@ -12,6 +11,9 @@ import Sales from "./pages/Sales"
 import Customer from "./pages/Customer";
 import ThirdPartyF from "./pages/ThirdPartyF";
 import Login from "./pages/Login";
+import PasswordReset from "./pages/PasswordReset";
+import UpdatePassword from "./pages/UpdatePassword";
+
 
 function App() {
   return (
@@ -30,6 +32,9 @@ function App() {
             <Route path="/Sales" element={<Sales />} />
             <Route path="/Customer" element={<Customer />} />
             <Route path="/ThirdPartyF" element={<ThirdPartyF />} />
+            <Route path="/PasswordReset" element={<PasswordReset />} />
+            <Route path="/UpdatePassword" element={<UpdatePassword />} />
+
           </Routes>
         </main>
        

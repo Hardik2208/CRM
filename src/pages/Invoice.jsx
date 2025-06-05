@@ -109,17 +109,17 @@ function Invoice() {
                       {i?.orderObject?.company}
                       {i?.modelName}
                     </td>
-                    <td className="px-4 py-3">{i?.paymentObject.price}</td>
-                    <td className="px-4 py-3">{i?.paymentObject.discount}</td>
+                    <td className="px-4 py-3">{i?.paymentObject?.price}</td>
+                    <td className="px-4 py-3">{i?.paymentObject?.discount}</td>
                     <td className="px-4 py-3">
-                      {Number(i?.paymentObject.CGST) +
-                        Number(i?.paymentObject.SGST)}
+                      {Number(i?.paymentObject?.CGST) +
+                        Number(i?.paymentObject?.SGST)}
                     </td>
                     <td className="px-4 py-3">
-                      {((Number(i?.paymentObject.price) -
-                        Number(i?.paymentObject.discount)) *
-                        (Number(i?.paymentObject.CGST) +
-                          Number(i?.paymentObject.SGST) +
+                      {((Number(i?.paymentObject?.price) -
+                        Number(i?.paymentObject?.discount)) *
+                        (Number(i?.paymentObject?.CGST) +
+                          Number(i?.paymentObject?.SGST) +
                           100)) /
                         100}
                     </td>
@@ -180,35 +180,43 @@ function Invoice() {
                       <strong>Date:</strong> {formatted}
                     </p>
                   </div>
+
                   <hr className="border-gray-300 my-6" />
+
+                  <p>
+                    <strong>Customer Name:</strong>{" "}
+                    {selectedInvoice.customerObject?.name}
+                  </p>
+                  <p>
+                    <strong>Customer Address:</strong>{" "}
+                    {selectedInvoice.customerObject?.address}
+                  </p>
+                  <p>
+                    <strong>Customer Phone Number:</strong>{" "}
+                    {selectedInvoice.customerObject?.phoneNumber}
+                  </p>
+
+                  <hr className="border-gray-300 mb-6" />
+
                   <p>
                     <strong>Product:</strong>{" "}
                     {selectedInvoice.orderObject?.company}{" "}
                     {selectedInvoice.modelName}
                   </p>
-                  <div className="flex justify-between mt-14">
-                    <p>Price (₹):</p>
-                    <p>{selectedInvoice.paymentObject.price}</p>
+                  <div className="flex justify-between">
+                    <div className="max-w-[80%] w-[80%]">
+                      <p>Price (₹):</p>
+                      <p>Discount (₹):</p>
+                      <p>CGST (%):</p>
+                      <p>SGST (%):</p>
+                      <p>Total Tax (%):</p>
+                    </div>
+                    <div className="min-w-[5%] text-right border-l-2 border-gray-300"><p>{selectedInvoice.paymentObject?.price}</p> <p>{selectedInvoice.paymentObject?.discount}</p><p>{selectedInvoice.paymentObject?.CGST}</p><p>{selectedInvoice.paymentObject?.SGST}</p><p>
+                      {Number(selectedInvoice.paymentObject?.CGST) +
+                        Number(selectedInvoice.paymentObject?.SGST)}
+                    </p></div>
                   </div>
-                  <div className="flex justify-between mt-2">
-                    <p>Discount (₹):</p>
-                    <p>{selectedInvoice.paymentObject.discount}</p>
-                  </div>
-                  <div className="flex justify-between mt-2">
-                    <p>CGST (%):</p>
-                    <p>{selectedInvoice.paymentObject.CGST}</p>
-                  </div>
-                  <div className="flex justify-between mt-2">
-                    <p>SGST (%):</p>
-                    <p>{selectedInvoice.paymentObject.SGST}</p>
-                  </div>
-                  <div className="flex justify-between mt-2">
-                    <p>Total Tax (%):</p>
-                    <p>
-                      {Number(selectedInvoice.paymentObject.CGST) +
-                        Number(selectedInvoice.paymentObject.SGST)}
-                    </p>
-                  </div>
+                  
                 </div>
 
                 <hr className="border-gray-300 mb-6" />
@@ -217,10 +225,10 @@ function Invoice() {
                 <div className="text-right text-2xl font-bold">
                   Grand Total: ₹
                   {(
-                    ((Number(selectedInvoice.paymentObject.price) -
-                      Number(selectedInvoice.paymentObject.discount)) *
-                      (Number(selectedInvoice.paymentObject.CGST) +
-                        Number(selectedInvoice.paymentObject.SGST) +
+                    ((Number(selectedInvoice.paymentObject?.price) -
+                      Number(selectedInvoice.paymentObject?.discount)) *
+                      (Number(selectedInvoice.paymentObject?.CGST) +
+                        Number(selectedInvoice.paymentObject?.SGST) +
                         100)) /
                     100
                   ).toFixed(2)}
