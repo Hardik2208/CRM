@@ -317,17 +317,9 @@ function Invoice() {
                             />
                           </div>
                           <div className="flex flex-col">
-                            <label htmlFor="">Ram,Rom fomat(ram/rom):</label>
+                            <label htmlFor="">IMEI:</label>
                             <input
-                              value={newInvoice?.orderObject?.specs}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <label htmlFor="">Colour:</label>
-                            <input
-                              value={newInvoice?.orderObject?.color}
+                              value={newInvoice?.orderObject?.IMEI}
                               className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                               type="text"
                             />
@@ -365,14 +357,6 @@ function Invoice() {
                             />
                           </div>
                           <div className="flex flex-col">
-                            <label htmlFor="">Size:</label>
-                            <input
-                              value={newInvoice?.orderObject?.size}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex flex-col">
                             <label htmlFor="">Quantity:</label>
                             <input
                               value={newInvoice?.quantity}
@@ -405,22 +389,6 @@ function Invoice() {
                             />
                           </div>
                           <div className="flex flex-col">
-                            <label htmlFor="">Size (in liters):</label>
-                            <input
-                              value={newInvoice?.orderObject?.size}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <label htmlFor="">Type:</label>
-                            <input
-                              value={newInvoice?.orderObject?.type}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="number"
-                            />
-                          </div>
-                          <div className="flex flex-col">
                             <label htmlFor="">Quantity:</label>
                             <input
                               value={newInvoice?.quantity}
@@ -448,22 +416,6 @@ function Invoice() {
                             <label htmlFor="">Model Name:</label>
                             <input
                               value={newInvoice?.modelName}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <label htmlFor="">Size (in liters):</label>
-                            <input
-                              value={newInvoice?.orderObject?.size}
-                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <label htmlFor="">Doors:</label>
-                            <input
-                              value={newInvoice?.orderObject?.doors}
                               className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                               type="text"
                             />
