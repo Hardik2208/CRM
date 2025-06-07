@@ -22,6 +22,40 @@ const Staff = () => {
   const daysInMonth = getDaysInMonth(year, month);
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
+  const [search, setSearch] = useState("");
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    // Clear the previous timer whenever search changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    // Set a new timer
+    const id = setTimeout(() => {
+      if (search.trim()) {
+        resultOfSearch(search);
+      }
+    }, 1000); 
+
+    setTimerId(id);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(id);
+  }, [search]);
+
+  const resultOfSearch = async (searchTerm) => {
+    try {
+      {const res = await axios.post(
+        `https://shop-software.onrender.com/api/staff/Search`,
+        { searchTerm } //  Object format
+      );
+      setStaffList(res.data);}
+    } catch (err) {
+      console.error("Search Error:", err); // Shows error object in console
+    }
+  };
+
   const getStaffData = () => {
     axios
       .get("https://shop-software.onrender.com/api/staff")
@@ -102,6 +136,16 @@ const Staff = () => {
               <span className="mr-1">+</span> Add New Staff
             </button>
           </div>
+          <div className="w-[100%] flex justify-start my-4 ">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="mt-2 w-[40%] h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+              onChange={(e) => {
+                setSearch(e.target.value.toUpperCase());
+              }}
+            />
+          </div>
 
           {/* Order Table */}
           <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -180,6 +224,17 @@ const Staff = () => {
                   Work Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  {showModal == "View" ?(<>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Staff's Image:
+                    </label>
+                    <img
+                      src={newStaff?.staffImage}
+                      className="h-[20vh]"
+                    ></img>
+                  </div>
+                  <div></div></>):null}
                   <div className="flex flex-col">
                     <label className="text-gray-600 font-medium text-sm">
                       Work:
@@ -343,6 +398,7 @@ const Staff = () => {
                       type="text"
                     />
                   </div>
+                 {showModal !== "View" ?
                   <div className="flex flex-col">
                     <label className="text-gray-600 font-medium text-sm">
                       Staff's Picture:
@@ -353,7 +409,7 @@ const Staff = () => {
                       newStaff={newStaff}
                       imageKey="staffImage"
                     />
-                  </div>
+                  </div>:null}
                 </div>
 
                 <div className="flex justify-end space-x-2 mt-4">

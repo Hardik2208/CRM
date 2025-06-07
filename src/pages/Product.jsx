@@ -13,6 +13,40 @@ const Product = () => {
   const [showModal, setShowModal] = useState("");
   const [productList, setProductList] = useState([]);
   const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
+    const [search, setSearch] = useState("");
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    // Clear the previous timer whenever search changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    // Set a new timer
+    const id = setTimeout(() => {
+      if (search.trim()) {
+        resultOfSearch(search);
+      }
+    }, 1000); 
+
+    setTimerId(id);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(id);
+  }, [search]);
+
+  const resultOfSearch = async (searchTerm) => {
+    try {
+      {const res = await axios.post(
+        `https://shop-software.onrender.com/api/product/Search`,
+        { searchTerm } //  Object format
+      );
+      setProductList(res.data);}
+    } catch (err) {
+      console.error("Search Error:", err); // Shows error object in console
+    }
+  };
+
 
   const updateProduct = () => {
     setNewProductOBJ({ productObject: {} });
@@ -81,6 +115,16 @@ const Product = () => {
                 <span className="mr-1 ">+</span> Add New Product
               </button>
             </div>
+          </div>
+          <div className="w-[100%] flex justify-start my-4 ">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="mt-2 w-[40%] h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+              onChange={(e) => {
+                setSearch(e.target.value.toUpperCase());
+              }}
+            />
           </div>
 
           {/* Product Table */}

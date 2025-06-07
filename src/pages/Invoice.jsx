@@ -16,6 +16,42 @@ function Invoice() {
   const [orderNumber, setOrderNumber] = useState(null);
   const today = new Date();
 
+  const [search, setSearch] = useState("");
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    // Clear the previous timer whenever search changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    // Set a new timer
+    const id = setTimeout(() => {
+      if (search.trim()) {
+        resultOfSearch(search);
+      }
+    }, 1000);
+
+    setTimerId(id);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(id);
+  }, [search]);
+
+  const resultOfSearch = async (searchTerm) => {
+    try {
+      {
+        const res = await axios.post(
+          `https://shop-software.onrender.com/api/invoice/Search`,
+          { searchTerm } //  Object format
+        );
+        setInvoiceList(res.data);
+      }
+    } catch (err) {
+      console.error("Search Error:", err); // Shows error object in console
+    }
+  };
+
   const formatted = `${today.getFullYear()}-${String(
     today.getMonth() + 1
   ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -73,6 +109,17 @@ function Invoice() {
                 <span className="mr-1 ">+</span> Generate New Invoice
               </button>
             </div>
+          </div>
+          
+          <div className="w-[100%] flex justify-start my-4 ">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="mt-2 w-[40%] h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+              onChange={(e) => {
+                setSearch(e.target.value.toUpperCase());
+              }}
+            />
           </div>
           {/* Enquiry Table */}
           <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -211,12 +258,17 @@ function Invoice() {
                       <p>SGST (%):</p>
                       <p>Total Tax (%):</p>
                     </div>
-                    <div className="min-w-[5%] text-right border-l-2 border-gray-300"><p>{selectedInvoice.paymentObject?.price}</p> <p>{selectedInvoice.paymentObject?.discount}</p><p>{selectedInvoice.paymentObject?.CGST}</p><p>{selectedInvoice.paymentObject?.SGST}</p><p>
-                      {Number(selectedInvoice.paymentObject?.CGST) +
-                        Number(selectedInvoice.paymentObject?.SGST)}
-                    </p></div>
+                    <div className="min-w-[5%] text-right border-l-2 border-gray-300">
+                      <p>{selectedInvoice.paymentObject?.price}</p>{" "}
+                      <p>{selectedInvoice.paymentObject?.discount}</p>
+                      <p>{selectedInvoice.paymentObject?.CGST}</p>
+                      <p>{selectedInvoice.paymentObject?.SGST}</p>
+                      <p>
+                        {Number(selectedInvoice.paymentObject?.CGST) +
+                          Number(selectedInvoice.paymentObject?.SGST)}
+                      </p>
+                    </div>
                   </div>
-                  
                 </div>
 
                 <hr className="border-gray-300 mb-6" />

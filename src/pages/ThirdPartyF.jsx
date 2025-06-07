@@ -21,6 +21,42 @@ const ThirdPartyF = () => {
   const [sumOfEMI, setSumOfEMI] = useState(0);
   const [optionVar, setOptionVar] = useState("");
 
+  const [search, setSearch] = useState("");
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    // Clear the previous timer whenever search changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    // Set a new timer
+    const id = setTimeout(() => {
+      if (search.trim()) {
+        resultOfSearch(search);
+      }
+    }, 1000);
+
+    setTimerId(id);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(id);
+  }, [search]);
+
+  const resultOfSearch = async (searchTerm) => {
+    try {
+      {
+        const res = await axios.post(
+          `https://shop-software.onrender.com/api/tpf/Search`,
+          { searchTerm } //  Object format
+        );
+        setFinanceList(res.data);
+      }
+    } catch (err) {
+      console.error("Search Error:", err); // Shows error object in console
+    }
+  };
+
   const getFinanceData = () => {
     axios
       .get("https://shop-software.onrender.com/api/tpf")
@@ -90,6 +126,16 @@ const ThirdPartyF = () => {
               </button>
             </div>
           </div>
+          <div className="w-[100%] flex justify-start my-4 ">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="mt-2 w-[40%] h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+              onChange={(e) => {
+                setSearch(e.target.value.toUpperCase());
+              }}
+            />
+          </div>
           {/* Finance Table */}
           <div className="bg-white rounded-lg shadow w-full overflow-auto">
             <table className="w-full table-auto">
@@ -144,20 +190,24 @@ const ThirdPartyF = () => {
                   return (
                     <tr key={i._id} className="hover:bg-gray-50">
                       <td className="px-3 py-4 font-medium">
-                        {i.financeNumber}
+                        {i.financeNumber || "-"}
                       </td>
                       <td className="px-3 py-4 font-medium">
-                        {i.customerObject?.name}
+                        {i.customerObject?.name || "-"}
                       </td>
                       <td className="px-3 py-4">
-                        {i.customerObject?.phoneNumber}
+                        {i.customerObject?.phoneNumber || "-"}
                       </td>
-                      <td className="px-3 py-4">{nextEmiDate}</td>
+                      <td className="px-3 py-4">
+                        {i?.upcomingDate && !isNaN(new Date(i.upcomingDate))
+                          ? new Date(i.upcomingDate).toLocaleDateString("en-IN")
+                          : "-"}
+                      </td>
                       <td className="px-3 py-4 font-medium">
-                        {i.financeObject?.numberOfEMILeft}
+                        {i.financeObject?.numberOfEMILeft || "-"}
                       </td>
                       <td className="px-3 py-4">
-                        {i.financeObject?.amountOfEMI}
+                        {i.financeObject?.amountOfEMI || "-"}
                       </td>
                       <td
                         className={`px-3 py-4 ${
@@ -166,7 +216,7 @@ const ThirdPartyF = () => {
                             : "text-green-600"
                         }`}
                       >
-                        {i.status}
+                        {i.status || "-"}
                       </td>
                       <td className="px-3 py-4 flex space-x-2">
                         <button
