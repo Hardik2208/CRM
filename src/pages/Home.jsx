@@ -48,7 +48,7 @@ const Home = () => {
     axios
       .get("https://shop-software.onrender.com/api/product")
       .then((res) => {
-        const lowStock = res.data.filter((item) => item.quantity <= 2);
+        const lowStock = res.data.filter((item) => item.quantity == 0 );
         setProductList(lowStock);
       })
       .catch((err) => console.log(err));
