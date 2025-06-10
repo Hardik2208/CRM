@@ -13,7 +13,7 @@ const Product = () => {
   const [showModal, setShowModal] = useState("");
   const [productList, setProductList] = useState([]);
   const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
-    const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Product = () => {
       if (search.trim()) {
         resultOfSearch(search);
       }
-    }, 1000); 
+    }, 1000);
 
     setTimerId(id);
 
@@ -37,16 +37,17 @@ const Product = () => {
 
   const resultOfSearch = async (searchTerm) => {
     try {
-      {const res = await axios.post(
-        `https://shop-software.onrender.com/api/product/Search`,
-        { searchTerm } //  Object format
-      );
-      setProductList(res.data);}
+      {
+        const res = await axios.post(
+          `https://shop-software.onrender.com/api/porduct/Search`,
+          { searchTerm } //  Object format
+        );
+        setProductList(res.data);
+      }
     } catch (err) {
       console.error("Search Error:", err); // Shows error object in console
     }
   };
-
 
   const updateProduct = () => {
     setNewProductOBJ({ productObject: {} });
@@ -98,7 +99,6 @@ const Product = () => {
             <h1 className="text-3xl font-bold">Stocks</h1>
 
             <div className="w-[60%] flex justify-end">
-              
               <button
                 onClick={() => exportExcel(productList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
@@ -193,7 +193,6 @@ const Product = () => {
                       value={newProductOBJ?.category}
                       onChange={(e) => {
                         setNewProductOBJ({
-                          ...newProductOBJ,
                           category: e.target.value.toUpperCase(),
                         });
                       }}
@@ -202,11 +201,11 @@ const Product = () => {
                       id=""
                     >
                       <option value="">Choose Option</option>
-                      <option value="Mobile">Mobile</option>
+                      <option value="MOBILE">Mobile</option>
                       <option value="TV">TV</option>
-                      <option value="Fridge">Fridge</option>
-                      <option value="Washing Machine">Washing Machine</option>
-                      <option value="Others">Others</option>
+                      <option value="FRIDGE">Fridge</option>
+                      <option value="WASHING MACHINE">Washing Machine</option>
+                      <option value="OTHERS">Others</option>
                     </select>
                   </div>
                 </div>
@@ -262,28 +261,6 @@ const Product = () => {
                           className="text-gray-600 font-medium text-sm"
                           htmlFor=""
                         >
-                          IMEI Number:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.IMEI}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                IMEI: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
                           Quantity:
                         </label>
                         <input
@@ -298,6 +275,41 @@ const Product = () => {
                           type="number"
                         />
                       </div>
+                      {newProductOBJ?.quantity
+                        ? Array.from({ length: newProductOBJ.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  IMEI Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newProductOBJ?.productObject?.IMEI?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedIMEIs = [
+                                      ...(newProductOBJ?.productObject?.IMEI ||
+                                        []),
+                                    ];
+                                    updatedIMEIs[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewProductOBJ({
+                                      ...newProductOBJ,
+                                      productObject: {
+                                        ...newProductOBJ.productObject,
+                                        IMEI: updatedIMEIs,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newProductOBJ?.category == "TV" ? (
@@ -355,28 +367,6 @@ const Product = () => {
                           className="text-gray-600 font-medium text-sm"
                           htmlFor=""
                         >
-                          Serial Number:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                serialNumber: e.target.value,
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
                           Quantity:
                         </label>
                         <input
@@ -391,6 +381,42 @@ const Product = () => {
                           type="number"
                         />
                       </div>
+                      
+                      {newProductOBJ?.quantity
+                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newProductOBJ?.productObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newProductOBJ?.productObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewProductOBJ({
+                                      ...newProductOBJ,
+                                      productObject: {
+                                        ...newProductOBJ.productObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newProductOBJ?.category == "WASHING MACHINE" ? (
@@ -440,28 +466,7 @@ const Product = () => {
                           type="text"
                         />
                       </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Serail Number:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                serialNumber: e.target.value,
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
+                      
                       <div className="">
                         <label
                           className="text-gray-600 font-medium text-sm"
@@ -481,6 +486,42 @@ const Product = () => {
                           type="text"
                         />
                       </div>
+                      
+                      {newProductOBJ?.quantity
+                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newProductOBJ?.productObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newProductOBJ?.productObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewProductOBJ({
+                                      ...newProductOBJ,
+                                      productObject: {
+                                        ...newProductOBJ.productObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newProductOBJ?.category == "FRIDGE" ? (
@@ -530,28 +571,7 @@ const Product = () => {
                           type="text"
                         />
                       </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Serial Number:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                serialNumber: e.target.value,
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
+                      
                       <div className="">
                         <label
                           className="text-gray-600 font-medium text-sm"
@@ -571,6 +591,42 @@ const Product = () => {
                           type="number"
                         />
                       </div>
+                      {newProductOBJ?.quantity
+                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newProductOBJ?.productObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newProductOBJ?.productObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewProductOBJ({
+                                      ...newProductOBJ,
+                                      productObject: {
+                                        ...newProductOBJ.productObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
+                      
                     </div>
                   </div>
                 ) : newProductOBJ?.category == "OTHERS" ? (
