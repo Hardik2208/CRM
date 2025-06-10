@@ -135,6 +135,7 @@ const Product = () => {
                   {[
                     "Category",
                     "Product Name",
+                    "Selling Price",
                     "Price",
                     "Quanity",
                     "Action",
@@ -156,6 +157,7 @@ const Product = () => {
                     </td>
 
                     <td className="px-6 py-3">{product?.modelName}</td>
+                    <td className="px-6 py-3">{product?.sellingPrice}</td>
                     <td className="px-6 py-3">{product?.amount}</td>
                     <td className="px-6 py-3">{product?.quantity}</td>
                     <td className="px-6 py-3">
@@ -715,6 +717,25 @@ const Product = () => {
                         setNewProductOBJ({
                           ...newProductOBJ,
                           amount: e.target.value,
+                        })
+                      }
+                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                      type="number"
+                    />
+                  </div>
+                  <div className="">
+                    <label
+                      className="text-gray-600 font-medium text-sm"
+                      htmlFor=""
+                    >
+                      Selling Price:
+                    </label>
+                    <input
+                      value={newProductOBJ?.sellingPrice}
+                      onChange={(e) =>
+                        setNewProductOBJ({
+                          ...newProductOBJ,
+                          sellingPrice: e.target.value,
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
