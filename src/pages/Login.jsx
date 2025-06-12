@@ -44,7 +44,7 @@ export default function AuthPage() {
       }
 
       localStorage.setItem("userRole", roleData?.role);
-      navigate("/Home");
+      {roleData?.role == "admin" ? navigate("/Home"): navigate("/Product")};
     } catch (err) {
       console.error("Unexpected error during login:", err);
       alert("Something went wrong. Try again.");
