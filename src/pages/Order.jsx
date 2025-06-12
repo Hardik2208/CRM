@@ -3,6 +3,7 @@ import axios from "axios";
 import ImageUploader from "../components/ImageUploader";
 import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
+import { useUserRole } from "../components/hooks";
 
 import Sidebar from "../components/Sidebar";
 
@@ -132,6 +133,9 @@ const Order = () => {
       .catch((err) => console.log(err));
   };
 
+  const role = useUserRole();
+
+
   // UI Components
   return (
     <div className="flex flex-col h-screen">
@@ -142,7 +146,7 @@ const Order = () => {
             <h1 className="text-3xl font-bold">Recent Orders</h1>
 
             <div className="w-[60%] flex justify-end">
-              <button
+              {role == "admin"?<button
                 onClick={() => exportExcel(orderList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >
@@ -150,7 +154,7 @@ const Order = () => {
                   <Table />
                 </span>{" "}
                 Export to Excel
-              </button>
+              </button>:null}
               <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"

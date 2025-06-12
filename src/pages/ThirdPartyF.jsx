@@ -3,6 +3,7 @@ import axios from "axios";
 import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
 
+import { useUserRole } from "../components/hooks";
 import Sidebar from "../components/Sidebar";
 
 const ThirdPartyF = () => {
@@ -99,6 +100,7 @@ const ThirdPartyF = () => {
       .catch((err) => console.log("EMI save error:", err));
   };
 
+  const role = useUserRole();
   // UI Components
   return (
     <div className="flex flex-col h-screen">
@@ -108,7 +110,7 @@ const ThirdPartyF = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Recent Finance</h1>
 
-            <div className="w-[60%] flex justify-end">
+            {role == "admin" ? <div className="w-[60%] flex justify-end">
               <button
                 onClick={() => exportExcel(financeList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
@@ -124,7 +126,7 @@ const ThirdPartyF = () => {
               >
                 <span className="mr-1 ">+</span> New EMI Payment
               </button>
-            </div>
+            </div>:null}
           </div>
           <div className="w-[100%] flex justify-start my-4 ">
             <input

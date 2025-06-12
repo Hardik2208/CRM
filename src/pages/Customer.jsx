@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
 
+import { useUserRole } from "../components/hooks";
+
 import Sidebar from "../components/Sidebar";
 
 import { exportPDF, exportExcel } from "../components/Pdf";
@@ -96,6 +98,8 @@ const Customer = () => {
         .catch((err) => console.log(err));
   };
 
+  const role = useUserRole();
+
   // UI Components
   return (
     <div className="flex flex-col h-screen">
@@ -106,7 +110,7 @@ const Customer = () => {
             <h1 className="text-3xl font-bold ">Customers</h1>
 
             <div className="w-[60%] flex justify-end">
-              <button
+              {role == "admin" ? <button
                 onClick={() => exportExcel(customerList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
               >
@@ -114,7 +118,7 @@ const Customer = () => {
                   <Table />
                 </span>{" "}
                 Export to Excel
-              </button>
+              </button>:null}
               <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"

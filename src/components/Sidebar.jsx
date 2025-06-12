@@ -16,12 +16,12 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { path: "/Home", label: "Dashboard", icon: Home },
+  { path: "/Home", label: "Dashboard", icon: Home, roles: ["admin"] },
   { path: "/Product", label: "Stocks", icon: Package },
   { path: "/Enquiry", label: "Enquiry", icon: FileText },
   { path: "/Order", label: "Orders", icon: ShoppingCart },
-  { path: "/Sales", label: "Sales", icon: BarChart2 },
-  { path: "/Staff", label: "Staff", icon: UserCog },
+  { path: "/Sales", label: "Sales", icon: BarChart2, roles: ["admin"] },
+  { path: "/Staff", label: "Staff", icon: UserCog, roles: ["admin"]  },
   { path: "/Invoice", label: "Invoice", icon: Building },
   { path: "/Customer", label: "Customer", icon: Users },
   { path: "/ThirdPartyF", label: "Finances", icon: IndianRupee },
@@ -30,6 +30,7 @@ const menuItems = [
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const userRole = localStorage.getItem("userRole"); // 👈 Get the role
 
   const isActive = (path) => location.pathname === path;
 
@@ -47,24 +48,26 @@ const Sidebar = () => {
           MAIN NAVIGATION
         </label>
         <ul className="space-y-1">
-          {menuItems.map(({ path, label, icon: Icon }) => (
-            <li
-              key={path}
-              onClick={() => navigate(path)}
-              className="cursor-pointer"
-            >
-              <div
-                className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition ${
-                  isActive(path)
-                    ? "bg-blue-100 text-blue-700 font-semibold"
-                    : "hover:bg-gray-100 text-gray-700"
-                }`}
+          {menuItems
+            .filter(({ roles }) => !roles || roles.includes(userRole)) // 👈 Filter by role
+            .map(({ path, label, icon: Icon }) => (
+              <li
+                key={path}
+                onClick={() => navigate(path)}
+                className="cursor-pointer"
               >
-                <Icon size={18} />
-                <span>{label}</span>
-              </div>
-            </li>
-          ))}
+                <div
+                  className={`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition ${
+                    isActive(path)
+                      ? "bg-blue-100 text-blue-700 font-semibold"
+                      : "hover:bg-gray-100 text-gray-700"
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span>{label}</span>
+                </div>
+              </li>
+            ))}
         </ul>
 
         {/* Settings */}

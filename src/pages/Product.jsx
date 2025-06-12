@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
+import { useUserRole } from "../components/hooks";
+
 
 import Sidebar from "../components/Sidebar";
 
@@ -89,6 +91,7 @@ const Product = () => {
       .catch((err) => console.log(err));
   };
 
+  const role = useUserRole();
   // UI Components
   return (
     <div className="flex flex-col h-screen">
@@ -99,6 +102,7 @@ const Product = () => {
             <h1 className="text-3xl font-bold">Stocks</h1>
 
             <div className="w-[60%] flex justify-end">
+              {role == "admin" ?
               <button
                 onClick={() => exportExcel(productList)}
                 className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
@@ -107,13 +111,14 @@ const Product = () => {
                   <Table />
                 </span>{" "}
                 Export to Excel
-              </button>
-              <button
+              </button> : null}
+              {role == "admin" ?
+                <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >
                 <span className="mr-1 ">+</span> Add New Product
-              </button>
+              </button> : null}
             </div>
           </div>
           <div className="w-[100%] flex justify-start my-4 ">
@@ -131,7 +136,8 @@ const Product = () => {
           <div className="overflow-x-auto bg-white rounded-lg shadow">
             <table className="min-w-full">
               <thead className="w-[100%] bg-gray-50 ">
-                <tr className="w-[100%]">
+                {role == "admin" ? 
+                  <tr className="w-[100%]">
                   {[
                     "Category",
                     "Product Name",
@@ -147,7 +153,22 @@ const Product = () => {
                       {header}
                     </th>
                   ))}
-                </tr>
+                </tr>: 
+                <tr className="w-[100%]">
+                  {[
+                    "Category",
+                    "Product Name",
+                    "Selling Price",
+                    "Quanity",
+                  ].map((header) => (
+                    <th
+                      key={header}
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      {header}
+                    </th>
+                  ))}
+                </tr>}
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {productList.map((product, index) => (
@@ -158,9 +179,9 @@ const Product = () => {
 
                     <td className="px-6 py-3">{product?.modelName}</td>
                     <td className="px-6 py-3">{product?.sellingPrice}</td>
-                    <td className="px-6 py-3">{product?.amount}</td>
+                    {role == "admin" ? <td className="px-6 py-3">{product?.amount}</td>:null}
                     <td className="px-6 py-3">{product?.quantity}</td>
-                    <td className="px-6 py-3">
+                    {role == "admin" ? <td className="px-6 py-3">
                       <button
                         onClick={() => {
                           setNewProductOBJ(product);
@@ -170,7 +191,7 @@ const Product = () => {
                       >
                         Edit
                       </button>
-                    </td>
+                    </td>:null}
                   </tr>
                 ))}
               </tbody>
