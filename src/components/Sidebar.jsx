@@ -40,7 +40,8 @@ const Sidebar = () => {
         {/* Header */}
         <div className="flex items-center gap-2 text-2xl font-semibold text-blue-900 mb-10">
           <Store className="text-blue-600" />
-          <span>Admin Panel</span>
+          {role == "admin" ? <span>Admin Panel</span>:
+          <span>Staff Panel</span>}
         </div>
 
         {/* Main Navigation */}
