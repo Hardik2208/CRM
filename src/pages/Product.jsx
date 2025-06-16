@@ -83,7 +83,7 @@ const Product = () => {
 const addProduct = async () => {
   try {
     const res = await axios.post("https://shop-software.onrender.com/api/product", newProductOBJ);
-    alert(res.data); // Show success message
+    setShowModal(""); // Show success message
     getProductData(); // Refresh product list
   } catch (err) {
     if (err.response && err.response.status === 400) {
