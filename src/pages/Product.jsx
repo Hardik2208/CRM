@@ -80,9 +80,9 @@ const Product = () => {
       .catch((err) => console.log(err));
   };
 
-const addProduct = async (productData) => {
+const addProduct = async () => {
   try {
-    const res = await axios.post("https://shop-software.onrender.com/api/product", productData);
+    const res = await axios.post("https://shop-software.onrender.com/api/product", newProductOBJ);
     alert(res.data); // Show success message
     getProductData(); // Refresh product list
   } catch (err) {
