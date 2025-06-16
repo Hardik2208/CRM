@@ -80,16 +80,21 @@ const Product = () => {
       .catch((err) => console.log(err));
   };
 
-  const addProduct = () => {
-    setShowModal("");
-    setNewProductOBJ({ productObject: {} });
-    axios
-      .post("https://shop-software.onrender.com/api/product", newProductOBJ)
-      .then((res) => {
-        getProductData();
-      })
-      .catch((err) => console.log(err));
-  };
+const addProduct = async (productData) => {
+  try {
+    const res = await axios.post("https://shop-software.onrender.com/api/product", productData);
+    alert(res.data); // Show success message
+    getProductData(); // Refresh product list
+  } catch (err) {
+    if (err.response && err.response.status === 400) {
+      alert(err.response.data); // Duplicate model name
+    } else {
+      alert("Something went wrong while adding the product.");
+    }
+    console.log(err);
+  }
+};
+
 
   const role = useUserRole();
   // UI Components
