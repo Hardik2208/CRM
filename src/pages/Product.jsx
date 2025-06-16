@@ -609,7 +609,7 @@ const addProduct = async () => {
                           Quantity:
                         </label>
                         <input
-                          value={newProductOBJ?.dimensions}
+                          value={newProductOBJ?.quantity}
                           onChange={(e) =>
                             setNewProductOBJ({
                               ...newProductOBJ,
