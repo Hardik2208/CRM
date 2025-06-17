@@ -4,32 +4,35 @@ const ImageUploader = ({ setNewStaff, newStaff, imageKey }) => {
   const [imageURL, setImageURL] = useState(null);
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "shop-software");
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "shop-software");
 
-    try {
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/djkckaixl/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+  try {
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/djkckaixl/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
-      const data = await res.json();
-      setImageURL(data.secure_url);
-      setNewStaff({
-        ...newStaff,
-        [imageKey]: data.secure_url,
-      });
-    } catch (err) {
-      console.error("Upload failed:", err);
-    }
-  };
+    const data = await res.json();
+    setImageURL(data.secure_url);
+
+    // ✅ Safe, non-stale state update
+    setNewStaff((prev) => ({
+      ...prev,
+      [imageKey]: data.secure_url,
+    }));
+  } catch (err) {
+    console.error("Upload failed:", err);
+  }
+};
+
 
   return (
     <div className="p-4">
