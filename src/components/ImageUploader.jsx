@@ -1,48 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 
 const ImageUploader = ({ setNewStaff, newStaff, imageKey }) => {
-  const [imageURL, setImageURL] = useState(null);
-
   const handleImageUpload = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "shop-software");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "shop-software");
 
-  try {
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/djkckaixl/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    try {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/djkckaixl/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
-    const data = await res.json();
-    setImageURL(data.secure_url);
+      const data = await res.json();
 
-    // ✅ Safe, non-stale state update
-    setNewStaff((prev) => ({
-      ...prev,
-      [imageKey]: data.secure_url,
-    }));
-  } catch (err) {
-    console.error("Upload failed:", err);
-  }
-};
-
+      // ✅ Safely update the parent state
+      setNewStaff((prev) => ({
+        ...prev,
+        [imageKey]: data.secure_url,
+      }));
+    } catch (err) {
+      console.error("Upload failed:", err);
+    }
+  };
 
   return (
     <div className="p-4">
       <div className="flex items-center justify-center w-full p-4">
         <label
-          htmlFor="file-upload-attractive"
+          htmlFor={`file-upload-${imageKey}`}
           className="relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gradient-to-b from-white to-gray-50
-          hover:from-white hover:to-gray-100 hover:border-gray-400
-          focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2
-          transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl"
+            hover:from-white hover:to-gray-100 hover:border-gray-400
+            focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2
+            transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl"
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <svg
@@ -64,13 +60,9 @@ const ImageUploader = ({ setNewStaff, newStaff, imageKey }) => {
             <p className="text-xs text-gray-400 mt-1">
               PNG, JPG, GIF, PDF (MAX. 5MB)
             </p>
-            <p
-              id="file-name-display-attractive"
-              className="mt-2 text-sm text-gray-700 italic"
-            ></p>
           </div>
           <input
-            id="file-upload-attractive"
+            id={`file-upload-${imageKey}`}
             type="file"
             className="hidden"
             onChange={handleImageUpload}
@@ -79,9 +71,9 @@ const ImageUploader = ({ setNewStaff, newStaff, imageKey }) => {
         </label>
       </div>
 
-      {imageURL && (
+      {newStaff[imageKey] && (
         <div className="mt-4">
-          <img src={imageURL} alt="Uploaded" width={300} />
+          <img src={newStaff[imageKey]} alt="Uploaded" width={300} />
         </div>
       )}
     </div>
