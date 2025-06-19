@@ -183,6 +183,7 @@ const Order = () => {
                   {[
                     "Order No.",
                     "Category",
+                    "Company",
                     "Modal Name",
                     "Quanity",
                     "Customer Name",
@@ -204,6 +205,7 @@ const Order = () => {
                   <tr className="hover:bg-gray-50">
                     <td className="px-6 py-3 font-medium">{i?.orderNumber}</td>
                     <td className="px-6 py-3 font-medium">{i?.category}</td>
+                    <td className="px-6 py-3 font-medium">{i?.productObject?.company}</td>
                     <td className="px-6 py-3">{i?.modelName}</td>
                     <td className="px-6 py-3">{i?.quantity}</td>
                     <td className="px-6 py-3">{i?.customerObject.name}</td>
