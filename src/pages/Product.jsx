@@ -146,6 +146,7 @@ const addProduct = async () => {
                   <tr className="w-[100%]">
                   {[
                     "Category",
+                    "Company",
                     "Product Name",
                     "Selling Price",
                     "Price",
@@ -163,6 +164,7 @@ const addProduct = async () => {
                 <tr className="w-[100%]">
                   {[
                     "Category",
+                    "Company",
                     "Product Name",
                     "Selling Price",
                     "Quanity",
@@ -182,7 +184,7 @@ const addProduct = async () => {
                     <td className="px-6 py-3 font-medium">
                       {product?.category}
                     </td>
-
+                    <td className="px-6 py-3 font-medium">{i?.productObject?.company}</td>
                     <td className="px-6 py-3">{product?.modelName}</td>
                     <td className="px-6 py-3">{product?.sellingPrice}</td>
                     {role == "admin" ? <td className="px-6 py-3">{product?.amount}</td>:null}
