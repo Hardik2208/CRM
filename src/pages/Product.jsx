@@ -3,7 +3,6 @@ import axios from "axios";
 import { FileText, Table } from "lucide-react";
 import { useUserRole } from "../components/hooks";
 
-
 import Sidebar from "../components/Sidebar";
 
 import { exportPDF, exportExcel } from "../components/Pdf";
@@ -80,22 +79,24 @@ const Product = () => {
       .catch((err) => console.log(err));
   };
 
-const addProduct = async () => {
-  try {
-    const res = await axios.post("https://shop-software.onrender.com/api/product", newProductOBJ);
-    setShowModal("");
-    setNewProductOBJ({ productObject: {} }) // Show success message
-    getProductData(); // Refresh product list
-  } catch (err) {
-    if (err.response && err.response.status === 400) {
-      alert(err.response.data); // Duplicate model name
-    } else {
-      alert("Something went wrong while adding the product.");
+  const addProduct = async () => {
+    try {
+      const res = await axios.post(
+        "https://shop-software.onrender.com/api/product",
+        newProductOBJ
+      );
+      setShowModal("");
+      setNewProductOBJ({ productObject: {} }); // Show success message
+      getProductData(); // Refresh product list
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data); // Duplicate model name
+      } else {
+        alert("Something went wrong while adding the product.");
+      }
+      console.log(err);
     }
-    console.log(err);
-  }
-};
-
+  };
 
   const role = useUserRole();
   // UI Components
@@ -108,23 +109,24 @@ const addProduct = async () => {
             <h1 className="text-3xl font-bold">Stocks</h1>
 
             <div className="w-[60%] flex justify-end">
-              {role == "admin" ?
-              <button
-                onClick={() => exportExcel(productList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <Table />
-                </span>{" "}
-                Export to Excel
-              </button> : null}
-              {role == "admin" ?
+              {role == "admin" ? (
                 <button
+                  onClick={() => exportExcel(productList)}
+                  className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                >
+                  <span className="mr-1">
+                    <Table />
+                  </span>{" "}
+                  Export to Excel
+                </button>
+              ) : null}
+
+              <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
               >
                 <span className="mr-1 ">+</span> Add New Product
-              </button> : null}
+              </button>
             </div>
           </div>
           <div className="w-[100%] flex justify-start my-4 ">
@@ -142,41 +144,43 @@ const addProduct = async () => {
           <div className="overflow-x-auto bg-white rounded-lg shadow">
             <table className="min-w-full">
               <thead className="w-[100%] bg-gray-50 ">
-                {role == "admin" ? 
+                {role == "admin" ? (
                   <tr className="w-[100%]">
-                  {[
-                    "Category",
-                    "Company",
-                    "Product Name",
-                    "Selling Price",
-                    "Price",
-                    "Quanity",
-                    "Action",
-                  ].map((header) => (
-                    <th
-                      key={header}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>: 
-                <tr className="w-[100%]">
-                  {[
-                    "Category",
-                    "Company",
-                    "Product Name",
-                    "Selling Price",
-                    "Quanity",
-                  ].map((header) => (
-                    <th
-                      key={header}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>}
+                    {[
+                      "Category",
+                      "Company",
+                      "Product Name",
+                      "Selling Price",
+                      "Price",
+                      "Quanity",
+                      "Action",
+                    ].map((header) => (
+                      <th
+                        key={header}
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                ) : (
+                  <tr className="w-[100%]">
+                    {[
+                      "Category",
+                      "Company",
+                      "Product Name",
+                      "Selling Price",
+                      "Quanity",
+                    ].map((header) => (
+                      <th
+                        key={header}
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                )}
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {productList.map((product, index) => (
@@ -184,22 +188,28 @@ const addProduct = async () => {
                     <td className="px-6 py-3 font-medium">
                       {product?.category}
                     </td>
-                    <td className="px-6 py-3 font-medium">{product?.productObject?.company}</td>
+                    <td className="px-6 py-3 font-medium">
+                      {product?.productObject?.company}
+                    </td>
                     <td className="px-6 py-3">{product?.modelName}</td>
                     <td className="px-6 py-3">{product?.sellingPrice}</td>
-                    {role == "admin" ? <td className="px-6 py-3">{product?.amount}</td>:null}
+                    {role == "admin" ? (
+                      <td className="px-6 py-3">{product?.amount}</td>
+                    ) : null}
                     <td className="px-6 py-3">{product?.quantity}</td>
-                    {role == "admin" ? <td className="px-6 py-3">
-                      <button
-                        onClick={() => {
-                          setNewProductOBJ(product);
-                          setShowModal("Edit");
-                        }}
-                        className="text-blue-500 hover:text-violet-500 hover:cursor-pointer"
-                      >
-                        Edit
-                      </button>
-                    </td>:null}
+                    {role == "admin" ? (
+                      <td className="px-6 py-3">
+                        <button
+                          onClick={() => {
+                            setNewProductOBJ(product);
+                            setShowModal("Edit");
+                          }}
+                          className="text-blue-500 hover:text-violet-500 hover:cursor-pointer"
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>
@@ -412,9 +422,9 @@ const addProduct = async () => {
                           type="number"
                         />
                       </div>
-                      
+
                       {newProductOBJ?.quantity
-                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                        ? Array.from({ length: newProductOBJ.quantity }).map(
                             (_, index) => (
                               <div key={index} className="mb-4">
                                 <label className="text-gray-600 font-medium text-sm">
@@ -422,14 +432,13 @@ const addProduct = async () => {
                                 </label>
                                 <input
                                   value={
-                                    newProductOBJ?.productObject?.serialNumber?.[
-                                      index
-                                    ] || ""
+                                    newProductOBJ?.productObject
+                                      ?.serialNumber?.[index] || ""
                                   }
                                   onChange={(e) => {
                                     const updatedSerials = [
-                                      ...(newProductOBJ?.productObject?.serialNumber ||
-                                        []),
+                                      ...(newProductOBJ?.productObject
+                                        ?.serialNumber || []),
                                     ];
                                     updatedSerials[index] =
                                       e.target.value.toUpperCase();
@@ -497,7 +506,7 @@ const addProduct = async () => {
                           type="text"
                         />
                       </div>
-                      
+
                       <div className="">
                         <label
                           className="text-gray-600 font-medium text-sm"
@@ -517,9 +526,9 @@ const addProduct = async () => {
                           type="text"
                         />
                       </div>
-                      
+
                       {newProductOBJ?.quantity
-                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                        ? Array.from({ length: newProductOBJ.quantity }).map(
                             (_, index) => (
                               <div key={index} className="mb-4">
                                 <label className="text-gray-600 font-medium text-sm">
@@ -527,14 +536,13 @@ const addProduct = async () => {
                                 </label>
                                 <input
                                   value={
-                                    newProductOBJ?.productObject?.serialNumber?.[
-                                      index
-                                    ] || ""
+                                    newProductOBJ?.productObject
+                                      ?.serialNumber?.[index] || ""
                                   }
                                   onChange={(e) => {
                                     const updatedSerials = [
-                                      ...(newProductOBJ?.productObject?.serialNumber ||
-                                        []),
+                                      ...(newProductOBJ?.productObject
+                                        ?.serialNumber || []),
                                     ];
                                     updatedSerials[index] =
                                       e.target.value.toUpperCase();
@@ -602,7 +610,7 @@ const addProduct = async () => {
                           type="text"
                         />
                       </div>
-                      
+
                       <div className="">
                         <label
                           className="text-gray-600 font-medium text-sm"
@@ -623,7 +631,7 @@ const addProduct = async () => {
                         />
                       </div>
                       {newProductOBJ?.quantity
-                      ? Array.from({ length: newProductOBJ.quantity }).map(
+                        ? Array.from({ length: newProductOBJ.quantity }).map(
                             (_, index) => (
                               <div key={index} className="mb-4">
                                 <label className="text-gray-600 font-medium text-sm">
@@ -631,14 +639,13 @@ const addProduct = async () => {
                                 </label>
                                 <input
                                   value={
-                                    newProductOBJ?.productObject?.serialNumber?.[
-                                      index
-                                    ] || ""
+                                    newProductOBJ?.productObject
+                                      ?.serialNumber?.[index] || ""
                                   }
                                   onChange={(e) => {
                                     const updatedSerials = [
-                                      ...(newProductOBJ?.productObject?.serialNumber ||
-                                        []),
+                                      ...(newProductOBJ?.productObject
+                                        ?.serialNumber || []),
                                     ];
                                     updatedSerials[index] =
                                       e.target.value.toUpperCase();
@@ -657,7 +664,6 @@ const addProduct = async () => {
                             )
                           )
                         : null}
-                      
                     </div>
                   </div>
                 ) : newProductOBJ?.category == "OTHERS" ? (

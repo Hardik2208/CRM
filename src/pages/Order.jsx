@@ -71,10 +71,7 @@ const Order = () => {
     today.getMonth() + 1
   ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
-
-
-
-    const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
@@ -88,7 +85,7 @@ const Order = () => {
       if (search.trim()) {
         resultOfSearch(search);
       }
-    }, 1000); 
+    }, 1000);
 
     setTimerId(id);
 
@@ -98,19 +95,17 @@ const Order = () => {
 
   const resultOfSearch = async (searchTerm) => {
     try {
-      {const res = await axios.post(
-        `https://shop-software.onrender.com/api/order/Search`,
-        { searchTerm } //  Object format
-      );
-      setOrderList(res.data);}
+      {
+        const res = await axios.post(
+          `https://shop-software.onrender.com/api/order/Search`,
+          { searchTerm } //  Object format
+        );
+        setOrderList(res.data);
+      }
     } catch (err) {
       console.error("Search Error:", err); // Shows error object in console
     }
   };
-
-
-
-
 
   const getOrderData = () => {
     axios
@@ -135,7 +130,6 @@ const Order = () => {
 
   const role = useUserRole();
 
-
   // UI Components
   return (
     <div className="flex flex-col h-screen">
@@ -146,15 +140,17 @@ const Order = () => {
             <h1 className="text-3xl font-bold">Recent Orders</h1>
 
             <div className="w-[60%] flex justify-end">
-              {role == "admin"?<button
-                onClick={() => exportExcel(orderList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <Table />
-                </span>{" "}
-                Export to Excel
-              </button>:null}
+              {role == "admin" ? (
+                <button
+                  onClick={() => exportExcel(orderList)}
+                  className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                >
+                  <span className="mr-1">
+                    <Table />
+                  </span>{" "}
+                  Export to Excel
+                </button>
+              ) : null}
               <button
                 onClick={() => setShowModal("Add")}
                 className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
@@ -183,7 +179,7 @@ const Order = () => {
                   {[
                     "Order No.",
                     "Category",
-                    
+
                     "Modal Name",
                     "Quanity",
                     "Customer Name",
@@ -265,11 +261,11 @@ const Order = () => {
                       name=""
                       id=""
                     >
-                      <option value="Mobile">Mobile</option>
+                      <option value="MOBILE">Mobile</option>
                       <option value="TV">TV</option>
-                      <option value="Fridge">Fridge</option>
-                      <option value="Washing Machine">Washing Machine</option>
-                      <option value="Others">Others</option>
+                      <option value="FRIDGE">Fridge</option>
+                      <option value="WASHING MACHINE">Washing Machine</option>
+                      <option value="OTHERS">Others</option>
                     </select>
                   </div>
                 </div>
@@ -316,25 +312,6 @@ const Order = () => {
                       </div>
                       <div>
                         <label className="text-gray-600 font-medium text-sm">
-                          IMEI Number:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.IMEI}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                IMEI: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
                           Quantity:
                         </label>
                         <input
@@ -349,6 +326,39 @@ const Order = () => {
                           type="number"
                         />
                       </div>
+
+                      {newOrder?.quantity
+                        ? Array.from({ length: newOrder.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  IMEI Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newOrder?.orderObject?.IMEI?.[index] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedIMEIs = [
+                                      ...(newOrder?.orderObject?.IMEI || []),
+                                    ];
+                                    updatedIMEIs[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewOrder({
+                                      ...newOrder,
+                                      orderObject: {
+                                        ...newOrder.orderObject,
+                                        IMEI: updatedIMEIs,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newOrder?.category == "TV" ? (
@@ -394,25 +404,6 @@ const Order = () => {
                       </div>
                       <div>
                         <label className="text-gray-600 font-medium text-sm">
-                          Serial Number:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                serialNumber: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
                           Quantity:
                         </label>
                         <input
@@ -427,6 +418,41 @@ const Order = () => {
                           type="number"
                         />
                       </div>
+                      {newOrder?.quantity
+                        ? Array.from({ length: newOrder.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newOrder?.orderObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newOrder?.orderObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewOrder({
+                                      ...newOrder,
+                                      orderObject: {
+                                        ...newOrder.orderObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newOrder?.category == "WASHING MACHINE" ? (
@@ -470,25 +496,7 @@ const Order = () => {
                           type="text"
                         />
                       </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Serial Number:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                serialNumber: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
+
                       <div>
                         <label className="text-gray-600 font-medium text-sm">
                           Quantity:
@@ -505,6 +513,42 @@ const Order = () => {
                           type="number"
                         />
                       </div>
+
+                      {newOrder?.quantity
+                        ? Array.from({ length: newOrder.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newOrder?.orderObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newOrder?.orderObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewOrder({
+                                      ...newOrder,
+                                      orderObject: {
+                                        ...newOrder.orderObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newOrder?.category == "FRIDGE" ? (
@@ -550,25 +594,6 @@ const Order = () => {
                       </div>
                       <div>
                         <label className="text-gray-600 font-medium text-sm">
-                          Serial Number:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.serialNumber}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                serialNumber: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
                           Quantity:
                         </label>
                         <input
@@ -583,6 +608,42 @@ const Order = () => {
                           type="number"
                         />
                       </div>
+
+                      {newOrder?.quantity
+                        ? Array.from({ length: newOrder.quantity }).map(
+                            (_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  Serial Number {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newOrder?.orderObject?.serialNumber?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedSerials = [
+                                      ...(newOrder?.orderObject?.serialNumber ||
+                                        []),
+                                    ];
+                                    updatedSerials[index] =
+                                      e.target.value.toUpperCase();
+                                    setNewOrder({
+                                      ...newOrder,
+                                      orderObject: {
+                                        ...newOrder.orderObject,
+                                        serialNumber: updatedSerials,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            )
+                          )
+                        : null}
                     </div>
                   </div>
                 ) : newOrder?.category == "OTHERS" ? (

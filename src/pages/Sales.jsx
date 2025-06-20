@@ -34,9 +34,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
 const Sales = () => {
   const [orderList, setOrderList] = useState([]);
+  const [productList, setProductList] = useState([]);
 
   const getOrder = () => {
     axios
@@ -49,8 +49,20 @@ const Sales = () => {
       });
   };
 
+  const getProduct = () => {
+    axios
+      .get("https://shop-software.onrender.com/api/product")
+      .then((res) => {
+        setProductList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getOrder();
+    getProduct();
   }, []);
 
   const today = dayjs();
@@ -58,7 +70,15 @@ const Sales = () => {
   const startOfWeek = today.startOf("week"); // Sunday as the start
   const currentMonth = today.format("YYYY-MM");
 
-  // --- Helper to calculate revenue ---
+  // --- Get cost of product from productList ---
+  const getProductCost = (modelName, category) => {
+    const product = productList.find(
+      (p) => p.modelName === modelName && p.category === category
+    );
+    return product ? (product.amount || 0) * (product.quantity || 1) : 0;
+  };
+
+  // --- Net Price (price - discount) ---
   const getNetPrice = (order) => {
     const price = parseFloat(order.paymentObject?.price || 0);
     const discount = parseFloat(order.paymentObject?.discount || 0);
@@ -88,7 +108,11 @@ const Sales = () => {
   // --- Gross Revenue (Monthly) ---
   const grossRevenue = orderList
     .filter((order) => dayjs(order.date).format("YYYY-MM") === currentMonth)
-    .reduce((sum, order) => sum + getNetPrice(order), 0);
+    .reduce((sum, order) => {
+      const netPrice = getNetPrice(order);
+      const productCost = getProductCost(order.modelName, order.category);
+      return sum + (netPrice - productCost);
+    }, 0);
 
   // --- Top Selling Category ---
   const categoryCount = {};
@@ -111,7 +135,6 @@ const Sales = () => {
   });
   const topProduct =
     Object.entries(productCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
-
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">
