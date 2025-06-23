@@ -6,6 +6,8 @@ import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
 import { useUserRole } from "../components/hooks";
 
+import Loader from '../components/loader';
+
 function Enquiry() {
   useEffect(() => {
     getEnquiryData();
@@ -16,6 +18,7 @@ function Enquiry() {
   const [enquiryList, setEnquiryList] = useState([]);
   const [search, setSearch] = useState("");
     const [timerId, setTimerId] = useState(null);
+      const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -52,7 +55,8 @@ function Enquiry() {
   const getEnquiryData = () => {
     axios
       .get("https://shop-software.onrender.com/api/enquiry")
-      .then((res) => setEnquiryList(res.data.reverse()))
+      .then((res) => {setEnquiryList(res.data.reverse());
+      setLoading(false);})
       .catch((err) => console.log(err));
   };
 
@@ -98,6 +102,7 @@ function Enquiry() {
   };
 
   const role = useUserRole();
+  if (loading) return <Loader />; 
 
   return (
     <div className="flex flex-col h-screen">

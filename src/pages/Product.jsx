@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
 import { useUserRole } from "../components/hooks";
+import Loader from '../components/loader';
 
 import Sidebar from "../components/Sidebar";
 
@@ -16,6 +17,7 @@ const Product = () => {
   const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
   const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Clear the previous timer whenever search changes
@@ -44,6 +46,8 @@ const Product = () => {
           { searchTerm } //  Object format
         );
         setProductList(res.data);
+        setLoading(false);
+
       }
     } catch (err) {
       console.error("Search Error:", err); // Shows error object in console
@@ -65,8 +69,10 @@ const Product = () => {
   const getProductData = () => {
     axios
       .get("https://shop-software.onrender.com/api/product")
-      .then((res) => setProductList(res.data.reverse()))
-      .catch((err) => console.log(err));
+      .then((res) =>{ setProductList(res.data.reverse());
+        setLoading(false);
+      })
+      .catch((err) => console.log(err))
   };
 
   const deleteProduct = (id) => {
@@ -99,6 +105,9 @@ const Product = () => {
   };
 
   const role = useUserRole();
+
+  if (loading) return <Loader />; 
+
   // UI Components
   return (
     <div className="flex flex-col h-screen">

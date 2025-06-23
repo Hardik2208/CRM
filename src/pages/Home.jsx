@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
+
+import Loader from '../components/loader';
 import { supabase } from './supabaseClient';
 
 import {
@@ -24,6 +26,7 @@ const Home = () => {
   }, []);
 
   
+  const [loading, setLoading] = useState(true);
   const [customerList, setCustomerList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [sumOfQuantity, setSumOfQuantity] = useState(0);
@@ -50,6 +53,7 @@ const Home = () => {
       .then((res) => {
         const lowStock = res.data.filter((item) => item.quantity == 0 );
         setProductList(lowStock);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -80,6 +84,8 @@ const Home = () => {
         return acc + (price - discount);
       }, 0);
       setSumOfSales(totalSales);
+
+        setLoading(false);
 
       // Calculate revenue
       let totalRevenue = 0;
@@ -116,6 +122,8 @@ const Home = () => {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
 
+
+  if (loading) return <Loader />; 
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">

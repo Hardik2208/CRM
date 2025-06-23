@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
+import Loader from '../components/loader';
 
 import { useUserRole } from "../components/hooks";
 import Sidebar from "../components/Sidebar";
@@ -21,6 +22,7 @@ const ThirdPartyF = () => {
   const [emiPayment, setEmiPayment] = useState({});
   const [sumOfEMI, setSumOfEMI] = useState(0);
   const [optionVar, setOptionVar] = useState("");
+    const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
@@ -61,7 +63,8 @@ const ThirdPartyF = () => {
   const getFinanceData = () => {
     axios
       .get("https://shop-software.onrender.com/api/tpf")
-      .then((res) => setFinanceList(res.data.reverse()))
+      .then((res) => {setFinanceList(res.data.reverse());
+        setLoading(false);})
       .catch((err) => console.log(err));
   };
 
@@ -102,6 +105,10 @@ const ThirdPartyF = () => {
 
   const role = useUserRole();
   // UI Components
+
+
+  if (loading) return <Loader />; 
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">

@@ -2,6 +2,7 @@ import { React, useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
 import { exportPDF, exportExcel } from "../components/Pdf";
+import Loader from '../components/loader';
 
 import Sidebar from "../components/Sidebar";
 
@@ -10,6 +11,7 @@ function Invoice() {
     getInvoice();
   }, []);
 
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState("");
   const [invoiceList, setInvoiceList] = useState([]);
   const [newInvoice, setNewInvoice] = useState([]);
@@ -59,7 +61,7 @@ function Invoice() {
   const getInvoice = () => {
     axios
       .get("https://shop-software.onrender.com/api/invoice")
-      .then((res) => setInvoiceList(res.data.reverse()))
+      .then((res) => {setInvoiceList(res.data.reverse());setLoading(false);})
       .catch((err) => console.log(err));
   };
 
@@ -92,6 +94,8 @@ function Invoice() {
     document.body.innerHTML = originalContents;
     window.location.reload(); // Restore after print
   };
+  
+  if (loading) return <Loader />; 
 
   return (
     <div className="flex flex-col h-screen">

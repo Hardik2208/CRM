@@ -4,10 +4,13 @@ import ImageUploader from "../components/ImageUploader";
 import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
 import { useUserRole } from "../components/hooks";
+import Loader from '../components/loader';
 
 import Sidebar from "../components/Sidebar";
 
 const Order = () => {
+
+  const [loading, setLoading] = useState(true);
   const [newOrder, setNewOrder] = useState({
     orderObject: {},
     customerObject: {},
@@ -110,7 +113,7 @@ const Order = () => {
   const getOrderData = () => {
     axios
       .get("https://shop-software.onrender.com/api/order")
-      .then((res) => setOrderList(res.data.reverse()))
+      .then((res) => {setOrderList(res.data.reverse());setLoading(false);})
       .catch((err) => console.log(err));
   };
   const addOrder = () => {
@@ -129,6 +132,9 @@ const Order = () => {
   };
 
   const role = useUserRole();
+
+
+  if (loading) return <Loader />; 
 
   // UI Components
   return (

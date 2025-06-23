@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/card";
 import Graphs from "../components/Graph";
 import dayjs from "dayjs";
 
+import Loader from '../components/loader';
+
 import Sidebar from "../components/Sidebar";
 
 import { Bar, Pie } from "react-chartjs-2";
@@ -38,11 +40,14 @@ const Sales = () => {
   const [orderList, setOrderList] = useState([]);
   const [productList, setProductList] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   const getOrder = () => {
     axios
       .get("https://shop-software.onrender.com/api/order/month")
       .then((res) => {
         setOrderList(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -125,7 +130,7 @@ const Sales = () => {
   const topCategory =
     Object.entries(categoryCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
 
-  // --- Top Selling Product ---
+  // --- Top Selling Product ---f
   const productCount = {};
   orderList.forEach((order) => {
     if (dayjs(order.date).format("YYYY-MM") === currentMonth) {
@@ -135,6 +140,9 @@ const Sales = () => {
   });
   const topProduct =
     Object.entries(productCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
+
+  if (loading) return <Loader />; 
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">

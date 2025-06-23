@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ImageUploader from "../components/ImageUploader";
+import Loader from '../components/loader';
 
 import Sidebar from "../components/Sidebar";
 
@@ -12,6 +13,7 @@ const Staff = () => {
   const [attendance, setAttendance] = useState("");
   const [attendanceList, setAttendanceList] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
   const today = new Date();
   const currentDay = today.getDate();
@@ -59,7 +61,8 @@ const Staff = () => {
   const getStaffData = () => {
     axios
       .get("https://shop-software.onrender.com/api/staff")
-      .then((res) => setStaffList(res.data.reverse()))
+      .then((res) => {setStaffList(res.data.reverse());
+        setLoading(false);})
       .catch((err) => console.log(err));
   };
 
@@ -122,6 +125,9 @@ const Staff = () => {
     return record ? record.status : null;
   };
   // UI Components
+
+  if (loading) return <Loader />; 
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex">

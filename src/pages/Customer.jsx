@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
+import Loader from '../components/loader';
 
 import { useUserRole } from "../components/hooks";
 
@@ -14,6 +15,7 @@ const Customer = () => {
   }, []);
 
   const [showModal, setShowModal] = useState("");
+    const [loading, setLoading] = useState(true);
   const [showModal2, setShowModal2] = useState("");
   const [reassign, setReassign] = useState("");
   const [newCustomerData, setNewCustomerData] = useState({});
@@ -57,7 +59,7 @@ const Customer = () => {
   const getCustomerData = () => {
     axios
       .get("https://shop-software.onrender.com/api/Customer")
-      .then((res) => setCustomerList(res.data.reverse()))
+      .then((res) => {setCustomerList(res.data.reverse());setLoading(false);})
       .catch((err) => console.log(err));
   };
 
@@ -100,6 +102,8 @@ const Customer = () => {
 
   const role = useUserRole();
 
+
+  if (loading) return <Loader />; 
   // UI Components
   return (
     <div className="flex flex-col h-screen">
