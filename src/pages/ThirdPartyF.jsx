@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { exportPDF, exportExcel } from "../components/Pdf";
 import { FileText, Table } from "lucide-react";
-import Loader from '../components/loader';
+import Loader from "../components/loader";
 
 import { useUserRole } from "../components/hooks";
 import Sidebar from "../components/Sidebar";
@@ -22,7 +22,7 @@ const ThirdPartyF = () => {
   const [emiPayment, setEmiPayment] = useState({});
   const [sumOfEMI, setSumOfEMI] = useState(0);
   const [optionVar, setOptionVar] = useState("");
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
@@ -63,8 +63,10 @@ const ThirdPartyF = () => {
   const getFinanceData = () => {
     axios
       .get("https://shop-software.onrender.com/api/tpf")
-      .then((res) => {setFinanceList(res.data.reverse());
-        setLoading(false);})
+      .then((res) => {
+        setFinanceList(res.data.reverse());
+        setLoading(false);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -106,8 +108,7 @@ const ThirdPartyF = () => {
   const role = useUserRole();
   // UI Components
 
-
-  if (loading) return <Loader />; 
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col h-screen">
@@ -117,23 +118,25 @@ const ThirdPartyF = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Recent Finance</h1>
 
-            {role == "admin" ? <div className="w-[60%] flex justify-end">
-              <button
-                onClick={() => exportExcel(financeList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1">
-                  <Table />
-                </span>{" "}
-                Export to Excel
-              </button>
-              <button
-                onClick={() => setShowModal2(true)}
-                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
-              >
-                <span className="mr-1 ">+</span> New EMI Payment
-              </button>
-            </div>:null}
+            {role == "admin" ? (
+              <div className="w-[60%] flex justify-end">
+                <button
+                  onClick={() => exportExcel(financeList)}
+                  className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                >
+                  <span className="mr-1">
+                    <Table />
+                  </span>{" "}
+                  Export to Excel
+                </button>
+                <button
+                  onClick={() => setShowModal2(true)}
+                  className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                >
+                  <span className="mr-1 ">+</span> New EMI Payment
+                </button>
+              </div>
+            ) : null}
           </div>
           <div className="w-[100%] flex justify-start my-4 ">
             <input
@@ -154,9 +157,9 @@ const ThirdPartyF = () => {
                     "Finance No.",
                     "Customer Name",
                     "Phone No.",
-                    "Up. EMI date",
-                    "No. of EMI Left",
-                    "EMI Amount",
+                    "Upcoming EMI",
+                    "EMI Left",
+                    "Amount",
                     "Status",
                     "Action",
                   ].map((header) => (
@@ -171,31 +174,6 @@ const ThirdPartyF = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {financeList.map((i) => {
-                  console.log("Processing date:", i.date);
-                  let nextEmiDate = "--";
-                  const emiList = i.EMI || [];
-
-                  // Fallback to order date if present
-                  const orderDateRaw = i.date || i.createdAt || null;
-
-                  if (
-                    i.status === "Pending" &&
-                    i.financeObject?.numberOfEMILeft > 0
-                  ) {
-                    if (emiList.length > 0) {
-                      const latestEMI = emiList
-                        .map((e) => new Date(e.date))
-                        .sort((a, b) => b - a)[0];
-                      const next = new Date(latestEMI);
-                      next.setMonth(next.getMonth() + 1);
-                      nextEmiDate = next.toLocaleDateString("en-GB"); // DD/MM/YYYY
-                    } else if (orderDateRaw) {
-                      const orderDate = new Date(orderDateRaw);
-                      orderDate.setMonth(orderDate.getMonth() + 1);
-                      nextEmiDate = orderDate.toLocaleDateString("en-GB");
-                    }
-                  }
-
                   return (
                     <tr key={i._id} className="hover:bg-gray-50">
                       <td className="px-3 py-4 font-medium">
@@ -246,6 +224,15 @@ const ThirdPartyF = () => {
                         >
                           View
                         </button>
+                        <button
+                          onClick={() => {
+                            setNewFinance(i);
+                            setShowModal(true);
+                          }}
+                          className="text-blue-500 hover:text-indigo-900 cursor-pointer"
+                        >
+                          Edit
+                        </button>
                       </td>
                     </tr>
                   );
@@ -287,6 +274,15 @@ const ThirdPartyF = () => {
                     </label>
                     <input
                       value={newFinance?.productObject?.category}
+                      onChange={(e) => {
+                        setNewFinance({
+                          ...newFinance,
+                          productObject: {
+                            ...newFinance?.productObject,
+                            category: e.target.value.toUpperCase(),
+                          },
+                        });
+                      }}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
@@ -565,15 +561,6 @@ const ThirdPartyF = () => {
                       value={newFinance?.customerObject?.address}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-gray-600 font-medium text-sm">
-                      Photo:
-                    </label>
-                    <input
-                      className="h-[5vh] mt-[1vh] w-[50%] pl-[1%] rounded-[5px]"
-                      type="file"
                     />
                   </div>
                 </div>

@@ -237,6 +237,7 @@ const Order = () => {
             <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
               <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
               <div className="bg-white rounded-lg p-6 w-[80%] max-w-4xl z-10 h-[70vh] overflow-auto">
+
                 {showModal == "Add" ? (
                   <div className="flex justify-between w-[90%]">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
@@ -783,7 +784,7 @@ const Order = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Phone number:
+                      Phone number (Primary):
                     </label>
                     <input
                       value={newOrder?.customerObject?.phoneNumber}
@@ -792,7 +793,26 @@ const Order = () => {
                           ...newOrder,
                           customerObject: {
                             ...newOrder?.customerObject,
-                            phoneNumber: e.target.value.toUpperCase(),
+                            phoneNumber:e.target.value.toUpperCase(),
+                          },
+                        })
+                      }
+                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Phone number (Secondary):
+                    </label>
+                    <input
+                      value={newOrder?.customerObject?.secondaryNumber}
+                      onChange={(e) =>
+                        setNewOrder({
+                          ...newOrder,
+                          customerObject: {
+                            ...newOrder?.customerObject,
+                            secondaryNumber:e.target.value.toUpperCase(),
                           },
                         })
                       }
@@ -1071,7 +1091,25 @@ const Order = () => {
                           type="number"
                         />
                       </div>
-
+                      <div>
+                        <label className="text-gray-600 font-medium text-sm">
+                          Next EMI date:
+                        </label>
+                        <input
+                          value={newOrder?.tpf?.upcomingDate || ""}
+                          onChange={(e) =>
+                            setNewOrder({
+                              ...newOrder,
+                              tpf: {
+                                ...newOrder?.tpf,
+                                upcomingDate: e.target.value,
+                              },
+                            })
+                          }
+                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                          type="date"
+                        />
+                      </div>
                       <div>
                         <label className="text-gray-600 font-medium text-sm">
                           Remarks:

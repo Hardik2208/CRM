@@ -225,7 +225,7 @@ const Customer = () => {
                   </div>
                   <div>
                     <label className="text-gray-600 font-medium text-sm">
-                      Phone number:
+                      Phone number (Primary):
                     </label>
                     <input
                       onChange={(e) => {
@@ -235,6 +235,22 @@ const Customer = () => {
                         });
                       }}
                       value={newCustomerData?.phoneNumber}
+                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-gray-600 font-medium text-sm">
+                      Phone number (Secondary):
+                    </label>
+                    <input
+                      onChange={(e) => {
+                        setNewCustomerData({
+                          ...newCustomerData,
+                          secondaryNumber: e.target.value,
+                        });
+                      }}
+                      value={newCustomerData?.secondaryNumber}
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                       type="text"
                     />
