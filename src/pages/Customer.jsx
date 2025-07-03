@@ -113,10 +113,10 @@ const Customer = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold ">Customers</h1>
 
-            <div className="w-[60%] flex justify-end">
+            <div className="w-[60%] flex justify-end text-sm gap-1">
               {role == "admin" ? <button
                 onClick={() => exportExcel(customerList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
+                className="bg-[#2463EB] gap-2 text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex justify-center items-center"
               >
                 <span className="mr-1">
                   <Table />
@@ -125,7 +125,7 @@ const Customer = () => {
               </button>:null}
               <button
                 onClick={() => setShowModal("Add")}
-                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex justify-center items-center"
+                className="gap-2 bg-[#2463EB] text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex justify-center items-center"
               >
                 <span className="mr-1 text-[18px]">+</span> Add New Customer
               </button>
@@ -302,7 +302,7 @@ const Customer = () => {
                       onClick={() => {
                         addCustomer();
                       }}
-                      className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Save"}
                     </button>
@@ -311,7 +311,7 @@ const Customer = () => {
                       onClick={() => {
                         updateCustomer();
                       }}
-                      className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Update"}
                     </button>
@@ -401,7 +401,7 @@ const Customer = () => {
                       onClick={() => {
                         assignOrder();
                       }}
-                      className="py-1.5 w-[25%] bg-[#615AE7] hover:bg-[#615ae7d6] rounded-md text-white hover:cursor-pointer self-end"
+                      className="py-1.5 w-[25%] bg-[#2463EB] hover:bg-[#1C4ED8] rounded-md text-white hover:cursor-pointer self-end"
                     >
                       Reassgin
                     </button>

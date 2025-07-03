@@ -108,7 +108,7 @@ function Invoice() {
             <div className="w-[60%] flex justify-end">
               <button
                 onClick={() => setShowModal("Add")}
-                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                className="bg-[#2463EB] text-white gap-2 text-sm px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center"
               >
                 <span className="mr-1 ">+</span> Generate New Invoice
               </button>
@@ -325,7 +325,7 @@ function Invoice() {
                           onClick={() => {
                             getDetails();
                           }}
-                          className="mt-[1vh] h-[6.5vh] mx-[2%] bg-[#615AE7] w-[25%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                          className="mt-[1vh] h-[6.5vh] mx-[2%] bg-[#2463EB] w-[25%]  text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                         >
                           {"Search"}
                         </button>
@@ -678,7 +678,7 @@ function Invoice() {
                   {showModal == "Add" ? (
                     <button
                       onClick={() => generateInvoice()}
-                      className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Generate"}
                     </button>

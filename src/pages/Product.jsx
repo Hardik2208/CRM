@@ -114,14 +114,14 @@ const Product = () => {
       <div className="flex">
         <Sidebar />
         <div className="p-8 bg-white h-[100vh] overflow-auto w-[90%]">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 gap-1">
             <h1 className="text-3xl font-bold">Stocks</h1>
 
-            <div className="w-[60%] flex justify-end">
+            <div className="w-[60%] flex justify-end text-sm gap-1">
               {role == "admin" ? (
                 <button
                   onClick={() => exportExcel(productList)}
-                  className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                  className="bg-[#2463EB] text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span className="mr-1">
                     <Table />
@@ -132,7 +132,7 @@ const Product = () => {
 
               <button
                 onClick={() => setShowModal("Add")}
-                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                className="bg-[#2463EB] text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center gap-2"
               >
                 <span className="mr-1 ">+</span> Add New Product
               </button>
@@ -213,7 +213,7 @@ const Product = () => {
                             setNewProductOBJ(product);
                             setShowModal("Edit");
                           }}
-                          className="text-blue-500 hover:text-violet-500 hover:cursor-pointer"
+                          className="text-blue-500 hover:text-blue-800 hover:cursor-pointer"
                         >
                           Edit
                         </button>
@@ -801,7 +801,7 @@ const Product = () => {
                       onClick={() => {
                         addProduct();
                       }}
-                      className="px-4 py-2 bg-[#615ae7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#615ae7] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Save"}
                     </button>
@@ -811,7 +811,7 @@ const Product = () => {
                         onClick={() => {
                           deleteProduct(newProductOBJ?._id);
                         }}
-                        className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                        className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                       >
                         {"Delete"}
                       </button>
@@ -819,7 +819,7 @@ const Product = () => {
                         onClick={() => {
                           updateProduct();
                         }}
-                        className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                        className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                       >
                         {"Update"}
                       </button>

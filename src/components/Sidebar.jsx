@@ -38,7 +38,7 @@ const Sidebar = () => {
   const role = useUserRole();
   return (
     
-    <div className="h-screen w-[18%] bg-[#F9FAFB] text-gray-800 shadow-sm border-r border-gray-200 overflow-auto">
+    <div className="h-screen w-[18%] bg-white text-gray-800 shadow-sm border-r border-gray-200 overflow-auto">
       <div className="py-6 px-4">
         {/* Header */}
         <div className="flex items-center gap-2 text-2xl font-semibold text-blue-900 mb-10">

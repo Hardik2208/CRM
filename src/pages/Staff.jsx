@@ -137,7 +137,7 @@ const Staff = () => {
             <h1 className="text-3xl font-bold">Staffs</h1>
             <button
               onClick={() => setShowModal("Add")}
-              className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer"
+              className="bg-[#2463EB] gap-2 text-sm text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer"
             >
               <span className="mr-1">+</span> Add New Staff
             </button>
@@ -432,7 +432,7 @@ const Staff = () => {
                       onClick={() => {
                         addStaff();
                       }}
-                      className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Save"}
                     </button>
@@ -441,7 +441,7 @@ const Staff = () => {
                       onClick={() => {
                         updateStaff(newStaff?._id);
                       }}
-                      className="px-4 py-2 bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6]   disabled:opacity-50 hover:cursor-pointer"
+                      className="px-4 py-2 bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8]   disabled:opacity-50 hover:cursor-pointer"
                     >
                       {"Update"}
                     </button>
@@ -517,9 +517,9 @@ const Staff = () => {
                   <button
                     onClick={addAttendance}
                     disabled={!attendance}
-                    className={`px-4 py-2 bg-[#615AE7] text-white rounded-md ${
+                    className={`px-4 py-2 bg-[#2463EB] text-white rounded-md ${
                       attendance
-                        ? "hover:bg-[#615ae7d6]"
+                        ? "hover:bg-[#1C4ED8]"
                         : "opacity-50 cursor-not-allowed"
                     } mr-2`}
                   >

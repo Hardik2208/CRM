@@ -112,10 +112,10 @@ function Enquiry() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Recent Enquiry</h1>
 
-            <div className="w-[60%] flex justify-end">
+            <div className="w-[60%] flex justify-end gap-1">
               {role == "admin" ? <button
                 onClick={() => exportExcel(enquiryList)}
-                className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                className="bg-[#2463EB] text-sm text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center gap-2"
               >
                 <span className="mr-1">
                   <Table />
@@ -124,7 +124,7 @@ function Enquiry() {
               </button>:null}
               <button
                 onClick={() => setShowModal("Add")}
-                className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                className="bg-[#2463EB] text-sm text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center gap-2"
               >
                 <span className="mr-1">+</span> Add New Enquiry
               </button>
@@ -334,7 +334,7 @@ function Enquiry() {
                     onClick={() =>
                       showModal === "Add" ? addEnquiry() : updateEnquiry()
                     }
-                    className="px-6 py-2 rounded-md hover:cursor-pointer bg-[#615AE7] hover:bg-[#615ae7d6] text-white font-medium transition-all w-[15%]"
+                    className="px-6 py-2 rounded-md hover:cursor-pointer bg-[#2463EB] hover:bg-[#1C4ED8] text-white font-medium transition-all w-[15%]"
                   >
                     {showModal === "Add" ? "Save" : "Update"}
                   </button>

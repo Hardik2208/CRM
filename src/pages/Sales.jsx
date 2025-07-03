@@ -147,99 +147,99 @@ const Sales = () => {
     <div className="flex flex-col h-screen">
       <div className="flex">
         <Sidebar />
-        <div className="p-8 bg-white h-[100vh] overflow-auto w-[90%]">
+        <div className="p-8 bg-[#F9FAFB] h-[100vh] overflow-auto w-[90%]">
           <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
             Sales Overview
           </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Total Sales Today</p>
-                  <ChartLine className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Total Sales Today</p>
+                  <ChartLine className="text-3xl text-[#9EA8B6]" />
                 </div>
 
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-[#21C55D] ">
                   ₹{salesToday}{" "}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Unit Sold Today</p>
-                  <ClipboardList className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Unit Sold Today</p>
+                  <ClipboardList className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-black ">
                   {unitsToday}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Total Sales this Week</p>
-                  <ChartNoAxesCombined className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Total Sales this Week</p>
+                  <ChartNoAxesCombined className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-[#2ecc71] ">
                   ₹{salesThisWeek}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">
+                  <p className="text-md font-medium ">
                     Total Orders this Month
                   </p>
-                  <FileChartColumn className="text-3xl text-[#27548A]" />
+                  <FileChartColumn className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-black ">
                   {ordersThisMonth}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Gross Revenue(monthly)</p>
-                  <IndianRupee className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Gross Revenue(monthly)</p>
+                  <IndianRupee className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-[#DC2625] ">
                   ₹{grossRevenue}{" "}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Top Selling Category</p>
-                  <ClipboardList className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Top Selling Category</p>
+                  <ClipboardList className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-black ">
                   {topCategory}
                 </p>
               </div>
             </div>
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
                 <div className="flex justify-between">
-                  <p className="text-sm font-medium ">Top Selling Product</p>
-                  <ClipboardList className="text-3xl text-[#27548A]" />
+                  <p className="text-md font-medium ">Top Selling Product</p>
+                  <ClipboardList className="text-3xl text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-black ">
                   {topProduct}
                 </p>
               </div>
             </div>
           </div>
           <div className="w-[100%]">
-            <Card className="bg-white rounded-lg shadow-lg transition-transform hover:shadow-xl">
+            <Card className="transition-transform">
               <CardHeader>
                 <CardTitle>Sales Performance Graph</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="bg-white">
                 <Graphs orders={orderList}></Graphs>
               </CardContent>
             </Card>

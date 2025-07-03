@@ -128,7 +128,7 @@ const Home = () => {
     <div className="flex flex-col h-screen">
       <div className="flex">
         <Sidebar />
-        <div className="p-8 bg-white h-[100vh] overflow-auto w-[90%]">
+        <div className="p-8 bg-[#F9FAFB] h-[100vh] overflow-auto w-[90%]">
           {/* Header */}
           <div className="mb-[2vh]">
             <h1 className="text-4xl mb-[5vh] font-bold text-black">
@@ -138,49 +138,49 @@ const Home = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-              <div className="flex flex-col gap-4">
-                <div className="flex justify-between">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
+              <div className="flex flex-col gap-4 ">
+                <div className="flex justify-between text-sm">
                   <p className="text-sm font-medium ">Total Customers</p>
-                  <Users className="text-3xl text-[#27548A]" />
+                  <Users className=" text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A] ">
+                <p className="text-2xl font-semibold text-[#16A349] ">
                   {customerList.length || "--"}
                 </p>
               </div>
             </div>
 
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm">
                   <p className="text-sm font-medium">Items Sold (Month)</p>
-                  <ShoppingCart className="text-3xl text-[#27548A]" />
+                  <ShoppingCart className=" text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A]">
+                <p className="text-2xl font-semibold text-[#DC2625]">
                   {sumOfQuantity || "--"}
                 </p>
               </div>
             </div>
 
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
-                <div className="flex justify-between">
+                <div className="flex justify-between text-sm">
                   <p className="text-sm font-medium">Sales This Month</p>
-                  <BarChart2 className="text-3xl text-[#27548A]" />
+                  <BarChart2 className=" text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A]">
+                <p className="text-2xl font-semibold text-[#9333E9]">
                   ₹{sumOfSales || "--"}
                 </p>
               </div>
             </div>
 
-            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
+            <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition bg-white">
               <div className="flex flex-col gap-4">
-                <div className="flex justify-between">
-                  <p className="text-sm font-medium">Revenue This Month</p>
-                  <TrendingUp className="text-3xl text-[#27548A]" />
+                <div className="flex justify-between text-sm">
+                  <p className="text-sm font-medium ">Revenue This Month</p>
+                  <TrendingUp className=" text-[#9EA8B6]" />
                 </div>
-                <p className="text-2xl font-semibold text-[#27548A]">
+                <p className="text-2xl font-semibold text-black ">
                   ₹{revenue || "--"}
                 </p>
               </div>
@@ -188,13 +188,13 @@ const Home = () => {
           </div>
 
           {/* Recent Orders Table */}
-          <div className=" rounded-lg border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-slate-700 mb-4">
+          <div className=" rounded-lg border border-gray-200 p-6 bg-white">
+            <h2 className="text-xl font-semibold text-black mb-4">
               Recent Orders
             </h2>
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm text-left">
-                <thead className="bg-slate-100 text-slate-600 uppercase text-xs tracking-wide">
+                <thead className="bg-slate-100 text-black uppercase text-xs tracking-wide">
                   <tr>
                     <th className="px-4 py-3">Customer</th>
                     <th className="px-4 py-3">Phone Number</th>
@@ -236,14 +236,14 @@ const Home = () => {
               </table>
             </div>
           </div>
-          <div className=" border border-gray-200 rounded-lg p-5 hover:shadow-md transition mt-10 w-[50%]">
+          <div className=" border bg-white border-gray-200 rounded-lg p-5 hover:shadow-md transition mt-10 w-[50%]">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <p className="text-sm font-medium text-red-500">Low Stock</p>
-                <BadgeAlert className="text-3xl text-red-500" />
+                <BadgeAlert className="text-xl text-red-500" />
               </div>
               <table className="min-w-full text-sm text-left">
-                <thead className="bg-slate-100 text-slate-600 uppercase text-xs tracking-wide">
+                <thead className="bg-slate-100 text-black uppercase text-xs tracking-wide">
                   <tr>
                     <th className="px-4 py-3">Category</th>
                     <th className="px-4 py-3">Company</th>

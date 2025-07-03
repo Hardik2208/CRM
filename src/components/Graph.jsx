@@ -7,11 +7,14 @@ import dayjs from 'dayjs';
 
 const Graphs = ({ orders }) => {
   const COLORS = [
+      '#36A2EB', // Sky Blue
+      '#B0C4DE',  // Light Blue Gray
+    '#4682B4', // Steel Blue
   '#0A66C2', // Corporate Blue
-  '#36A2EB', // Sky Blue
+
   '#003f5c', // Navy Blue
-  '#4682B4', // Steel Blue
-  '#B0C4DE'  // Light Blue Gray
+  
+
 ];
 
 
@@ -53,7 +56,7 @@ const Graphs = ({ orders }) => {
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="sales" fill="#0A66C2" />
+            <Bar dataKey="sales" fill="#21C55D" />
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -119,10 +119,10 @@ const ThirdPartyF = () => {
             <h1 className="text-3xl font-bold">Recent Finance</h1>
 
             {role == "admin" ? (
-              <div className="w-[60%] flex justify-end">
+              <div className="w-[60%] flex justify-end text-sm gap-1">
                 <button
                   onClick={() => exportExcel(financeList)}
-                  className="bg-[#615AE7] mx-1 text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                  className="bg-[#2463EB] gap-2 text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center"
                 >
                   <span className="mr-1">
                     <Table />
@@ -131,7 +131,7 @@ const ThirdPartyF = () => {
                 </button>
                 <button
                   onClick={() => setShowModal2(true)}
-                  className="bg-[#615AE7] text-white px-4 py-2 rounded-md hover:bg-[#615ae7d6] hover:cursor-pointer flex items-center justify-center"
+                  className="bg-[#2463EB] gap-2 text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center"
                 >
                   <span className="mr-1 ">+</span> New EMI Payment
                 </button>
@@ -758,7 +758,7 @@ const ThirdPartyF = () => {
                               onClick={() => {
                                 getDetailsFinance();
                               }}
-                              className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[30%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                              className="px-4 py-2 mx-[2%] bg-[#2463EB] w-[30%]  text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                             >
                               {"Search"}
                             </button>
@@ -781,7 +781,7 @@ const ThirdPartyF = () => {
                               onClick={() => {
                                 getDetailsFinanceByOrder();
                               }}
-                              className="px-4 py-2 mx-[2%] bg-[#615AE7] w-[30%]  text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                              className="px-4 py-2 mx-[2%] bg-[#2463EB] w-[30%]  text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                             >
                               {"Search"}
                             </button>
@@ -889,7 +889,7 @@ const ThirdPartyF = () => {
                     onClick={() => {
                       addEMI();
                     }}
-                    className="px-4 py-2 ml-[2%] bg-[#615AE7] w-[15%] text-white rounded-md hover:bg-[#615ae7d6] disabled:opacity-50 hover:cursor-pointer"
+                    className="px-4 py-2 ml-[2%] bg-[#2463EB] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
                   >
                     {"Save"}
                   </button>
