@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FileText, Table } from "lucide-react";
 import { useUserRole } from "../components/hooks";
-import Loader from '../components/loader';
+import Loader from "../components/loader";
 
 import Sidebar from "../components/Sidebar";
 
@@ -13,11 +13,13 @@ const Product = () => {
     getProductData();
   }, []);
   const [showModal, setShowModal] = useState("");
+  const [showModal2, setShowModal2] = useState("");
   const [productList, setProductList] = useState([]);
   const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
   const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     // Clear the previous timer whenever search changes
@@ -47,12 +49,24 @@ const Product = () => {
         );
         setProductList(res.data);
         setLoading(false);
-
       }
     } catch (err) {
       console.error("Search Error:", err); // Shows error object in console
     }
   };
+
+  const getCategory = () => {
+    axios
+      .get("https://shop-software.onrender.com/api/category")
+      .then((res) => {
+        setCategory(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   const updateProduct = () => {
     setNewProductOBJ({ productObject: {} });
@@ -69,10 +83,11 @@ const Product = () => {
   const getProductData = () => {
     axios
       .get("https://shop-software.onrender.com/api/product")
-      .then((res) =>{ setProductList(res.data.reverse());
+      .then((res) => {
+        setProductList(res.data.reverse());
         setLoading(false);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   };
 
   const deleteProduct = (id) => {
@@ -104,9 +119,25 @@ const Product = () => {
     }
   };
 
+  const addCategory = async () => {
+    try {
+      const res = await axios.post(
+        "https://shop-software.onrender.com/api/category",
+        category
+      );
+      setShowModal2(false);
+      setCategory({});
+      getCategory();
+      getProductData();
+    } catch (err) {
+      alert("Something went wrong while adding the product.");
+      console.log(err);
+    }
+  };
+
   const role = useUserRole();
 
-  if (loading) return <Loader />; 
+  if (loading) return <Loader />;
 
   // UI Components
   return (
@@ -129,6 +160,12 @@ const Product = () => {
                   Export to Excel
                 </button>
               ) : null}
+              <button
+                onClick={() => setShowModal2(true)}
+                className="bg-[#2463EB] text-white px-4 py-2 rounded-md hover:bg-[#1C4ED8] hover:cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span className="mr-1 ">+</span> Add New Category
+              </button>
 
               <button
                 onClick={() => setShowModal("Add")}
@@ -251,431 +288,14 @@ const Product = () => {
                       id=""
                     >
                       <option value="">Choose Option</option>
-                      <option value="MOBILE">Mobile</option>
-                      <option value="TV">TV</option>
-                      <option value="FRIDGE">Fridge</option>
-                      <option value="WASHING MACHINE">Washing Machine</option>
-                      <option value="OTHERS">Others</option>
+                      {category.map((i) => (
+                        <option value={i.name}>{i.name}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
-                {newProductOBJ?.category == "MOBILE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Mobile Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Company:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.company}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Model Name:
-                        </label>
-                        <input
-                          value={newProductOBJ?.modelName}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              modelName: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Quantity:
-                        </label>
-                        <input
-                          value={newProductOBJ?.quantity}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-                      {newProductOBJ?.quantity
-                        ? Array.from({ length: newProductOBJ.quantity }).map(
-                            (_, index) => (
-                              <div key={index} className="mb-4">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  IMEI Number {index + 1}:
-                                </label>
-                                <input
-                                  value={
-                                    newProductOBJ?.productObject?.IMEI?.[
-                                      index
-                                    ] || ""
-                                  }
-                                  onChange={(e) => {
-                                    const updatedIMEIs = [
-                                      ...(newProductOBJ?.productObject?.IMEI ||
-                                        []),
-                                    ];
-                                    updatedIMEIs[index] =
-                                      e.target.value.toUpperCase();
-                                    setNewProductOBJ({
-                                      ...newProductOBJ,
-                                      productObject: {
-                                        ...newProductOBJ.productObject,
-                                        IMEI: updatedIMEIs,
-                                      },
-                                    });
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-                              </div>
-                            )
-                          )
-                        : null}
-                    </div>
-                  </div>
-                ) : newProductOBJ?.category == "TV" ? (
-                  <div>
-                    <h2
-                      className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2
-                "
-                    >
-                      TV Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Company:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.company}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Model Name:
-                        </label>
-                        <input
-                          value={newProductOBJ?.modelName}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              modelName: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Quantity:
-                        </label>
-                        <input
-                          value={newProductOBJ?.quantity}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-
-                      {newProductOBJ?.quantity
-                        ? Array.from({ length: newProductOBJ.quantity }).map(
-                            (_, index) => (
-                              <div key={index} className="mb-4">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  Serial Number {index + 1}:
-                                </label>
-                                <input
-                                  value={
-                                    newProductOBJ?.productObject
-                                      ?.serialNumber?.[index] || ""
-                                  }
-                                  onChange={(e) => {
-                                    const updatedSerials = [
-                                      ...(newProductOBJ?.productObject
-                                        ?.serialNumber || []),
-                                    ];
-                                    updatedSerials[index] =
-                                      e.target.value.toUpperCase();
-                                    setNewProductOBJ({
-                                      ...newProductOBJ,
-                                      productObject: {
-                                        ...newProductOBJ.productObject,
-                                        serialNumber: updatedSerials,
-                                      },
-                                    });
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-                              </div>
-                            )
-                          )
-                        : null}
-                    </div>
-                  </div>
-                ) : newProductOBJ?.category == "WASHING MACHINE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Washing Machine Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Company:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.company}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Model Name:
-                        </label>
-                        <input
-                          value={newProductOBJ?.modelName}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              modelName: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Quantity:
-                        </label>
-                        <input
-                          value={newProductOBJ?.quantity}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              quantity: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-
-                      {newProductOBJ?.quantity
-                        ? Array.from({ length: newProductOBJ.quantity }).map(
-                            (_, index) => (
-                              <div key={index} className="mb-4">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  Serial Number {index + 1}:
-                                </label>
-                                <input
-                                  value={
-                                    newProductOBJ?.productObject
-                                      ?.serialNumber?.[index] || ""
-                                  }
-                                  onChange={(e) => {
-                                    const updatedSerials = [
-                                      ...(newProductOBJ?.productObject
-                                        ?.serialNumber || []),
-                                    ];
-                                    updatedSerials[index] =
-                                      e.target.value.toUpperCase();
-                                    setNewProductOBJ({
-                                      ...newProductOBJ,
-                                      productObject: {
-                                        ...newProductOBJ.productObject,
-                                        serialNumber: updatedSerials,
-                                      },
-                                    });
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-                              </div>
-                            )
-                          )
-                        : null}
-                    </div>
-                  </div>
-                ) : newProductOBJ?.category == "FRIDGE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Fridge Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Company:
-                        </label>
-                        <input
-                          value={newProductOBJ?.productObject?.company}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Model Name:
-                        </label>
-                        <input
-                          value={newProductOBJ?.modelName}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              modelName: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Quantity:
-                        </label>
-                        <input
-                          value={newProductOBJ?.quantity}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-                      {newProductOBJ?.quantity
-                        ? Array.from({ length: newProductOBJ.quantity }).map(
-                            (_, index) => (
-                              <div key={index} className="mb-4">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  Serial Number {index + 1}:
-                                </label>
-                                <input
-                                  value={
-                                    newProductOBJ?.productObject
-                                      ?.serialNumber?.[index] || ""
-                                  }
-                                  onChange={(e) => {
-                                    const updatedSerials = [
-                                      ...(newProductOBJ?.productObject
-                                        ?.serialNumber || []),
-                                    ];
-                                    updatedSerials[index] =
-                                      e.target.value.toUpperCase();
-                                    setNewProductOBJ({
-                                      ...newProductOBJ,
-                                      productObject: {
-                                        ...newProductOBJ.productObject,
-                                        serialNumber: updatedSerials,
-                                      },
-                                    });
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-                              </div>
-                            )
-                          )
-                        : null}
-                    </div>
-                  </div>
-                ) : newProductOBJ?.category == "OTHERS" ? (
+                {newProductOBJ.category ? (<>
+                {newProductOBJ?.category !== "" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                       Product Details:
@@ -741,9 +361,57 @@ const Product = () => {
                           type="number"
                         />
                       </div>
+                      {newProductOBJ?.quantity
+                        ? (() => {
+                            const selectedCategory = category.find(
+                              (c) => c.name === newProductOBJ?.category
+                            );
+
+                            const inputFieldKey = selectedCategory?.inputField;
+
+                            if (!inputFieldKey || !newProductOBJ?.quantity)
+                              return null;
+
+                            return Array.from({
+                              length: newProductOBJ.quantity,
+                            }).map((_, index) => (
+                              <div key={index} className="mb-4">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  {inputFieldKey.toUpperCase()} {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newProductOBJ?.productObject?.[
+                                      inputFieldKey
+                                    ]?.[index] || ""
+                                  }
+                                  onChange={(e) => {
+                                    const updatedValues = [
+                                      ...(newProductOBJ?.productObject?.[
+                                        inputFieldKey
+                                      ] || []),
+                                    ];
+                                    updatedValues[index] =
+                                      e.target.value.toUpperCase();
+
+                                    setNewProductOBJ({
+                                      ...newProductOBJ,
+                                      productObject: {
+                                        ...newProductOBJ.productObject,
+                                        [inputFieldKey]: updatedValues,
+                                      },
+                                    });
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+                              </div>
+                            ));
+                          })()
+                        : null}
                     </div>
                   </div>
-                ) : null}
+                ): null}
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                   Mechant Purchased Price:
                 </h2>
@@ -786,7 +454,7 @@ const Product = () => {
                       type="number"
                     />
                   </div>
-                </div>
+                </div></>):null}
                 <div className="flex justify-end space-x-2 mt-4">
                   <button
                     onClick={() => {
@@ -831,6 +499,72 @@ const Product = () => {
           ) : null}
         </div>
       </div>
+      {showModal2 ? (
+        <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
+          <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
+          <div className="bg-white rounded-lg p-6 w-[80%] max-h-[70vh] overflow-auto max-w-4xl z-10">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+              Add Category:
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="">
+                <label className="text-gray-600 font-medium text-sm" htmlFor="">
+                  Category Name:
+                </label>
+                <input
+                  onChange={(e) =>
+                    setCategory({
+                      ...category,
+                      name: e.target.value.toUpperCase(),
+                    })
+                  }
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                  type="text"
+                />
+              </div>
+              <div className="">
+                <label className="text-gray-600 font-medium text-sm" htmlFor="">
+                  Category:
+                </label>
+                <select
+                  onChange={(e) => {
+                    setCategory({
+                      ...category,
+                      inputField: e.target.value,
+                    });
+                  }}
+                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                  name=""
+                  id=""
+                >
+                  <option value="">Choose Option</option>
+                  <option value="IMEI">IMEI</option>
+                  <option value="serialNumber">Serial Number</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex justify-end space-x-2 mt-4">
+              <button
+                onClick={() => {
+                  addCategory();
+                }}
+                className="px-4 py-2 bg-[#615ae7] w-[15%] text-white rounded-md hover:bg-[#1C4ED8] disabled:opacity-50 hover:cursor-pointer"
+              >
+                {"Save"}
+              </button>
+              <button
+                onClick={() => {
+                  setShowModal2(false);
+                  setCategory({});
+                }}
+                className="px-4 py-2 w-[15%] bg-gray-200 rounded-md hover:bg-gray-300 hover:cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

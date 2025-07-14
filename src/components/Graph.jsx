@@ -7,12 +7,12 @@ import dayjs from 'dayjs';
 
 const Graphs = ({ orders }) => {
   const COLORS = [
-      '#36A2EB', // Sky Blue
-      '#B0C4DE',  // Light Blue Gray
-    '#4682B4', // Steel Blue
-  '#0A66C2', // Corporate Blue
+      '#8784D8', // Sky Blue
+      '#FF8042',  // Light Blue Gray
+    '#FFC658', // Steel Blue
+  '#81CA9C', // Corporate Blue
 
-  '#003f5c', // Navy Blue
+  '#36A2EB', // Navy Blue
   
 
 ];

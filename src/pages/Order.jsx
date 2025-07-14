@@ -14,7 +14,6 @@ const Order = () => {
     orderObject: {},
     customerObject: {},
     paymentObject: { paymentType: "Cash" },
-    category: "MOBILE",
     tpf: {},
   });
   useEffect(() => {
@@ -38,8 +37,7 @@ const Order = () => {
       if (interest > 0) {
         const r = interest / 100; // monthly interest
         const n = numberOfEMI;
-        amountOfEMI =
-          (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        amountOfEMI = principal * r + principal / n;
       } else {
         amountOfEMI = principal / numberOfEMI; // No interest
       }
@@ -76,6 +74,8 @@ const Order = () => {
   const [search, setSearch] = useState("");
   const [timerId, setTimerId] = useState(null);
 
+  const [category, setCategory] = useState([]);
+
   useEffect(() => {
     // Clear the previous timer whenever search changes
     if (timerId) {
@@ -108,6 +108,19 @@ const Order = () => {
       console.error("Search Error:", err); // Shows error object in console
     }
   };
+
+  const getCategory = () => {
+    axios
+      .get("https://shop-software.onrender.com/api/category")
+      .then((res) => {
+        setCategory(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   const getOrderData = () => {
     axios
@@ -253,7 +266,7 @@ const Order = () => {
                   </div>
                 ) : null}
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                  Product Details:
+                  Category Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div>
@@ -264,7 +277,8 @@ const Order = () => {
                       value={newOrder?.category}
                       onChange={(e) => {
                         setNewOrder({
-                          ...newOrder,
+                          ...newOrder.customerObject,
+                          quantity:0,
                           category: e.target.value.toUpperCase(),
                         });
                       }}
@@ -272,1026 +286,14 @@ const Order = () => {
                       name=""
                       id=""
                     >
-                      <option value="MOBILE">Mobile</option>
-                      <option value="TV">TV</option>
-                      <option value="FRIDGE">Fridge</option>
-                      <option value="WASHING MACHINE">Washing Machine</option>
-                      <option value="OTHERS">Others</option>
+                      <option value="">Choose Option</option>
+                      {category.map((i) => (
+                        <option value={i.name}>{i.name}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
-                {newOrder?.category == "MOBILE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Mobile Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Company:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.company}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Model Name:
-                        </label>
-                        <input
-                          value={newOrder?.modelName || ""}
-                          onChange={async (e) => {
-                            const input = e.target.value.toUpperCase();
-                            setNewOrder({
-                              ...newOrder,
-                              modelName: input,
-                            });
-
-                            // Fetch model suggestions from API
-                            if (input.length > 0 && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${input}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            } else {
-                              setModelSuggestions([]);
-                            }
-                          }}
-                          onFocus={async () => {
-                            if (newOrder?.modelName && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${newOrder.modelName}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            }
-                          }}
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-
-                        {/* Suggestions Dropdown */}
-                        {Array.isArray(modelSuggestions) &&
-                          modelSuggestions.length > 0 && (
-                            <ul className="border rounded bg-white shadow max-h-40 overflow-auto mt-1">
-                              {modelSuggestions.map((model, idx) => (
-                                <li
-                                  key={idx}
-                                  className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                  onClick={() => {
-                                    setNewOrder({
-                                      ...newOrder,
-                                      modelName: model,
-                                    });
-                                    setModelSuggestions([]);
-                                  }}
-                                >
-                                  {model}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Quantity:
-                        </label>
-                        <input
-                          value={newOrder?.quantity}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-
-                      {newOrder?.quantity ? (
-                        <>
-                          {(() => {
-                            const fieldName =
-                              newOrder.category === "MOBILE"
-                                ? "IMEI"
-                                : "serialNumber";
-
-                            return Array.from({
-                              length: newOrder.quantity,
-                            }).map((_, index) => (
-                              <div key={index} className="mb-4 relative">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  {newOrder.category === "MOBILE"
-                                    ? `IMEI Number ${index + 1}`
-                                    : `Serial Number ${index + 1}`}
-                                  :
-                                </label>
-                                <input
-                                  value={
-                                    newOrder?.orderObject?.[fieldName]?.[
-                                      index
-                                    ] || []
-                                  }
-                                  onChange={async (e) => {
-                                    const val = e.target.value.toUpperCase();
-                                    const updated = [
-                                      ...(newOrder?.orderObject?.[fieldName] ||
-                                        []),
-                                    ];
-                                    updated[index] = val;
-
-                                    setNewOrder({
-                                      ...newOrder,
-                                      orderObject: {
-                                        ...newOrder.orderObject,
-                                        [fieldName]: updated,
-                                      },
-                                    });
-
-                                    if (newOrder.modelName) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${newOrder.modelName}&query=${val}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                        setFocusedFieldIndex(index);
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  onFocus={async (e) => {
-                                    const inputValue =
-                                      e.target.value.toUpperCase();
-                                    setFocusedFieldIndex(index); // to show suggestions only for this field
-
-                                    if (
-                                      newOrder.modelName &&
-                                      newOrder.category
-                                    ) {
-                                      try {
-                                        const res = await axios.get(
-                                          `/api/product/serial-suggestions?modelName=${newOrder.modelName}&query=${inputValue}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-
-                                {/* Show suggestion only for the input in focus */}
-                                {focusedFieldIndex === index &&
-                                  Array.isArray(serialSuggestions) &&
-                                  serialSuggestions.length > 0 && (
-                                    <ul className="absolute z-10 bg-white border w-full rounded mt-1 shadow max-h-40 overflow-auto">
-                                      {serialSuggestions.map((item, idx) => (
-                                        <li
-                                          key={idx}
-                                          onClick={() => {
-                                            const updated = [
-                                              ...(newOrder?.orderObject?.[
-                                                fieldName
-                                              ] || []),
-                                            ];
-                                            updated[index] = item;
-                                            setNewOrder({
-                                              ...newOrder,
-                                              orderObject: {
-                                                ...newOrder.orderObject,
-                                                [fieldName]: updated,
-                                              },
-                                            });
-                                            setSerialSuggestions([]);
-                                            setFocusedFieldIndex(null);
-                                          }}
-                                          className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                        >
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  )}
-                              </div>
-                            ));
-                          })()}
-                        </>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : newOrder?.category == "TV" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      TV Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Company:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.company}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Model Name:
-                        </label>
-                        <input
-                          value={newOrder?.modelName || ""}
-                          onChange={async (e) => {
-                            const input = e.target.value.toUpperCase();
-                            setNewOrder({
-                              ...newOrder,
-                              modelName: input,
-                            });
-
-                            // Fetch model suggestions from API
-                            if (input.length > 0 && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${input}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            } else {
-                              setModelSuggestions([]);
-                            }
-                          }}
-                          onFocus={async () => {
-                            if (newOrder?.modelName && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${newOrder.modelName}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            }
-                          }}
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-
-                        {/* Suggestions Dropdown */}
-                        {Array.isArray(modelSuggestions) &&
-                          modelSuggestions.length > 0 && (
-                            <ul className="border rounded bg-white shadow max-h-40 overflow-auto mt-1">
-                              {modelSuggestions.map((model, idx) => (
-                                <li
-                                  key={idx}
-                                  className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                  onClick={() => {
-                                    setNewOrder({
-                                      ...newOrder,
-                                      modelName: model,
-                                    });
-                                    setModelSuggestions([]);
-                                  }}
-                                >
-                                  {model}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Quantity:
-                        </label>
-                        <input
-                          value={newOrder?.quantity}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-                      {newOrder?.quantity ? (
-                        <>
-                          {(() => {
-                            const fieldName =
-                              newOrder.category === "MOBILE"
-                                ? "IMEI"
-                                : "serialNumber";
-
-                            return Array.from({
-                              length: newOrder.quantity,
-                            }).map((_, index) => (
-                              <div key={index} className="mb-4 relative">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  {fieldName === "IMEI"
-                                    ? `IMEI Number ${index + 1}`
-                                    : `Serial Number ${index + 1}`}
-                                  :
-                                </label>
-
-                                {/* Input field for IMEI/Serial */}
-                                <input
-                                  value={
-                                    newOrder?.orderObject?.[fieldName]?.[
-                                      index
-                                    ] || ""
-                                  }
-                                  onChange={async (e) => {
-                                    const val = e.target.value.toUpperCase();
-                                    const updated = [
-                                      ...(newOrder?.orderObject?.[fieldName] ||
-                                        []),
-                                    ];
-                                    updated[index] = val;
-
-                                    setNewOrder({
-                                      ...newOrder,
-                                      orderObject: {
-                                        ...newOrder.orderObject,
-                                        [fieldName]: updated,
-                                      },
-                                    });
-
-                                    // Fetch suggestions only if modelName exists
-                                    if (newOrder.modelName) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            val
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                        setFocusedFieldIndex(index);
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  onFocus={async (e) => {
-                                    const inputValue =
-                                      e.target.value.toUpperCase();
-                                    setFocusedFieldIndex(index);
-
-                                    if (
-                                      newOrder.modelName &&
-                                      newOrder.category
-                                    ) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            inputValue
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-
-                                {/* Suggestions dropdown */}
-                                {focusedFieldIndex === index &&
-                                  Array.isArray(serialSuggestions) &&
-                                  serialSuggestions.length > 0 && (
-                                    <ul className="absolute z-10 bg-white border w-full rounded mt-1 shadow max-h-40 overflow-auto">
-                                      {serialSuggestions.map((item, idx) => (
-                                        <li
-                                          key={idx}
-                                          onClick={() => {
-                                            const updated = [
-                                              ...(newOrder?.orderObject?.[
-                                                fieldName
-                                              ] || []),
-                                            ];
-                                            updated[index] = item;
-
-                                            setNewOrder({
-                                              ...newOrder,
-                                              orderObject: {
-                                                ...newOrder.orderObject,
-                                                [fieldName]: updated,
-                                              },
-                                            });
-
-                                            setSerialSuggestions([]);
-                                            setFocusedFieldIndex(null);
-                                          }}
-                                          className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                        >
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  )}
-                              </div>
-                            ));
-                          })()}
-                        </>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : newOrder?.category == "WASHING MACHINE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Washing Machine Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Company:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.company}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Model Name:
-                        </label>
-                        <input
-                          value={newOrder?.modelName || ""}
-                          onChange={async (e) => {
-                            const input = e.target.value.toUpperCase();
-                            setNewOrder({
-                              ...newOrder,
-                              modelName: input,
-                            });
-
-                            // Fetch model suggestions from API
-                            if (input.length > 0 && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${input}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            } else {
-                              setModelSuggestions([]);
-                            }
-                          }}
-                          onFocus={async () => {
-                            if (newOrder?.modelName && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${newOrder.modelName}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            }
-                          }}
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-
-                        {/* Suggestions Dropdown */}
-                        {Array.isArray(modelSuggestions) &&
-                          modelSuggestions.length > 0 && (
-                            <ul className="border rounded bg-white shadow max-h-40 overflow-auto mt-1">
-                              {modelSuggestions.map((model, idx) => (
-                                <li
-                                  key={idx}
-                                  className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                  onClick={() => {
-                                    setNewOrder({
-                                      ...newOrder,
-                                      modelName: model,
-                                    });
-                                    setModelSuggestions([]);
-                                  }}
-                                >
-                                  {model}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                      </div>
-
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Quantity:
-                        </label>
-                        <input
-                          value={newOrder?.quantity}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-
-                      {newOrder?.quantity ? (
-                        <>
-                          {(() => {
-                            const fieldName =
-                              newOrder.category === "MOBILE"
-                                ? "IMEI"
-                                : "serialNumber";
-
-                            return Array.from({
-                              length: newOrder.quantity,
-                            }).map((_, index) => (
-                              <div key={index} className="mb-4 relative">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  {fieldName === "IMEI"
-                                    ? `IMEI Number ${index + 1}`
-                                    : `Serial Number ${index + 1}`}
-                                  :
-                                </label>
-
-                                {/* Input field for IMEI/Serial */}
-                                <input
-                                  value={
-                                    newOrder?.orderObject?.[fieldName]?.[
-                                      index
-                                    ] || ""
-                                  }
-                                  onChange={async (e) => {
-                                    const val = e.target.value.toUpperCase();
-                                    const updated = [
-                                      ...(newOrder?.orderObject?.[fieldName] ||
-                                        []),
-                                    ];
-                                    updated[index] = val;
-
-                                    setNewOrder({
-                                      ...newOrder,
-                                      orderObject: {
-                                        ...newOrder.orderObject,
-                                        [fieldName]: updated,
-                                      },
-                                    });
-
-                                    // Fetch suggestions only if modelName exists
-                                    if (newOrder.modelName) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            val
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                        setFocusedFieldIndex(index);
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  onFocus={async (e) => {
-                                    const inputValue =
-                                      e.target.value.toUpperCase();
-                                    setFocusedFieldIndex(index);
-
-                                    if (
-                                      newOrder.modelName &&
-                                      newOrder.category
-                                    ) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            inputValue
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-
-                                {/* Suggestions dropdown */}
-                                {focusedFieldIndex === index &&
-                                  Array.isArray(serialSuggestions) &&
-                                  serialSuggestions.length > 0 && (
-                                    <ul className="absolute z-10 bg-white border w-full rounded mt-1 shadow max-h-40 overflow-auto">
-                                      {serialSuggestions.map((item, idx) => (
-                                        <li
-                                          key={idx}
-                                          onClick={() => {
-                                            const updated = [
-                                              ...(newOrder?.orderObject?.[
-                                                fieldName
-                                              ] || []),
-                                            ];
-                                            updated[index] = item;
-
-                                            setNewOrder({
-                                              ...newOrder,
-                                              orderObject: {
-                                                ...newOrder.orderObject,
-                                                [fieldName]: updated,
-                                              },
-                                            });
-
-                                            setSerialSuggestions([]);
-                                            setFocusedFieldIndex(null);
-                                          }}
-                                          className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                        >
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  )}
-                              </div>
-                            ));
-                          })()}
-                        </>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : newOrder?.category == "FRIDGE" ? (
-                  <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Fridge Details:
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Company:
-                        </label>
-                        <input
-                          value={newOrder?.orderObject?.company}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              orderObject: {
-                                ...newOrder?.orderObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Model Name:
-                        </label>
-                        <input
-                          value={newOrder?.modelName || ""}
-                          onChange={async (e) => {
-                            const input = e.target.value.toUpperCase();
-                            setNewOrder({
-                              ...newOrder,
-                              modelName: input,
-                            });
-
-                            // Fetch model suggestions from API
-                            if (input.length > 0 && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${input}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            } else {
-                              setModelSuggestions([]);
-                            }
-                          }}
-                          onFocus={async () => {
-                            if (newOrder?.modelName && newOrder?.category) {
-                              try {
-                                const res = await axios.get(
-                                  `https://shop-software.onrender.com/api/product/model-suggestions?category=${newOrder.category}&query=${newOrder.modelName}`
-                                );
-                                setModelSuggestions(
-                                  Array.isArray(res.data) ? res.data : []
-                                );
-                              } catch (err) {
-                                console.error("Model suggestion error:", err);
-                                setModelSuggestions([]);
-                              }
-                            }
-                          }}
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-
-                        {/* Suggestions Dropdown */}
-                        {Array.isArray(modelSuggestions) &&
-                          modelSuggestions.length > 0 && (
-                            <ul className="border rounded bg-white shadow max-h-40 overflow-auto mt-1">
-                              {modelSuggestions.map((model, idx) => (
-                                <li
-                                  key={idx}
-                                  className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                  onClick={() => {
-                                    setNewOrder({
-                                      ...newOrder,
-                                      modelName: model,
-                                    });
-                                    setModelSuggestions([]);
-                                  }}
-                                >
-                                  {model}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                      </div>
-                      <div>
-                        <label className="text-gray-600 font-medium text-sm">
-                          Quantity:
-                        </label>
-                        <input
-                          value={newOrder?.quantity}
-                          onChange={(e) =>
-                            setNewOrder({
-                              ...newOrder,
-                              quantity: e.target.value,
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="number"
-                        />
-                      </div>
-
-                      {newOrder?.quantity ? (
-                        <>
-                          {(() => {
-                            const fieldName =
-                              newOrder.category === "MOBILE"
-                                ? "IMEI"
-                                : "serialNumber";
-
-                            return Array.from({
-                              length: newOrder.quantity,
-                            }).map((_, index) => (
-                              <div key={index} className="mb-4 relative">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  {fieldName === "IMEI"
-                                    ? `IMEI Number ${index + 1}`
-                                    : `Serial Number ${index + 1}`}
-                                  :
-                                </label>
-
-                                {/* Input field for IMEI/Serial */}
-                                <input
-                                  value={
-                                    newOrder?.orderObject?.[fieldName]?.[
-                                      index
-                                    ] || ""
-                                  }
-                                  onChange={async (e) => {
-                                    const val = e.target.value.toUpperCase();
-                                    const updated = [
-                                      ...(newOrder?.orderObject?.[fieldName] ||
-                                        []),
-                                    ];
-                                    updated[index] = val;
-
-                                    setNewOrder({
-                                      ...newOrder,
-                                      orderObject: {
-                                        ...newOrder.orderObject,
-                                        [fieldName]: updated,
-                                      },
-                                    });
-
-                                    // Fetch suggestions only if modelName exists
-                                    if (newOrder.modelName) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            val
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                        setFocusedFieldIndex(index);
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  onFocus={async (e) => {
-                                    const inputValue =
-                                      e.target.value.toUpperCase();
-                                    setFocusedFieldIndex(index);
-
-                                    if (
-                                      newOrder.modelName &&
-                                      newOrder.category
-                                    ) {
-                                      try {
-                                        const res = await axios.get(
-                                          `https://shop-software.onrender.com/api/product/serial-suggestions?modelName=${encodeURIComponent(
-                                            newOrder.modelName
-                                          )}&query=${encodeURIComponent(
-                                            inputValue
-                                          )}&category=${newOrder.category}`
-                                        );
-                                        setSerialSuggestions(
-                                          Array.isArray(res.data)
-                                            ? res.data
-                                            : []
-                                        );
-                                      } catch (err) {
-                                        console.error(
-                                          "Serial suggestion error:",
-                                          err
-                                        );
-                                        setSerialSuggestions([]);
-                                      }
-                                    }
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-
-                                {/* Suggestions dropdown */}
-                                {focusedFieldIndex === index &&
-                                  Array.isArray(serialSuggestions) &&
-                                  serialSuggestions.length > 0 && (
-                                    <ul className="absolute z-10 bg-white border w-full rounded mt-1 shadow max-h-40 overflow-auto">
-                                      {serialSuggestions.map((item, idx) => (
-                                        <li
-                                          key={idx}
-                                          onClick={() => {
-                                            const updated = [
-                                              ...(newOrder?.orderObject?.[
-                                                fieldName
-                                              ] || []),
-                                            ];
-                                            updated[index] = item;
-
-                                            setNewOrder({
-                                              ...newOrder,
-                                              orderObject: {
-                                                ...newOrder.orderObject,
-                                                [fieldName]: updated,
-                                              },
-                                            });
-
-                                            setSerialSuggestions([]);
-                                            setFocusedFieldIndex(null);
-                                          }}
-                                          className="px-3 py-2 cursor-pointer hover:bg-gray-100"
-                                        >
-                                          {item}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  )}
-                              </div>
-                            ));
-                          })()}
-                        </>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : newOrder?.category == "OTHERS" ? (
+                {newOrder?.category !== "" ? (
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
                       Product Details:
@@ -1396,13 +398,142 @@ const Order = () => {
                           onChange={(e) =>
                             setNewOrder({
                               ...newOrder,
-                              quantity: e.target.value.toUpperCase(),
+                              quantity: e.target.value,
                             })
                           }
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
+
+                      {newOrder?.quantity ? (
+                        <>
+                          {(() => {
+                            const selectedCategory = category.find(
+                              (cat) => cat.name === newOrder.category
+                            );
+
+                            const fieldName = selectedCategory?.inputField;
+
+                            if (!fieldName) return null;
+
+                            return Array.from({
+                              length: newOrder.quantity,
+                            }).map((_, index) => (
+                              <div key={index} className="mb-4 relative">
+                                <label className="text-gray-600 font-medium text-sm">
+                                  {fieldName.toUpperCase()} {index + 1}:
+                                </label>
+                                <input
+                                  value={
+                                    newOrder?.orderObject?.[fieldName]?.[
+                                      index
+                                    ] || ""
+                                  }
+                                  onChange={async (e) => {
+                                    const val = e.target.value.toUpperCase();
+                                    const updated = [
+                                      ...(newOrder?.orderObject?.[fieldName] ||
+                                        []),
+                                    ];
+                                    updated[index] = val;
+
+                                    setNewOrder({
+                                      ...newOrder,
+                                      orderObject: {
+                                        ...newOrder.orderObject,
+                                        [fieldName]: updated,
+                                      },
+                                    });
+
+                                    if (newOrder.modelName) {
+                                      try {
+                                        const res = await axios.get(
+                                          `/api/product/serial-suggestions?modelName=${newOrder.modelName}&query=${val}&category=${newOrder.category}`
+                                        );
+                                        setSerialSuggestions(
+                                          Array.isArray(res.data)
+                                            ? res.data
+                                            : []
+                                        );
+                                        setFocusedFieldIndex(index);
+                                      } catch (err) {
+                                        console.error(
+                                          "Serial suggestion error:",
+                                          err
+                                        );
+                                        setSerialSuggestions([]);
+                                      }
+                                    }
+                                  }}
+                                  onFocus={async (e) => {
+                                    const inputValue =
+                                      e.target.value.toUpperCase();
+                                    setFocusedFieldIndex(index);
+
+                                    if (
+                                      newOrder.modelName &&
+                                      newOrder.category
+                                    ) {
+                                      try {
+                                        const res = await axios.get(
+                                          `/api/product/serial-suggestions?modelName=${newOrder.modelName}&query=${inputValue}&category=${newOrder.category}`
+                                        );
+                                        setSerialSuggestions(
+                                          Array.isArray(res.data)
+                                            ? res.data
+                                            : []
+                                        );
+                                      } catch (err) {
+                                        console.error(
+                                          "Serial suggestion error:",
+                                          err
+                                        );
+                                        setSerialSuggestions([]);
+                                      }
+                                    }
+                                  }}
+                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                  type="text"
+                                />
+
+                                {/* Suggestions for focused input */}
+                                {focusedFieldIndex === index &&
+                                  Array.isArray(serialSuggestions) &&
+                                  serialSuggestions.length > 0 && (
+                                    <ul className="absolute z-10 bg-white border w-full rounded mt-1 shadow max-h-40 overflow-auto">
+                                      {serialSuggestions.map((item, idx) => (
+                                        <li
+                                          key={idx}
+                                          onClick={() => {
+                                            const updated = [
+                                              ...(newOrder?.orderObject?.[
+                                                fieldName
+                                              ] || []),
+                                            ];
+                                            updated[index] = item;
+                                            setNewOrder({
+                                              ...newOrder,
+                                              orderObject: {
+                                                ...newOrder.orderObject,
+                                                [fieldName]: updated,
+                                              },
+                                            });
+                                            setSerialSuggestions([]);
+                                            setFocusedFieldIndex(null);
+                                          }}
+                                          className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                                        >
+                                          {item}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                              </div>
+                            ));
+                          })()}
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 ) : null}
@@ -1922,7 +1053,6 @@ const Order = () => {
                           customerObject: {},
                           paymentObject: { paymentType: "Cash" },
                           tpf: {},
-                          category: "MOBILE",
                         }),
                         setTpf({});
                     }}
@@ -1940,7 +1070,6 @@ const Order = () => {
                             customerObject: {},
                             paymentObject: { paymentType: "Cash" },
                             tpf: {},
-                            category: "MOBILE",
                           },
                           setTpf({})
                         );

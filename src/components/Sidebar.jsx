@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserRole } from "../components/hooks";
+import { useUserRole } from "./hooks";
 import {
   Package,
   Store,
