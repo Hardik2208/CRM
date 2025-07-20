@@ -13,6 +13,7 @@ import ThirdPartyF from "./pages/ThirdPartyF";
 import Login from "./pages/Login";
 import PasswordReset from "./pages/PasswordReset";
 import UpdatePassword from "./pages/UpdatePassword";
+import Purchase from "./pages/Purchase";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route path="/ThirdPartyF" element={<ThirdPartyF />} />
             <Route path="/PasswordReset" element={<PasswordReset />} />
             <Route path="/UpdatePassword" element={<UpdatePassword />} />
+            <Route path="/Purchase" element={<Purchase />} /> 
 
           </Routes>
         </main>

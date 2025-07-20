@@ -782,6 +782,7 @@ const Order = () => {
                       name=""
                       id=""
                     >
+                      <option value="">Choose Option</option>
                       <option value="CASH">Cash</option>
                       <option value="FINANCE">Finance</option>
                       <option value="UPI">UPI</option>

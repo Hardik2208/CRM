@@ -14,11 +14,13 @@ import {
   IndianRupee,
   FileText,
   Building,
+  Notebook
 } from "lucide-react";
 
 const menuItems = [
   { path: "/Home", label: "Dashboard", icon: Home, roles: ["admin"] },
   { path: "/Product", label: "Stocks", icon: Package },
+  { path: "/Purchase", label: "Purchase", icon: Notebook },
   { path: "/Enquiry", label: "Enquiry", icon: FileText },
   { path: "/Order", label: "Orders", icon: ShoppingCart },
   { path: "/Sales", label: "Sales", icon: BarChart2, roles: ["admin"] },

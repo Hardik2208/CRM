@@ -16,10 +16,15 @@ const Product = () => {
   const [showModal2, setShowModal2] = useState("");
   const [productList, setProductList] = useState([]);
   const [newProductOBJ, setNewProductOBJ] = useState({ productObject: {} });
-  const [search, setSearch] = useState("");
-  const [timerId, setTimerId] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState([]);
+  const [search, setSearch] = useState("");
+  const [modelSuggestions, setModelSuggestions] = useState([]);
+
+  const [searchTable, setSearchTable] = useState(""); // for normal table search
+  const [modelSearch, setModelSearch] = useState(""); // for model name suggestions
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
     // Clear the previous timer whenever search changes
@@ -54,6 +59,33 @@ const Product = () => {
       console.error("Search Error:", err); // Shows error object in console
     }
   };
+
+  // ✅ Define this BEFORE the JSX
+  const fetchModelSuggestions = async (query) => {
+    try {
+      console.log("Fetching suggestions for:", query); // ✅ Debug log
+      const res = await axios.get(
+        `https://shop-software.onrender.com/api/product/model-suggestions?category=${newProductOBJ.category}&query=${query}`
+      );
+      setModelSuggestions(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      setModelSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    if (timerId) clearTimeout(timerId);
+
+    const id = setTimeout(() => {
+      if (searchTable.trim()) {
+        resultOfSearch(searchTable);
+      }
+    }, 1000);
+
+    setTimerId(id);
+
+    return () => clearTimeout(id);
+  }, [searchTable]);
 
   const getCategory = () => {
     axios
@@ -261,6 +293,7 @@ const Product = () => {
               </tbody>
             </table>
           </div>
+
           {showModal ? (
             <div className="fixed flex w-[100%] h-[100%] top-0 left-0 items-center z-[100] justify-center">
               <div className="absolute w-[100%] h-[100%] inset-0 bg-black opacity-50"></div>
@@ -294,11 +327,160 @@ const Product = () => {
                     </select>
                   </div>
                 </div>
-                {newProductOBJ.category ? (<>
-                {newProductOBJ?.category !== "" ? (
-                  <div>
+                {newProductOBJ.category ? (
+                  <>
+                    {newProductOBJ?.category !== "" ? (
+                      <div>
+                        <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                          Product Details:
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                          <div className="">
+                            <label
+                              className="text-gray-600 font-medium text-sm"
+                              htmlFor=""
+                            >
+                              Company:
+                            </label>
+                            <input
+                              value={newProductOBJ?.productObject?.company}
+                              onChange={(e) =>
+                                setNewProductOBJ({
+                                  ...newProductOBJ,
+                                  productObject: {
+                                    ...newProductOBJ?.productObject,
+                                    company: e.target.value.toUpperCase(),
+                                  },
+                                })
+                              }
+                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                              type="text"
+                            />
+                          </div>
+                          <div className="relative">
+                            <label className="text-gray-600 font-medium text-sm">
+                              Model Name:
+                            </label>
+                            <input
+                              value={newProductOBJ?.modelName || ""}
+                              onChange={(e) => {
+                                const inputValue = e.target.value.toUpperCase();
+                                setNewProductOBJ((prev) => ({
+                                  ...prev,
+                                  modelName: inputValue,
+                                }));
+                                setModelSearch(inputValue); // this triggers useEffect below
+                              }}
+                              onFocus={async () => {
+                                if (
+                                  newProductOBJ?.category &&
+                                  newProductOBJ?.modelName
+                                ) {
+                                  await fetchModelSuggestions(
+                                    newProductOBJ.modelName
+                                  );
+                                }
+                              }}
+                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                              type="text"
+                              placeholder=""
+                            />
+
+                            {/* Suggestions Dropdown */}
+                            {modelSuggestions.length > 0 && (
+                              <ul className="absolute z-10 w-full bg-white border rounded-md mt-1 shadow max-h-40 overflow-y-auto">
+                                {modelSuggestions.map((model, idx) => (
+                                  <li
+                                    key={idx}
+                                    onClick={() => {
+                                      setNewProductOBJ((prev) => ({
+                                        ...prev,
+                                        modelName: model.toUpperCase(),
+                                      }));
+                                      setModelSuggestions([]);
+                                    }}
+                                    className="px-3 py-2 hover:bg-blue-100 cursor-pointer text-sm"
+                                  >
+                                    {model}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+
+                          <div className="">
+                            <label
+                              className="text-gray-600 font-medium text-sm"
+                              htmlFor=""
+                            >
+                              Quantity:
+                            </label>
+                            <input
+                              value={newProductOBJ?.quantity}
+                              onChange={(e) =>
+                                setNewProductOBJ({
+                                  ...newProductOBJ,
+                                  quantity: e.target.value,
+                                })
+                              }
+                              className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                              type="number"
+                            />
+                          </div>
+                          {newProductOBJ?.quantity
+                            ? (() => {
+                                const selectedCategory = category.find(
+                                  (c) => c.name === newProductOBJ?.category
+                                );
+
+                                const inputFieldKey =
+                                  selectedCategory?.inputField;
+
+                                if (!inputFieldKey || !newProductOBJ?.quantity)
+                                  return null;
+
+                                return Array.from({
+                                  length: newProductOBJ.quantity,
+                                }).map((_, index) => (
+                                  <div key={index} className="mb-4">
+                                    <label className="text-gray-600 font-medium text-sm">
+                                      {inputFieldKey.toUpperCase()} {index + 1}:
+                                    </label>
+                                    <input
+                                      value={
+                                        newProductOBJ?.productObject?.[
+                                          inputFieldKey
+                                        ]?.[index] || ""
+                                      }
+                                      onChange={(e) => {
+                                        const updatedValues = [
+                                          ...(newProductOBJ?.productObject?.[
+                                            inputFieldKey
+                                          ] || []),
+                                        ];
+                                        updatedValues[index] =
+                                          e.target.value.toUpperCase();
+
+                                        setNewProductOBJ({
+                                          ...newProductOBJ,
+                                          productObject: {
+                                            ...newProductOBJ.productObject,
+                                            [inputFieldKey]: updatedValues,
+                                          },
+                                        });
+                                      }}
+                                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                                      type="text"
+                                    />
+                                  </div>
+                                ));
+                              })()
+                            : null}
+                        </div>
+                      </div>
+                    ) : null}
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                      Product Details:
+                      Mechant Purchased Price:
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                       <div className="">
@@ -306,114 +488,45 @@ const Product = () => {
                           className="text-gray-600 font-medium text-sm"
                           htmlFor=""
                         >
-                          Company:
+                          Amount:
                         </label>
                         <input
-                          value={newProductOBJ?.productObject?.company}
+                          value={newProductOBJ?.amount}
                           onChange={(e) =>
                             setNewProductOBJ({
                               ...newProductOBJ,
-                              productObject: {
-                                ...newProductOBJ?.productObject,
-                                company: e.target.value.toUpperCase(),
-                              },
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Model Name:
-                        </label>
-                        <input
-                          value={newProductOBJ?.modelName}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              modelName: e.target.value.toUpperCase(),
-                            })
-                          }
-                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                          type="text"
-                        />
-                      </div>
-                      <div className="">
-                        <label
-                          className="text-gray-600 font-medium text-sm"
-                          htmlFor=""
-                        >
-                          Quantity:
-                        </label>
-                        <input
-                          value={newProductOBJ?.quantity}
-                          onChange={(e) =>
-                            setNewProductOBJ({
-                              ...newProductOBJ,
-                              quantity: e.target.value,
+                              amount: e.target.value,
                             })
                           }
                           className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                           type="number"
                         />
                       </div>
-                      {newProductOBJ?.quantity
-                        ? (() => {
-                            const selectedCategory = category.find(
-                              (c) => c.name === newProductOBJ?.category
-                            );
-
-                            const inputFieldKey = selectedCategory?.inputField;
-
-                            if (!inputFieldKey || !newProductOBJ?.quantity)
-                              return null;
-
-                            return Array.from({
-                              length: newProductOBJ.quantity,
-                            }).map((_, index) => (
-                              <div key={index} className="mb-4">
-                                <label className="text-gray-600 font-medium text-sm">
-                                  {inputFieldKey.toUpperCase()} {index + 1}:
-                                </label>
-                                <input
-                                  value={
-                                    newProductOBJ?.productObject?.[
-                                      inputFieldKey
-                                    ]?.[index] || ""
-                                  }
-                                  onChange={(e) => {
-                                    const updatedValues = [
-                                      ...(newProductOBJ?.productObject?.[
-                                        inputFieldKey
-                                      ] || []),
-                                    ];
-                                    updatedValues[index] =
-                                      e.target.value.toUpperCase();
-
-                                    setNewProductOBJ({
-                                      ...newProductOBJ,
-                                      productObject: {
-                                        ...newProductOBJ.productObject,
-                                        [inputFieldKey]: updatedValues,
-                                      },
-                                    });
-                                  }}
-                                  className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                                  type="text"
-                                />
-                              </div>
-                            ));
-                          })()
-                        : null}
+                      <div className="">
+                        <label
+                          className="text-gray-600 font-medium text-sm"
+                          htmlFor=""
+                        >
+                          Selling Price:
+                        </label>
+                        <input
+                          value={newProductOBJ?.sellingPrice}
+                          onChange={(e) =>
+                            setNewProductOBJ({
+                              ...newProductOBJ,
+                              sellingPrice: e.target.value,
+                            })
+                          }
+                          className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                          type="number"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ): null}
+                  </>
+                ) : null}
+                {showModal == "Add" ? <>
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-                  Mechant Purchased Price:
+                  Distributor Details:
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div className="">
@@ -421,18 +534,21 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Amount:
+                      Name:
                     </label>
                     <input
-                      value={newProductOBJ?.amount}
+                      value={newProductOBJ?.supplierObject?.name}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          amount: e.target.value,
+                          supplierObject: {
+                            ...newProductOBJ?.supplierObject,
+                            name: e.target.value.toUpperCase(),
+                          },
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="number"
+                      type="text"
                     />
                   </div>
                   <div className="">
@@ -440,21 +556,47 @@ const Product = () => {
                       className="text-gray-600 font-medium text-sm"
                       htmlFor=""
                     >
-                      Selling Price:
+                      Distributor's GST No:
                     </label>
                     <input
-                      value={newProductOBJ?.sellingPrice}
+                      value={newProductOBJ?.supplierObject?.gstNo}
                       onChange={(e) =>
                         setNewProductOBJ({
                           ...newProductOBJ,
-                          sellingPrice: e.target.value,
+                          supplierObject: {
+                            ...newProductOBJ?.supplierObject,
+                            gstNo: e.target.value.toUpperCase(),
+                          },
                         })
                       }
                       className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                      type="number"
+                      type="text"
                     />
                   </div>
-                </div></>):null}
+                  <div className="">
+                    <label
+                      className="text-gray-600 font-medium text-sm"
+                      htmlFor=""
+                    >
+                      Distributor's Address:
+                    </label>
+                    <input
+                      value={newProductOBJ?.supplierObject?.address}
+                      onChange={(e) =>
+                        setNewProductOBJ({
+                          ...newProductOBJ,
+                          supplierObject: {
+                            ...newProductOBJ?.supplierObject,
+                            address: e.target.value.toUpperCase(),
+                          },
+                        })
+                      }
+                      className="mt-2 w-full h-10 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                      type="text"
+                    />
+                  </div>
+                </div>
+                </>:null}
                 <div className="flex justify-end space-x-2 mt-4">
                   <button
                     onClick={() => {
