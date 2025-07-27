@@ -63,14 +63,24 @@ function Purchase() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {purchase.map((item, index) => (
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-6 py-3 ">{index+1}</td>
-                    <td className="px-6 py-3 font-medium">{item?.category}</td>
-                    <td className="px-6 py-3 font-medium">{item?.modelName}</td>
-                    <td className="px-6 py-3">{item?.quantity}</td>
-                    <td className="px-6 py-3 font-medium">{item?.supplierObject.name}</td>
-                    <td className="px-6 py-3">{item?.supplierObject?.gstNo}</td>
-                    <td className="px-6 py-3">{item?.supplierObject?.address}</td>
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="px-6 py-3">{index + 1}</td>
+                    <td className="px-6 py-3 font-medium">
+                      {item?.category || "-"}
+                    </td>
+                    <td className="px-6 py-3 font-medium">
+                      {item?.modelName || "-"}
+                    </td>
+                    <td className="px-6 py-3">{item?.quantity || "-"}</td>
+                    <td className="px-6 py-3 font-medium">
+                      {item?.supplierObject?.name || "-"}
+                    </td>
+                    <td className="px-6 py-3">
+                      {item?.supplierObject?.gstNo || "-"}
+                    </td>
+                    <td className="px-6 py-3">
+                      {item?.supplierObject?.address || "-"}
+                    </td>
                   </tr>
                 ))}
               </tbody>
